@@ -3,6 +3,6 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "shuutils": "^5.4.0"
+    "shuutils": "5.4.0"
   }
 }
