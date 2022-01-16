@@ -1,5 +1,6 @@
 interface Step {
   title: string;
+  days: number;
 }
 
 interface Group {
