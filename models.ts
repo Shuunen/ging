@@ -1,11 +1,13 @@
 interface Step {
   title: string;
-  days: number;
+  days?: number;
+  start?: Date;
+  end?: Date;
 }
 
 interface Group {
   title: string;
-  start?: string;
+  color?: string;
   steps: Step[];
 }
 
