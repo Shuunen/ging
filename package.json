@@ -1,8 +1,21 @@
 {
-  "name": "typescript",
-  "version": "0.0.0",
+  "devDependencies": {
+    "@tsconfig/node16-strictest": "^1.0",
+    "esbuild": "^0.14",
+    "npm-run-all": "4",
+    "servor": "4",
+    "shuutils": "^5.4",
+    "tsm": "^2.2",
+    "typescript": "^4.6"
+  },
+  "name": "ging",
   "private": true,
-  "dependencies": {
-    "shuutils": "^5.4.0"
-  }
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --outfile=public/main.js",
+    "build:dev": "npm run build -- --watch",
+    "build:prod": "npm run build -- --minify",
+    "dev": "run-p serve build:dev",
+    "serve": "servor public --browse --reload"
+  },
+  "version": "0.0.0"
 }

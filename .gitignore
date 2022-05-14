@@ -1,0 +1,11 @@
+.cache
+.env
+*.log
+*.stackdump
+*.tgz
+coverage
+dist
+node_modules
+pnpm-lock.yaml
+tests/reports
+public/*.js

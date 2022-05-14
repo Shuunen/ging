@@ -1,5 +1,10 @@
 {
+  "extends": "@tsconfig/node16-strictest/tsconfig.json",
   "compilerOptions": {
-    "target": "esnext"
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ES2016"
+    ]
   }
 }

@@ -1,5 +1,8 @@
 {
+  "dependencyDashboard": false,
   "extends": [
-    "config:base"
+    "config:base",
+    ":automergeAll",
+    ":preserveSemverRanges"
   ]
 }
