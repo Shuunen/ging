@@ -1,8 +1,14 @@
 import { dateIso10, div, em, h2 } from 'shuutils'
 
+const renderDivider = (index: number): HTMLElement => {
+  const divider = div('divider opacity-20 hover:opacity-100 hover:w-auto hover:text-4xl w-1 h-12 text-center transition-all duration-200 bg-white rounded-md cursor-pointer')
+  divider.textContent = '+'
+  divider.dataset['index'] = index.toString()
+  return divider
+}
 
 const renderStep = (step: Step): HTMLElement => {
-  const el = div('step flex flex-col gap-2 px-6 py-2 text-center bg-current')
+  const el = div('step flex flex-col gap-2 px-4 text-center')
   const date = step.days ? dateIso10(step.start) : step.start?.toLocaleTimeString().replace(/\:\d\d$/, '')
   el.append(em('date-start opacity-30 text-xs text-white', date))
   el.append(div('title text-white', step.title))
@@ -11,21 +17,15 @@ const renderStep = (step: Step): HTMLElement => {
   return el
 }
 
-const renderSteps = (steps: Step[]): HTMLElement => {
-  const el = div('steps flex')
-  steps.forEach((step, index) => {
-    const s = renderStep(step)
-    if (index === 0) s.classList.add('rounded-l-xl')
-    if (index === steps.length - 1) s.classList.add('rounded-r-xl')
-    else s.classList.add('mr-1')
-    el.append(s)
-  })
+const renderSteps = (steps: Step[], color: string): HTMLElement => {
+  const el = div(`steps rounded-xl bg-gradient-to-br from-${color}-700 to-${color}-900 flex flex-row items-center float-left p-2 overflow-hidden`)
+  el.append(renderDivider(0))
+  steps.forEach((step, index) => el.append(renderStep(step), renderDivider(index + 1)))
   return el
 }
 
 const fillData = (group: Group): Group => {
   let date = group.steps[0]?.start ?? new Date()
-  console.log('detected date :', date)
   group.steps.forEach((step) => {
     step.start = new Date(date)
     if (!step.days && !step.hours) step.days = 1
@@ -38,9 +38,10 @@ const fillData = (group: Group): Group => {
 }
 
 const renderGroup = (group: Group): HTMLElement => {
-  const el = div(`group text-${group.color ?? 'indigo'}-700`)
-  el.append(h2('text-3xl mb-4', group.title))
-  el.append(renderSteps(fillData(group).steps))
+  const { title, steps, color = 'indigo' } = fillData(group)
+  const el = div(`group text-${color}-700`)
+  el.append(h2('text-3xl mb-4', title))
+  el.append(renderSteps(steps, color))
   return el
 }
 
