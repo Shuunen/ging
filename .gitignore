@@ -7,5 +7,6 @@ coverage
 dist
 node_modules
 pnpm-lock.yaml
-tests/reports
+public/*.css
 public/*.js
+tests/reports
