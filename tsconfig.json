@@ -6,5 +6,11 @@
       "DOM.Iterable",
       "ES2016"
     ]
-  }
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "public"
+  ]
 }
