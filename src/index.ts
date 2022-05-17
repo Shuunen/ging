@@ -1,4 +1,4 @@
-import { data } from './data';
-import { render } from './render';
+import { data } from './data'
+import { render } from './render'
 
-render(document.querySelector('main'), data);
+render(document.querySelector('main'), data)

@@ -8,24 +8,24 @@ const renderDivider = (index: number): HTMLElement => {
 }
 
 const renderStep = (step: Step): HTMLElement => {
-  const el = div('step flex flex-col gap-2 px-4 text-center')
-  const date = step.days ? dateIso10(step.start) : step.start?.toLocaleTimeString().replace(/\:\d\d$/, '')
-  el.append(em('date-start opacity-30 text-xs text-white', date))
-  el.append(div('title text-white', step.title))
+  const element = div('step flex flex-col gap-2 px-4 text-center')
+  const date = step.days ? dateIso10(step.start) : step.start?.toLocaleTimeString().replace(/:\d\d$/, '')
+  element.append(em('date-start opacity-30 text-xs text-white', date))
+  element.append(div('title text-white', step.title))
   const subtitle = step.days ? `${step.days} day${step.days === 1 ? '' : 's'}` : `${step.hours} hour${step.hours === 1 ? '' : 's'}`
-  el.append(em('duration opacity-30 text-xs text-white', subtitle))
-  return el
+  element.append(em('duration opacity-30 text-xs text-white', subtitle))
+  return element
 }
 
 const renderSteps = (steps: Step[], color: string): HTMLElement => {
-  const el = div(`steps rounded-xl bg-gradient-to-br from-${color}-700 to-${color}-900 flex flex-row items-center float-left p-2 overflow-hidden`)
-  el.append(renderDivider(0))
-  steps.forEach((step, index) => el.append(renderStep(step), renderDivider(index + 1)))
-  return el
+  const element = div(`steps rounded-xl bg-gradient-to-br from-${color}-700 to-${color}-900 flex flex-row items-center float-left p-2 overflow-hidden`)
+  element.append(renderDivider(0))
+  steps.forEach((step, index) => element.append(renderStep(step), renderDivider(index + 1)))
+  return element
 }
 
 const fillData = (group: Group): Group => {
-  let date = group.steps[0]?.start ?? new Date()
+  const date = group.steps[0]?.start ?? new Date()
   group.steps.forEach((step) => {
     step.start = new Date(date)
     if (!step.days && !step.hours) step.days = 1
@@ -39,15 +39,15 @@ const fillData = (group: Group): Group => {
 
 const renderGroup = (group: Group): HTMLElement => {
   const { title, steps, color = 'indigo' } = fillData(group)
-  const el = div(`group text-${color}-700`)
-  el.append(h2('text-3xl mb-4', title))
-  el.append(renderSteps(steps, color))
-  return el
+  const element = div(`group text-${color}-700`)
+  element.append(h2('text-3xl mb-4', title))
+  element.append(renderSteps(steps, color))
+  return element
 }
 
-export const render = (el: HTMLElement | null, data?: Data) => {
-  if (!el) return console.error('no element to render')
-  el.innerHTML = ''
+export const render = (element: HTMLElement | null, data?: Data) => {
+  if (!element) return console.error('no element to render')
+  element.innerHTML = ''
   if (!data) return console.error('no data to render')
-  for (let group of data.groups) el.append(renderGroup(group))
+  for (const group of data.groups) element.append(renderGroup(group))
 }

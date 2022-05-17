@@ -10,7 +10,7 @@ export const data: Data = {
           days: 150,
         },
         {
-          title: "offre d'achat",
+          title: 'offre d\'achat',
         },
         {
           title: 'crédit immobilier',
@@ -36,8 +36,8 @@ export const data: Data = {
         {
           title: 'tiramisu',
           hours: 1,
-        }
-      ]
-    }
+        },
+      ],
+    },
   ],
-};
+}
