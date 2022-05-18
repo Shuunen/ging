@@ -15,3 +15,7 @@ interface Group {
 interface Data {
   groups: Group[];
 }
+
+interface Window {
+  app: App
+}

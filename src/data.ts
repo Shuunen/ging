@@ -1,4 +1,5 @@
-export const data: Data = {
+
+const data: Data = {
   groups: [
     {
       title: 'Achat appartement',
@@ -41,3 +42,5 @@ export const data: Data = {
     },
   ],
 }
+
+localStorage.setItem('ging-data', JSON.stringify(data))
