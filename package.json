@@ -37,7 +37,7 @@
   "scripts": {
     "build": "run-s build:css \"build:js --minify\"",
     "build:css": "tailwindcss -i src/styles.css -o public/styles.min.css --minify",
-    "build:js": "esbuild src/index.ts --bundle --platform=node --outfile=public/main.js",
+    "build:js": "esbuild src/index.ts --bundle --platform=node --outfile=public/main.js --target=es2020 --define:global=window",
     "check": "repo-check",
     "ci": "run-s build lint check test",
     "dev": "run-p dev:* serve",
