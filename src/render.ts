@@ -22,13 +22,14 @@ const expandDivider = (divider: HTMLElement) => {
   if (classes.includes('expanded')) return
   divider.className = 'divider expanded shrink-0 flex flex-row w-48 h-20 gap-2 p-2 transition-all duration-200 bg-white rounded-md'
   divider.innerHTML = ''
-  const form = dom('form', 'flex flex-col gap-2', '<input class="bg-slate-200 w-full" name=start type=date /><input class="bg-slate-200 w-full" name=title type=text />')
+  const form = dom('form', 'flex flex-col justify-center gap-2', '<input class="bg-slate-200 w-full p-1" name=start type=date /><input class="bg-slate-200 w-full p-1" name=title type=text />')
   const add = dom('button', 'add hover:opacity-100 hover:text-xl text-lg transition-all opacity-50', '✔️')
   const cancel = dom('button', 'cancel hover:opacity-100 hover:text-2xl text-xl transition-all rotate-45 opacity-50', '➕')
   const buttons = div('buttons flex flex-col justify-center gap-2')
   const index = Number.parseInt(divider.dataset['index'] as string)
   buttons.append(add, cancel)
   divider.append(form, buttons)
+  add.scrollIntoView()
   form.addEventListener('submit', (event) => addStep(event, form, index))
   add.addEventListener('click', (event) => addStep(event, form, index))
   cancel.addEventListener('click', (event) => {
@@ -39,7 +40,7 @@ const expandDivider = (divider: HTMLElement) => {
 }
 
 const renderDivider = (index: number, step?: Step): HTMLElement => {
-  const divider = div('divider opacity-20 hover:opacity-100 hover:w-auto hover:text-xl hover:text-inherit flex flex-col justify-center w-1 h-12 text-center text-transparent transition-all duration-200 bg-white rounded-md cursor-pointer')
+  const divider = div('divider opacity-20 hover:opacity-100 hover:w-auto hover:text-xl hover:text-inherit flex flex-col justify-center w-1 h-12 overflow-hidden text-center text-transparent transition-all duration-200 bg-white rounded-md cursor-pointer')
   divider.textContent = '➕'
   divider.dataset['index'] = index.toString()
   if (step && step.start) divider.dataset['start'] = Math.round(step.start.getTime() / 1000).toString()
