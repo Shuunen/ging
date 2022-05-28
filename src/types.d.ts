@@ -6,16 +6,25 @@ interface Step {
   end?: Date;
 }
 
-interface Group {
+interface Project {
   title: string;
   color?: string;
   steps: Step[];
 }
 
-interface Data {
-  groups: Group[];
+interface State {
+  projects: Project[];
 }
 
-interface Window {
-  app: App
+declare module '*.vue' {
+  import type { DefineComponent } from 'vue'
+  // eslint-disable-next-line @typescript-eslint/ban-types, @typescript-eslint/no-explicit-any
+  const component: DefineComponent<{}, {}, any>
+  export default component
+}
+
+declare namespace NodeJS {
+  interface Process {
+    browser: boolean;
+  }
 }
