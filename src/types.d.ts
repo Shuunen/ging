@@ -1,3 +1,7 @@
+declare module 'vuetify'
+declare module 'vuetify/lib/components'
+declare module 'vuetify/lib/directives'
+
 interface Step {
   title: string;
   days?: number;

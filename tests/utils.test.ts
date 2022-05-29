@@ -1,9 +1,10 @@
-import { bar } from '@/utils/foo'
+import { requiredRules } from '@/utils/form-rules'
 import { test } from 'uvu'
 import { equal } from 'uvu/assert'
 
-test('bar works', () => {
-  equal(bar(4, 3), 7)
+test('required form rule', () => {
+  equal(requiredRules[0]('im ok'), true)
+  equal(requiredRules[0](''), 'Please fill out this field')
 })
 
 test.run()

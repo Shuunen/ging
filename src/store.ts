@@ -11,9 +11,9 @@ export const store = createStore<State>({
   },
   getters: {},
   mutations: {
-    // increment (state) {
-    //   state.count++
-    // },
+    addProject (state, project: Project) {
+      state.projects.push(project)
+    },
   },
   actions: {},
   modules: {},

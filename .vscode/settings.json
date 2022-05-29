@@ -1,8 +1,14 @@
 {
   "cSpell.words": [
+    "fontface",
     "ging",
+    "materialdesignicons",
     "paren",
-    "vuex"
+    "roboto",
+    "Roboto",
+    "vuetify",
+    "vuex",
+    "webfontloader"
   ],
   "workbench.colorCustomizations": {
     "activityBar.background": "#50134E",
