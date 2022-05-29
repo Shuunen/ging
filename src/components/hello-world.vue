@@ -11,6 +11,11 @@ export default {
       type: String,
       default: '',
     },
+    nb: {
+      type: Number,
+      default: 0,
+      required: true,
+    },
   },
 }
 </script>
