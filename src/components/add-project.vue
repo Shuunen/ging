@@ -1,12 +1,14 @@
 <template>
-  <v-btn color="primary" prepend-icon="mdi-plus" @click="open = true">Add project</v-btn>
+  <v-btn variant="outlined" color="secondary" prepend-icon="mdi-plus" @click="open = true">Add project</v-btn>
   <v-dialog v-model="open" persistent>
     <v-card>
       <v-container>
         <v-col class="min-w-[30vw]">
-          <div class="text-h5 mb-12">New project</div>
+          <v-row>
+            <div class="text-h5 mb-12">New project</div>
+          </v-row>
           <v-form ref="form" v-model="valid">
-            <v-text-field v-model="title" :rules="requiredRules" label="Title" required></v-text-field>
+            <v-text-field v-model="title" :rules="requiredRules" autofocus label="Title" required></v-text-field>
             <v-select v-model="color" :rules="requiredRules" :items="tailwindColors" label="Color" required></v-select>
           </v-form>
         </v-col>
@@ -22,6 +24,7 @@
 
 <script lang="ts">
 import { useStore } from '@/store'
+import { Project } from '@/types'
 import { requiredRules } from '@/utils/form-rules'
 import colors from 'tailwindcss/colors'
 import { defineComponent } from 'vue'
@@ -41,13 +44,12 @@ export default defineComponent({
   },
   methods: {
     submit () {
-      console.log('submit')
+      console.log('submit project')
       const store = useStore()
-      store.addProject({
+      store.addProject(new Project({
         title: this.title,
         color: this.color,
-        steps: [],
-      })
+      }))
       this.title = ''
       this.color = ''
       this.open = false

@@ -14,6 +14,7 @@ export default createVuetify({
           background: colors.gray[800],
           surface: colors.gray[900],
           primary: colors.indigo[600],
+          secondary: colors.orange[400],
           error: colors.red[300],
           info: colors.blue[300],
           success: colors.green[300],

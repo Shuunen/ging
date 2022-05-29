@@ -5,12 +5,23 @@
     </v-navigation-drawer>
     <v-app-bar app>
       <h1 class="text-h4">GING</h1>
+      <v-spacer />
+      <add-project v-if="edit" />
+      <v-btn
+        class="ml-4" :append-icon="edit ? 'mdi-exit-to-app' : 'mdi-pencil'" variant="outlined" :color="edit ? 'secondary' : 'white'"
+        @click="toggleEdit()"
+      >
+        {{ edit ? 'Stop edit' : 'Enter edit' }}
+      </v-btn>
     </v-app-bar>
 
     <v-main>
-      <v-container fluid>
-        <p class="mt-2 mb-4">There are {{ projects.length }} projects in store : {{ projects.map((p: Project) => p.title).join(', ') }}</p>
-        <add-project />
+      <v-container fluid class="flex flex-col justify-center h-full">
+        <p v-if="projects.length === 0" class="text-h6 mt-2 mb-4 text-center">
+          No projects yet but you can add one with the above button.
+          <v-icon>mdi-arrow-top-right-thin-circle-outline</v-icon>
+        </p>
+        <app-project v-for="(project, index) in projects" :key="'project-' + index" v-bind="project" />
       </v-container>
     </v-main>
 
@@ -21,17 +32,16 @@
 </template>
 
 <script lang="ts">
-import AddProject from '@/components/add-project.vue'
-import { mapState } from 'pinia'
+import { mapActions, mapState } from 'pinia'
 import { defineComponent } from 'vue'
 import { useStore } from './store'
 
 export default defineComponent({
-  components: {
-    AddProject,
-  },
   computed: {
-    ...mapState(useStore, ['projects']),
+    ...mapState(useStore, ['projects', 'edit']),
+  },
+  methods: {
+    ...mapActions(useStore, ['toggleEdit']),
   },
 })
 </script>

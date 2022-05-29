@@ -17,8 +17,8 @@ app.use(pinia)
 
 app.use(vuetify)
 
-// globally register app-wide components
-const requireComponent = require.context('./components', true, /app-.*\.vue$/)
+// globally register components, restrict the regex if needed
+const requireComponent = require.context('./components', true, /\.vue$/)
 requireComponent.keys().forEach(fileName => {
   const componentConfig = requireComponent(fileName)
   const componentName = fileName.split('/').pop()?.replace(/\.\w+$/, '') ?? fileName
