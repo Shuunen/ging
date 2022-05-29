@@ -1,6 +1,8 @@
 import { createStore } from 'vuex'
 import VuexPersistence from 'vuex-persist'
 
+const vuexLocal = new VuexPersistence({ storage: window.localStorage })
+
 export const store = createStore<State>({
   state () {
     return {
@@ -15,6 +17,5 @@ export const store = createStore<State>({
   },
   actions: {},
   modules: {},
-  /* c8 ignore next */
-  plugins: process.browser ? [(new VuexPersistence({ storage: window.localStorage })).plugin] : [],
+  plugins: [vuexLocal.plugin],
 })

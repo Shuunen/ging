@@ -1,4 +1,7 @@
 {
+  "_moduleAliases": {
+    "@": "src"
+  },
   "author": "Romain Racamier-Lafon <romain.racamier@gmail.com>",
   "bugs": "https://github.com/Shuunen/ging/issues",
   "description": "GING Is Not Gantt, but kind of :)",
@@ -18,6 +21,7 @@
     "eslint-plugin-html": "6",
     "eslint-plugin-unicorn": "40",
     "eslint-plugin-vue": "^8.0",
+    "module-alias": "^2.2",
     "register-service-worker": "^1.7",
     "repo-check": "1.24",
     "shuutils": "^5.4",
@@ -29,7 +33,8 @@
     "vue": "^3.2",
     "vue-cli-plugin-tailwind": "~3.0.0",
     "vuex": "^4.0",
-    "vuex-persist": "^3.1"
+    "vuex-persist": "^3.1",
+    "watchlist": "^0.3"
   },
   "files": [
     "src"
@@ -57,7 +62,7 @@
     "postversion": "git push && git push --tags",
     "preversion": "npm run ci",
     "serve": "vue-cli-service serve",
-    "test": "c8 uvu -r tsm tests",
+    "test": "c8 uvu -r module-alias/register -r tsm tests",
     "test:watch": "watchlist src tests -eager -- npm test"
   },
   "version": "0.1.0"
