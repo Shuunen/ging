@@ -22,15 +22,16 @@
 
 <script lang="ts">
 import AddProject from '@/components/add-project.vue'
+import { mapState } from 'pinia'
 import { defineComponent } from 'vue'
-import { mapState } from 'vuex'
+import { useStore } from './store'
 
 export default defineComponent({
   components: {
     AddProject,
   },
   computed: {
-    ...mapState(['projects']),
+    ...mapState(useStore, ['projects']),
   },
 })
 </script>

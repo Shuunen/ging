@@ -1,21 +1,13 @@
-import { createStore } from 'vuex'
-import VuexPersistence from 'vuex-persist'
+import { defineStore } from 'pinia'
 
-const vuexLocal = new VuexPersistence({ storage: window.localStorage })
-
-export const store = createStore<State>({
-  state () {
-    return {
-      projects: [],
-    }
-  },
-  getters: {},
-  mutations: {
-    addProject (state, project: Project) {
-      state.projects.push(project)
+export const useStore = defineStore('app', {
+  state: (): State => ({
+    projects: [],
+  }),
+  actions: {
+    addProject (project: Project) {
+      this.projects.push(project)
     },
   },
-  actions: {},
-  modules: {},
-  plugins: [vuexLocal.plugin],
+  persist: true,
 })

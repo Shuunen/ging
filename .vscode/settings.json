@@ -4,10 +4,13 @@
     "ging",
     "materialdesignicons",
     "paren",
+    "persistedstate",
+    "Persistedstate",
+    "pinia",
+    "Pinia",
     "roboto",
     "Roboto",
     "vuetify",
-    "vuex",
     "webfontloader"
   ],
   "workbench.colorCustomizations": {

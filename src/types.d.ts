@@ -26,9 +26,3 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>
   export default component
 }
-
-declare namespace NodeJS {
-  interface Process {
-    browser: boolean;
-  }
-}

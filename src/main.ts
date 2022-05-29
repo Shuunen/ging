@@ -1,16 +1,20 @@
+import { createPinia } from 'pinia'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { createApp } from 'vue'
 import App from './app.vue'
 import './assets/styles.css'
 import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
 import './register-service-worker'
-import { store } from './store'
 
 loadFonts()
 
 const app = createApp(App)
 
-app.use(store)
+const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
+app.use(pinia)
+
 app.use(vuetify)
 
 // globally register app-wide components
