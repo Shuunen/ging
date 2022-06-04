@@ -1,6 +1,5 @@
 <template>
-  <v-btn variant="outlined" color="secondary" prepend-icon="mdi-plus" @click="open = true">Add step</v-btn>
-  <v-dialog v-model="open" persistent>
+  <v-dialog v-model="open">
     <v-card>
       <v-container>
         <v-col class="min-w-[30vw]">
@@ -21,7 +20,7 @@
         </v-col>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn variant="plain" @click="open = false">Cancel</v-btn>
+          <v-btn variant="plain" @click="close()">Cancel</v-btn>
           <v-btn :disabled="!valid" variant="contained" color="primary" @click="submit()">Add</v-btn>
         </v-card-actions>
       </v-container>
@@ -38,15 +37,12 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: {
-    id: {
-      type: Number,
-      default: 0,
-    },
-    at: {
-      type: Number,
-      default: 0,
+    active: {
+      type: Boolean,
+      default: false,
     },
   },
+  emits: ['close'],
   data: () => ({
     open: false,
     valid: false,
@@ -60,18 +56,29 @@ export default defineComponent({
       return Object.keys(colors).filter(color => !['transparent', 'inherit', 'current'].includes(color))
     },
   },
+  watch: {
+    active (value) {
+      this.open = value
+    },
+    open (value) {
+      if (value === false) this.$emit('close')
+    },
+  },
   methods: {
+    close () {
+      this.open = false
+    },
     submit () {
       console.log('submit step')
       const store = useStore()
       const step = new Step({
         title: this.title,
       })
-      store.addStep(this.id, step, this.at)
+      store.addStep(step)
       this.title = ''
       this.delay = 0
       this.delayType = 'days'
-      this.open = false
+      this.close()
     },
   },
 })

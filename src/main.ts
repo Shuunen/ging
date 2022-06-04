@@ -1,3 +1,4 @@
+import { Hotkey } from '@simolation/vue-hotkey'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { createApp } from 'vue'
@@ -24,5 +25,7 @@ requireComponent.keys().forEach(fileName => {
   const componentName = fileName.split('/').pop()?.replace(/\.\w+$/, '') ?? fileName
   app.component(componentName, componentConfig.default || componentConfig)
 })
+
+app.component('AppHotkey', Hotkey)
 
 app.mount('#app')

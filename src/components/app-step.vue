@@ -1,6 +1,6 @@
 <template>
   <div class="step flex flex-col gap-2 px-4 text-center">
-    <h2 class="text-h5">{{ title }}</h2>
+    <h2 class="text-h5" :class="{ 'underline underline-offset-2': active }">{{ title }}</h2>
     <em class="date-start whitespace-nowrap text-ellipsis opacity-30 text-xs text-white">
       {{ days ? dateIso10(new Date(start)) : new Date(start).toLocaleTimeString().replace(/:\d\d$/, '') }}
     </em>
@@ -13,6 +13,10 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: {
+    active: {
+      type: Boolean,
+      default: false,
+    },
     title: {
       type: String,
       default: '',

@@ -15,26 +15,46 @@ const fillSteps = (steps: Step[]) => {
 
 export const useStore = defineStore('app', {
   state: () => ({
+    activeProjectIndex: 0,
+    activeStepIndex: 0,
     projects: [] as Project[],
-    edit: false,
   }),
   actions: {
     addProject (project: Project) {
       this.projects.push(project)
     },
-    deleteProject (id: number) {
-      const index = this.projects.findIndex(p => p.id === id)
+    deleteActiveStep () {
+      const project = this.projects[this.activeProjectIndex]
+      project.steps.splice(this.activeStepIndex, 1)
+    },
+    deleteProject (projectId: number) {
+      const index = this.projects.findIndex(p => p.id === projectId)
       this.projects.splice(index, 1)
     },
-    addStep (id: number, step: Step, at = 0) {
-      const project = this.projects.find(p => p.id === id)
-      if (!project) throw new Error(`Project with id ${id} not found`)
-      if (at === project.steps.length) project.steps.push(step)
-      else project.steps.splice(at, 0, step)
+    addStep (step: Step) {
+      const project = this.projects[this.activeProjectIndex]
+      if (!project) throw new Error(`Project at index ${this.activeProjectIndex} not found`)
+      if (this.activeStepIndex === project.steps.length - 1) project.steps.push(step)
+      else project.steps.splice(this.activeStepIndex + 1, 0, step)
       fillSteps(project.steps)
     },
-    toggleEdit () {
-      this.edit = !this.edit
+    preventStepIndexOverflow () {
+      const maxStepIndex = this.projects[this.activeProjectIndex].steps.length - 1
+      if (this.activeStepIndex > maxStepIndex) this.activeStepIndex = maxStepIndex
+    },
+    selectPrevProject () {
+      this.activeProjectIndex = (this.activeProjectIndex - 1 < 0) ? (this.projects.length - 1) : this.activeProjectIndex - 1
+      this.preventStepIndexOverflow()
+    },
+    selectNextProject () {
+      this.activeProjectIndex = (this.activeProjectIndex + 1 >= this.projects.length) ? 0 : this.activeProjectIndex + 1
+      this.preventStepIndexOverflow()
+    },
+    selectPrevStep () {
+      this.activeStepIndex = (this.activeStepIndex - 1 < 0) ? (this.projects[this.activeProjectIndex].steps.length - 1) : this.activeStepIndex - 1
+    },
+    selectNextStep () {
+      this.activeStepIndex = (this.activeStepIndex + 1 >= this.projects[this.activeProjectIndex].steps.length) ? 0 : this.activeStepIndex + 1
     },
   },
   persist: true,

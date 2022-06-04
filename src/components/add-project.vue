@@ -1,6 +1,6 @@
 <template>
   <v-btn variant="outlined" color="secondary" prepend-icon="mdi-plus" @click="open = true">Add project</v-btn>
-  <v-dialog v-model="open" persistent>
+  <v-dialog v-model="open">
     <v-card>
       <v-container>
         <v-col class="min-w-[30vw]">
@@ -20,6 +20,7 @@
       </v-container>
     </v-card>
   </v-dialog>
+  <app-hotkey :keys="['alt', 'a']" @hotkey="open = true" />
 </template>
 
 <script lang="ts">
