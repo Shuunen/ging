@@ -3,17 +3,7 @@
     <v-navigation-drawer app>
       <h1 class="text-h2">GING</h1>
     </v-navigation-drawer>
-    <v-app-bar app>
-      <h1 class="text-h4">GING</h1>
-      <v-spacer />
-      <add-project v-if="edit" />
-      <v-btn
-        class="ml-4" :append-icon="edit ? 'mdi-exit-to-app' : 'mdi-pencil'" variant="outlined" :color="edit ? 'secondary' : 'white'"
-        @click="toggleEdit()"
-      >
-        {{ edit ? 'Stop edit' : 'Enter edit' }}
-      </v-btn>
-    </v-app-bar>
+    <app-navbar />
 
     <v-main>
       <v-container fluid class="flex flex-col justify-center h-full">
@@ -34,9 +24,11 @@
 <script lang="ts">
 import { mapActions, mapState } from 'pinia'
 import { defineComponent } from 'vue'
+import AppNavbar from './components/app-navbar.vue'
 import { useStore } from './store'
 
 export default defineComponent({
+  components: { AppNavbar },
   computed: {
     ...mapState(useStore, ['projects', 'edit']),
   },
