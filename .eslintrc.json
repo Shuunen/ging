@@ -1,21 +1,18 @@
 {
+  "root": true,
   "env": {
-    "browser": true,
-    "es6": true,
     "node": true
   },
   "extends": [
+    "plugin:vue/vue3-recommended",
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
+    "@vue/typescript/recommended",
     "plugin:unicorn/recommended"
   ],
-  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 2021,
-    "sourceType": "module"
+    "ecmaVersion": 2021
   },
   "plugins": [
-    "@typescript-eslint",
     "html",
     "unicorn"
   ],
@@ -76,8 +73,14 @@
       "error",
       "always"
     ],
+    "vue/max-attributes-per-line": "off",
     "unicorn/no-array-for-each": "off",
+    "vue/html-self-closing": "off",
+    "vue/html-closing-bracket-newline": "off",
+    "vue/first-attribute-linebreak": "off",
     "unicorn/no-process-exit": "off",
+    "vue/no-multiple-template-root": "off",
+    "vue/singleline-html-element-content-newline": "off",
     "unicorn/prefer-module": "off",
     "unicorn/prefer-node-protocol": "off",
     "unicorn/prefer-switch": "off",

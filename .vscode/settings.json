@@ -1,10 +1,26 @@
 {
+  "cSpell.words": [
+    "arrowdown",
+    "arrowleft",
+    "arrowright",
+    "arrowup",
+    "fontface",
+    "ging",
+    "materialdesignicons",
+    "paren",
+    "persistedstate",
+    "Persistedstate",
+    "pinia",
+    "Pinia",
+    "roboto",
+    "Roboto",
+    "simolation",
+    "vuetify",
+    "webfontloader"
+  ],
   "workbench.colorCustomizations": {
     "activityBar.background": "#50134E",
     "titleBar.activeBackground": "#6F1A6D",
     "titleBar.activeForeground": "#FDF8FD"
-  },
-  "cSpell.words": [
-    "ging"
-  ]
+  }
 }
