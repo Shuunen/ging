@@ -66,7 +66,7 @@
   "scripts": {
     "build": "vue-cli-service build",
     "check": "repo-check",
-    "ci": "npm run build && npm run lint",
+    "ci": "npm run build && npm run lint && npm run test",
     "dev": "vue-cli-service serve",
     "lint": "tsc --noEmit && npm run check && npm run lint:vue",
     "lint:vue": "vue-cli-service lint --fix",
