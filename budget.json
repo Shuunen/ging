@@ -39,11 +39,11 @@
     ],
     "timings": [
       {
-        "budget": 4500,
+        "budget": 5200,
         "metric": "interactive"
       },
       {
-        "budget": 2500,
+        "budget": 3200,
         "metric": "first-meaningful-paint"
       }
     ]
