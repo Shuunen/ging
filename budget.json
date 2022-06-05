@@ -21,7 +21,7 @@
         "resourceType": "stylesheet"
       },
       {
-        "budget": 400,
+        "budget": 450,
         "resourceType": "font"
       },
       {
@@ -39,11 +39,11 @@
     ],
     "timings": [
       {
-        "budget": 4500,
+        "budget": 5200,
         "metric": "interactive"
       },
       {
-        "budget": 2500,
+        "budget": 4000,
         "metric": "first-meaningful-paint"
       }
     ]
