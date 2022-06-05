@@ -43,7 +43,7 @@
         "metric": "interactive"
       },
       {
-        "budget": 3200,
+        "budget": 4000,
         "metric": "first-meaningful-paint"
       }
     ]
