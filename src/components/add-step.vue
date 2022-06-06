@@ -2,7 +2,7 @@
   <v-dialog v-model="open">
     <v-card>
       <v-container>
-        <v-col class="min-w-[30vw]">
+        <v-col class="min-w-[20rem]">
           <div class="text-h5 mb-12">New step</div>
           <v-form ref="form" v-model="valid">
             <v-text-field v-model="title" :rules="requiredRules" label="Title" autofocus required />

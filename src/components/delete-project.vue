@@ -5,8 +5,9 @@
         <p class="mb-4">You are about to delete the project "{{ title }}", are you sure ?</p>
         <v-card-actions>
           <v-spacer />
-          <v-btn @click="close()">Cancel</v-btn>
-          <v-btn color="primary" variant="contained" @click="deleteProject(activeProjectIndex); close()">Confirm delete</v-btn>
+          <v-btn @click="close">Cancel</v-btn>
+          <v-btn color="primary" variant="contained" @click="deleteClose">Confirm delete</v-btn>
+          <app-hotkey :keys="['enter']" @hotkey="deleteClose" />
         </v-card-actions>
       </v-card-text>
     </v-card>
@@ -44,7 +45,12 @@ export default defineComponent({
     },
   },
   methods: {
-    ...mapActions(useStore, ['deleteProject']),
+    ...mapActions(useStore, ['deleteActiveProject']),
+    deleteClose () {
+      console.log('delete project and close modal')
+      this.deleteActiveProject()
+      this.close()
+    },
     close () {
       this.open = false
     },

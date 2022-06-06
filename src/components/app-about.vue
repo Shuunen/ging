@@ -7,8 +7,8 @@
           <v-col class="flex flex-col gap-4">
             <h2 class="text-h5">About</h2>
             <p>This is a simple Vue.js app that allows you to create and manage your own projects.</p>
-            <h2 class="text-h5">Keyboard shortcuts</h2>
-            <div class="grid grid-cols-2 gap-2">
+            <h2 class="text-h5 sm:block hidden">Keyboard shortcuts</h2>
+            <div class="sm:grid hidden grid-cols-2 gap-2">
               <div v-for="(description, shortcut) in shortcuts" :key="shortcut" class="shortcut">
                 <code class="px-2 mr-2 text-black bg-white">{{ shortcut }}</code> {{ description }}
               </div>

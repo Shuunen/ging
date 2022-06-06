@@ -1,13 +1,19 @@
 <template>
-  <v-container class="project flex flex-col items-start gap-4">
+  <v-container class="project flex flex-col items-start gap-4" @click="selectProject(id)">
     <div class="flex flex-row">
       <h2 class="text-h4 mr-4" :class="{ 'underline underline-offset-2': active }">{{ title }}</h2>
     </div>
-    <div class="steps rounded-xl bg-gradient-to-br flex flex-row items-center max-w-full p-2 overflow-hidden overflow-x-auto"
+    <div v-if="steps.length > 0"
+         class="steps sm:rounded-xl bg-gradient-to-br sm:flex-row sm:w-auto flex flex-col items-center w-full max-w-full px-2 py-4 overflow-hidden overflow-x-auto rounded-lg"
          :class="[`from-${color}-700`, `to-${color}-900`]">
-      <app-step v-for="(step, index) in steps" :key="'step-' + index" v-bind="step" :active="active && (index === activeStepIndex)" />
+      <app-step v-for="(step, index) in steps" :key="'step-' + index" v-bind="step" :active="active && (index === activeStepIndex)"
+                :project-id="id" />
     </div>
-    <v-btn v-if="steps.length === 0" variant="outlined" color="secondary" prepend-icon="mdi-plus" @click="addStepHere">Add step</v-btn>
+    <div v-if="active || steps.length === 0" :class="[active && (steps.length > 0) ? 'sm:hidden' : '']">
+      <v-btn variant="outlined" color="secondary" prepend-icon="mdi-plus" @click="addStepHere">
+        Add step
+      </v-btn>
+    </div>
   </v-container>
 </template>
 
@@ -40,17 +46,26 @@ export default defineComponent({
       default: (): Step[] => [],
     },
   },
+  emits: ['addStep'],
   data: () => ({
     confirmDelete: false,
   }),
   computed: {
-    ...mapState(useStore, ['activeProjectIndex','activeStepIndex']),
+    ...mapState(useStore, ['projects', 'activeProjectIndex', 'activeStepIndex']),
   },
   methods: {
-    ...mapActions(useStore, ['deleteProject']),
-    addStepHere (){
+    ...mapActions(useStore, ['selectProject', 'deleteProject']),
+    addStepHere () {
       console.log('add step here')
+      this.selectProject(this.id)
+      this.$emit('addStep')
     },
   },
 })
 </script>
+
+<style>
+.steps>.separator:last-child {
+  @apply hidden;
+}
+</style>
