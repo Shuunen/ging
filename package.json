@@ -22,7 +22,6 @@
     "@vue/compiler-sfc": "3",
     "@vue/eslint-config-typescript": "10",
     "c8": "7",
-    "error-stack-parser": "~2.0.6",
     "eslint": "8",
     "eslint-plugin-html": "6",
     "eslint-plugin-unicorn": "42",
@@ -63,9 +62,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/Shuunen/ging.git"
-  },
-  "resolutions": {
-    "error-stack-parser": "2.0.6"
   },
   "scripts": {
     "build": "vue-cli-service build",
