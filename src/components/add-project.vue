@@ -40,7 +40,7 @@ export default defineComponent({
   }),
   computed: {
     tailwindColors () {
-      return Object.keys(colors).filter(color => !['transparent', 'inherit', 'current'].includes(color))
+      return Object.keys(colors).filter(color => !['transparent', 'inherit', 'current'].includes(color)).sort()
     },
   },
   methods: {

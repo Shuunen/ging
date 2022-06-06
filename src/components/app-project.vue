@@ -40,16 +40,19 @@ export default defineComponent({
       default: (): Step[] => [],
     },
   },
+  emits:['addStep'],
   data: () => ({
     confirmDelete: false,
   }),
   computed: {
-    ...mapState(useStore, ['activeProjectIndex','activeStepIndex']),
+    ...mapState(useStore, ['projects','activeProjectIndex','activeStepIndex']),
   },
   methods: {
-    ...mapActions(useStore, ['deleteProject']),
+    ...mapActions(useStore, ['selectProject','deleteProject']),
     addStepHere (){
       console.log('add step here')
+      this.selectProject(this.id)
+      this.$emit('addStep')
     },
   },
 })

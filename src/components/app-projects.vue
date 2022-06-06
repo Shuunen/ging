@@ -5,7 +5,7 @@
       <v-icon>mdi-arrow-top-right-thin-circle-outline</v-icon>
     </p>
 
-    <app-project v-for="(project, index) in projects" :key="'project-' + index" v-bind="project" :active="index === activeProjectIndex" />
+    <app-project v-for="(project, index) in projects" :key="'project-' + index" v-bind="project" :active="index === activeProjectIndex" @add-step="showAddStep = true" />
 
     <app-hotkey :keys="['arrowdown']" @hotkey="selectNextProject" />
     <app-hotkey :keys="['arrowup']" @hotkey="selectPrevProject" />

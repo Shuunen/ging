@@ -56,6 +56,9 @@ export const useStore = defineStore('app', {
     selectNextStep () {
       this.activeStepIndex = (this.activeStepIndex + 1 >= this.projects[this.activeProjectIndex].steps.length) ? 0 : this.activeStepIndex + 1
     },
+    selectProject (projectId: number) {
+      this.activeProjectIndex = this.projects.findIndex(p => p.id === projectId)
+    },
   },
   persist: true,
 })
