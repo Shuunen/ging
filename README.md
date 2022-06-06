@@ -7,8 +7,7 @@
 
 ## Todo
 
-- [ ] handle step add
-- [ ] browser persistance
+- [ ] limit fonts used in src\plugins\webfontloader.ts
 - [ ] data from & to url
 
 ## Thanks
