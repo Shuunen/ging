@@ -1,6 +1,6 @@
 {
   "background_color": "#111827",
-  "display": "standalone",
+  "display": "fullscreen",
   "icons": [
     {
       "sizes": "192x192",
@@ -26,6 +26,7 @@
     }
   ],
   "name": "Ging App",
+  "orientation": "portrait",
   "short_name": "Ging",
   "start_url": ".",
   "theme_color": "#fb923c"
