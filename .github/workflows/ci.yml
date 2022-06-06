@@ -52,7 +52,8 @@ jobs:
         uses: jakepartusch/wait-for-netlify-action@v1
         id: netlify
         with:
-          site_name: 'shuunen-ging'
+          site_name: "shuunen-ging"
+        if: ${{ github.event_name == 'pull_request' }}
 
       - name: Audit URLs using Lighthouse
         uses: treosh/lighthouse-ci-action@v9
@@ -61,3 +62,4 @@ jobs:
             ${{ steps.netlify.outputs.url }}
           budgetPath: ./budget.json
           uploadArtifacts: true
+        if: ${{ github.event_name == 'pull_request' }}
