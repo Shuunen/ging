@@ -32,7 +32,9 @@ export default defineComponent({
   computed: {
     ...mapState(useStore, ['projects', 'activeProjectIndex', 'activeStepIndex']),
     title () {
-      return this.projects[this.activeProjectIndex].steps[this.activeStepIndex].title
+      const step = this.projects[this.activeProjectIndex].steps[this.activeStepIndex]
+      if (!step) return ''
+      return step.title
     },
   },
   watch: {
