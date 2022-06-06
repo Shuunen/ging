@@ -19,6 +19,17 @@ export const useStore = defineStore('app', {
     activeStepIndex: 0,
     projects: [] as Project[],
   }),
+  getters: {
+    activeProject: (state): Project | undefined => {
+      return state.projects[state.activeProjectIndex]
+    },
+    activeStep: (state): Step | undefined => {
+      const project = state.projects[state.activeProjectIndex]
+      const step = project.steps[state.activeStepIndex]
+      if (!step) return undefined
+      return step
+    },
+  },
   actions: {
     addProject (project: Project) {
       this.projects.push(project)
@@ -26,6 +37,9 @@ export const useStore = defineStore('app', {
     deleteActiveStep () {
       const project = this.projects[this.activeProjectIndex]
       project.steps.splice(this.activeStepIndex, 1)
+    },
+    deleteActiveProject () {
+      this.projects.splice(this.activeProjectIndex, 1)
     },
     deleteProject (projectId: number) {
       const index = this.projects.findIndex(p => p.id === projectId)
@@ -41,6 +55,8 @@ export const useStore = defineStore('app', {
     preventStepIndexOverflow () {
       const maxStepIndex = this.projects[this.activeProjectIndex].steps.length - 1
       if (this.activeStepIndex > maxStepIndex) this.activeStepIndex = maxStepIndex
+      const minStepIndex = 0
+      if (this.activeStepIndex < minStepIndex) this.activeStepIndex = minStepIndex
     },
     selectPrevProject () {
       this.activeProjectIndex = (this.activeProjectIndex - 1 < 0) ? (this.projects.length - 1) : this.activeProjectIndex - 1
@@ -58,6 +74,10 @@ export const useStore = defineStore('app', {
     },
     selectProject (projectId: number) {
       this.activeProjectIndex = this.projects.findIndex(p => p.id === projectId)
+    },
+    selectStep (stepId: number) {
+      const project = this.projects[this.activeProjectIndex]
+      this.activeStepIndex = project.steps.findIndex(s => s.id === stepId)
     },
   },
   persist: true,

@@ -3,10 +3,8 @@
   <v-dialog v-model="open">
     <v-card>
       <v-container>
-        <v-col class="min-w-[30vw]">
-          <v-row>
-            <div class="text-h5 mb-12">New project</div>
-          </v-row>
+        <v-col class="min-w-[20rem]">
+          <div class="text-h5 mb-4">New project</div>
           <v-form ref="form" v-model="valid">
             <v-text-field v-model="title" :rules="requiredRules" autofocus label="Title" required></v-text-field>
             <v-select v-model="color" :rules="requiredRules" :items="tailwindColors" label="Color" required></v-select>

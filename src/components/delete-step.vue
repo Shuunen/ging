@@ -5,8 +5,9 @@
         <p class="mb-4">You are about to delete the step "{{ title }}", are you sure ?</p>
         <v-card-actions>
           <v-spacer />
-          <v-btn @click="close()">Cancel</v-btn>
-          <v-btn color="primary" variant="contained" @click="deleteActiveStep(); close()">Confirm delete</v-btn>
+          <v-btn @click="close">Cancel</v-btn>
+          <v-btn color="primary" variant="contained" @click="deleteClose">Confirm delete</v-btn>
+          <app-hotkey :keys="['enter']" @hotkey="deleteClose" />
         </v-card-actions>
       </v-card-text>
     </v-card>
@@ -47,6 +48,11 @@ export default defineComponent({
   },
   methods: {
     ...mapActions(useStore, ['deleteActiveStep']),
+    deleteClose () {
+      console.log('delete step and close modal')
+      this.deleteActiveStep()
+      this.close()
+    },
     close () {
       this.open = false
     },

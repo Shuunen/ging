@@ -5,21 +5,22 @@
       <v-icon>mdi-arrow-top-right-thin-circle-outline</v-icon>
     </p>
 
-    <app-project v-for="(project, index) in projects" :key="'project-' + index" v-bind="project" :active="index === activeProjectIndex" @add-step="showAddStep = true" />
+    <app-project v-for="(project, index) in projects" :key="'project-' + index" v-bind="project" :active="index === activeProjectIndex"
+                 @add-step="showAddStep = true" />
 
-    <app-hotkey :keys="['arrowdown']" @hotkey="selectNextProject" />
-    <app-hotkey :keys="['arrowup']" @hotkey="selectPrevProject" />
-    <app-hotkey :keys="['arrowleft']" @hotkey="selectPrevStep" />
-    <app-hotkey :keys="['arrowright']" @hotkey="selectNextStep" />
+    <app-hotkey :keys="['arrowdown']" :enabled="hotkeysActive" @hotkey="selectNextProject" />
+    <app-hotkey :keys="['arrowup']" :enabled="hotkeysActive" @hotkey="selectPrevProject" />
+    <app-hotkey :keys="['arrowleft']" :enabled="hotkeysActive" @hotkey="selectPrevStep" />
+    <app-hotkey :keys="['arrowright']" :enabled="hotkeysActive" @hotkey="selectNextStep" />
 
     <delete-project :active="showDeleteProject" @close="showDeleteProject = false" />
-    <app-hotkey :keys="['alt', 'd']" @hotkey="showDeleteProject = true" />
+    <app-hotkey :keys="['alt', 'd']" :enabled="hotkeysActive" @hotkey="showDeleteProject = true" />
 
     <add-step :active="showAddStep" @close="showAddStep = false" />
-    <app-hotkey :keys="['ctrl', 'a']" @hotkey="showAddStep = true" />
+    <app-hotkey :keys="['ctrl', 'a']" :enabled="hotkeysActive" @hotkey="showAddStep = true" />
 
     <delete-step :active="showDeleteStep" @close="showDeleteStep = false" />
-    <app-hotkey :keys="['ctrl', 'd']" @hotkey="showDeleteStep = true" />
+    <app-hotkey :keys="['ctrl', 'd']" :enabled="hotkeysActive" @hotkey="showDeleteStep = true" />
   </v-container>
 </template>
 
@@ -36,6 +37,9 @@ export default defineComponent({
   }),
   computed: {
     ...mapState(useStore, ['projects', 'activeProjectIndex']),
+    hotkeysActive () {
+      return !(this.showAddStep || this.showDeleteProject || this.showDeleteStep)
+    },
   },
   methods: {
     ...mapActions(useStore, ['selectNextProject', 'selectPrevProject', 'selectNextStep', 'selectPrevStep']),
