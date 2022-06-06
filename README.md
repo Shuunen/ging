@@ -3,6 +3,8 @@
 [![GitHub license](https://img.shields.io/github/license/shuunen/ging.svg?color=informational)](https://github.com/Shuunen/ging/blob/master/LICENSE)
 [![Website up](https://img.shields.io/website/https/shuunen-ging.netlify.app.svg)](https://shuunen-ging.netlify.app)
 
+![logo](public/img/icons/logo.svg)
+
 > GING Is Not Gantt, but kind of :)
 
 ## Todo
