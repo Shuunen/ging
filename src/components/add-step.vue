@@ -6,10 +6,8 @@
           <div class="text-h5 mb-12">New step</div>
           <v-form ref="form" v-model="valid">
             <v-text-field v-model="title" :rules="requiredRules" label="Title" autofocus required />
-            <v-text-field
-              v-model="delay" type="number" :step="1" :min="0" :max="100" :suffix="delayType" :rules="requiredRules" label="Delay"
-              required
-            />
+            <v-text-field v-model="delay" type="number" :step="1" :min="0" :max="100" :suffix="delayType" :rules="requiredRules" label="Delay"
+                          required />
             <v-slider v-model="delay" :step="1" :min="0" :max="100" color="orange" />
             <div class="h-2"></div>
             <v-radio-group v-model="delayType" inline>
@@ -74,6 +72,8 @@ export default defineComponent({
       const step = new Step({
         title: this.title,
       })
+      if (this.delayType === 'days') step.days = this.delay
+      else step.hours = this.delay
       store.addStep(step)
       this.title = ''
       this.delay = 0
