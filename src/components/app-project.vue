@@ -53,8 +53,11 @@ export default defineComponent({
   computed: {
     ...mapState(useStore, ['projects', 'activeProjectIndex', 'activeStepIndex']),
   },
+  beforeMount () {
+    this.adjustSteps(this.steps)
+  },
   methods: {
-    ...mapActions(useStore, ['selectProject', 'deleteProject']),
+    ...mapActions(useStore, ['selectProject', 'deleteProject', 'adjustSteps']),
     addStepHere () {
       console.log('add step here')
       this.selectProject(this.id)
