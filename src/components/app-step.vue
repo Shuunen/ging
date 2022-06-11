@@ -1,11 +1,12 @@
 <template>
-  <div class="step flex flex-col gap-2 px-4 text-center" @click="select">
+  <div class="step flex flex-col min-w-[10rem] max-w-xs gap-2 px-4 overflow-hidden text-center" @click="select">
     <h2 class="text-h5" :class="{ 'underline underline-offset-2': active }">{{ title }}</h2>
-    <em class="date-start whitespace-nowrap text-ellipsis opacity-30 text-xs text-white">
-      {{ days ? dateIso10(new Date(start)) : new Date(start).toLocaleTimeString().replace(/:\d\d$/, '') }}
-    </em>
+    <p class="date-start whitespace-nowrap opacity-60 text-white">
+      {{ start.toLocaleDateString() }} <br />
+      {{ start.toLocaleTimeString().replace(/:\d\d$/, '') }}
+    </p>
   </div>
-  <div class="separator opacity-30 sm:w-1 sm:h-1/2 w-1/3 h-1 my-3 bg-white rounded"></div>
+  <div class="separator sm:rotate-0 opacity-30 w-7 text-xl leading-none text-center text-white transition transform scale-y-75 rotate-90">\<br />/</div>
 </template>
 
 <script lang="ts">
@@ -36,8 +37,16 @@ export default defineComponent({
       type: Number,
       default: undefined,
     },
+    hours: {
+      type: Number,
+      default: undefined,
+    },
     start: {
-      type: String,
+      type: Date,
+      default: new Date(),
+    },
+    end: {
+      type: Date,
       default: new Date(),
     },
   },
