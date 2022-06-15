@@ -1,5 +1,6 @@
 import { Project, Step } from '@/types'
 import { defineStore } from 'pinia'
+import { stringToStepData, stringToStepDuration } from './utils/step'
 
 export const useStore = defineStore('app', {
   state: () => ({
@@ -65,6 +66,44 @@ export const useStore = defineStore('app', {
     selectStep (stepId: number) {
       const project = this.projects[this.activeProjectIndex]
       this.activeStepIndex = project.steps.findIndex(s => s.id === stepId)
+    },
+    patchCurrentStepTitle (title: string) {
+      if (title.length === 0) return console.warn('Title cannot be empty')
+      const project = this.projects[this.activeProjectIndex]
+      const step = project.steps[this.activeStepIndex]
+      if (!step) throw new Error(`Step at index ${this.activeStepIndex} not found`)
+      try {
+        const data = stringToStepData(title)
+        // if data contains title & one duration, clear the step duration
+        if (Object.keys(data).length > 1) this.clearStepDurations(step)
+        console.log('updating step with data', data)
+        Object.assign(step, data)
+        console.log('step got new title & duration', step)
+      } catch {
+        step.title = title
+        console.log('step got new title', step)
+      }
+    },
+    patchCurrentStepDuration (duration: string) {
+      const project = this.projects[this.activeProjectIndex]
+      const step = project.steps[this.activeStepIndex]
+      if (!step) throw new Error(`Step at index ${this.activeStepIndex} not found`)
+      try {
+        const data = stringToStepDuration(duration)
+        // if data contains one duration, clear the step duration
+        if (Object.keys(data).length > 0) this.clearStepDurations(step)
+        console.log('updating step with data', data)
+        Object.assign(step, data)
+      } catch (error) {
+        if (error instanceof Error) console.error(error.message)
+      }
+    },
+    clearStepDurations (step: Step) {
+      step.months = undefined
+      step.weeks = undefined
+      step.days = undefined
+      step.hours = undefined
+      step.minutes = undefined
     },
   },
   persist: true,
