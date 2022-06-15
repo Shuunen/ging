@@ -6,7 +6,7 @@
     <div v-if="steps.length > 0"
          class="steps sm:rounded-xl bg-gradient-to-br sm:flex-row sm:w-auto flex flex-col items-center w-full max-w-full px-2 py-4 overflow-hidden overflow-x-auto rounded-lg"
          :class="[`from-${color}-700`, `to-${color}-900`]">
-      <app-step v-for="(step, index) in steps" :key="'step-' + index" v-bind="step" :active="active && (index === activeStepIndex)"
+      <app-step v-for="(step, index) in processedSteps" :key="'step-' + index" v-bind="step" :active="active && (index === activeStepIndex)"
                 :project-id="id" />
     </div>
     <div v-if="active || steps.length === 0" :class="[active && (steps.length > 0) ? 'sm:hidden' : '']">
@@ -20,6 +20,7 @@
 <script lang="ts">
 import { useStore } from '@/store'
 import { Step } from '@/types'
+import { processStepsDurations } from '@/utils/step'
 import { mapActions, mapState } from 'pinia'
 import { defineComponent } from 'vue'
 
@@ -52,12 +53,12 @@ export default defineComponent({
   }),
   computed: {
     ...mapState(useStore, ['projects', 'activeProjectIndex', 'activeStepIndex']),
-  },
-  beforeMount () {
-    this.adjustSteps(this.steps)
+    processedSteps (){
+      return processStepsDurations(this.steps)
+    },
   },
   methods: {
-    ...mapActions(useStore, ['selectProject', 'deleteProject', 'adjustSteps']),
+    ...mapActions(useStore, ['selectProject', 'deleteProject']),
     addStepHere () {
       console.log('add step here')
       this.selectProject(this.id)

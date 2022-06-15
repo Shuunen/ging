@@ -38,17 +38,6 @@ export const useStore = defineStore('app', {
       if (!project) throw new Error(`Project at index ${this.activeProjectIndex} not found`)
       if (this.activeStepIndex === project.steps.length - 1) project.steps.push(step)
       else project.steps.splice(this.activeStepIndex + 1, 0, step)
-      this.adjustSteps(project.steps)
-    },
-    adjustSteps (steps: Step[]) {
-      const date = new Date(steps[0]?.start ?? new Date())
-      steps.forEach((step) => {
-        step.start = new Date(date)
-        if (!step.days && !step.hours) step.days = 1
-        if (step.days) date.setDate(date.getDate() + step.days)
-        if (step.hours) date.setHours(date.getHours() + step.hours)
-        step.end = date
-      })
     },
     preventStepIndexOverflow () {
       const maxStepIndex = this.projects[this.activeProjectIndex].steps.length - 1
