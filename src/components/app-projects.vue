@@ -14,13 +14,13 @@
     <app-hotkey :keys="['arrowright']" :enabled="hotkeysActive" @hotkey="selectNextStep" />
 
     <delete-project :active="showDeleteProject" @close="showDeleteProject = false" />
-    <app-hotkey :keys="['alt', 'd']" :enabled="hotkeysActive" @hotkey="showDeleteProject = true" />
+    <app-hotkey :keys="['alt', 'd']" :enabled="hotkeysActive" @hotkey="showDeleteProjectModal" />
 
     <add-step :active="showAddStep" @close="showAddStep = false" />
     <app-hotkey :keys="['ctrl', 'a']" :enabled="hotkeysActive" @hotkey="showAddStep = true" />
 
     <delete-step :active="showDeleteStep" @close="showDeleteStep = false" />
-    <app-hotkey :keys="['ctrl', 'd']" :enabled="hotkeysActive" @hotkey="showDeleteStep = true" />
+    <app-hotkey :keys="['ctrl', 'd']" :enabled="hotkeysActive" @hotkey="showDeleteStepModal" />
   </v-container>
 </template>
 
@@ -36,13 +36,19 @@ export default defineComponent({
     showDeleteStep: false,
   }),
   computed: {
-    ...mapState(useStore, ['projects', 'activeProjectIndex']),
+    ...mapState(useStore, ['projects', 'activeProject', 'activeProjectIndex', 'activeStep']),
     hotkeysActive () {
       return !(this.showAddStep || this.showDeleteProject || this.showDeleteStep)
     },
   },
   methods: {
     ...mapActions(useStore, ['selectNextProject', 'selectPrevProject', 'selectNextStep', 'selectPrevStep']),
+    showDeleteStepModal () {
+      if (this.activeStep) this.showDeleteStep = true
+    },
+    showDeleteProjectModal () {
+      if (this.activeProject) this.showDeleteProject = true
+    },
   },
 })
 </script>
