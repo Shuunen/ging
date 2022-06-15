@@ -1,10 +1,7 @@
 import { requiredRules } from '@/utils/form-rules'
-import { test } from 'uvu'
-import { equal } from 'uvu/assert'
+import { check } from './utils'
 
-test('required form rule', () => {
-  equal(requiredRules[0]('im ok'), true)
-  equal(requiredRules[0](''), 'Please fill out this field')
-})
+check('required form rule ok', requiredRules[0]('im ok'), true)
+check('required form rule nok', requiredRules[0](''), 'Please fill out this field')
 
-test.run()
+check.done()
