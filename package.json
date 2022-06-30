@@ -20,7 +20,7 @@
     "@vue/cli-plugin-typescript": "5",
     "@vue/cli-service": "5",
     "@vue/compiler-sfc": "3",
-    "@vue/eslint-config-typescript": "10",
+    "@vue/eslint-config-typescript": "11",
     "c8": "7",
     "eslint": "8",
     "eslint-plugin-html": "6",
