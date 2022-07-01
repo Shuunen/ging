@@ -22,9 +22,9 @@
 </template>
 
 <script lang="ts">
+import { Project } from '@/models'
 import { useStore } from '@/store'
-import { Project } from '@/types'
-import { requiredRules } from '@/utils/form-rules'
+import { requiredRules } from '@/utils/form'
 import colors from 'tailwindcss/colors'
 import { defineComponent } from 'vue'
 

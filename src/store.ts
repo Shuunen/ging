@@ -1,4 +1,4 @@
-import { Project, Step } from '@/types'
+import { Project, Step } from '@/models'
 import { defineStore } from 'pinia'
 import { stringToStepData, stringToStepDuration } from './utils/step'
 

@@ -1,4 +1,4 @@
-import { Step } from '@/types'
+import { Step } from '@/models'
 import { processStepsDurations, stepToHumanDuration, stepToString, stringToStepData, stringToStepDuration } from '@/utils/step'
 import { test } from 'uvu'
 import { throws } from 'uvu/assert'
