@@ -20,9 +20,9 @@
 </template>
 
 <script lang="ts">
+import { Step } from '@/models'
 import { useStore } from '@/store'
-import { Step } from '@/types'
-import { requiredRules } from '@/utils/form-rules'
+import { requiredRules } from '@/utils/form'
 import { stringToStepData } from '@/utils/step'
 import colors from 'tailwindcss/colors'
 import { defineComponent } from 'vue'

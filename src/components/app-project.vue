@@ -18,8 +18,8 @@
 </template>
 
 <script lang="ts">
+import { Step } from '@/models'
 import { useStore } from '@/store'
-import { Step } from '@/types'
 import { processStepsDurations } from '@/utils/step'
 import { mapActions, mapState } from 'pinia'
 import { defineComponent } from 'vue'

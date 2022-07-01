@@ -1,4 +1,5 @@
-import { Step } from '@/types'
+/* c8 ignore next */
+import { Step } from '@/models'
 
 export const units = ['month', 'week', 'day', 'hour', 'minute']
 
