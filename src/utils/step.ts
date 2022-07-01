@@ -56,3 +56,19 @@ export const processStepsDurations = (steps: Step[]): Step[] => {
     return step
   })
 }
+
+export const durationBetweenDates = (start: Date, end: Date) => {
+  const ms = end.getTime() - start.getTime()
+  const seconds = Math.floor(ms / 1000)
+  const minutes = Math.floor(seconds / 60)
+  const hours = Math.floor(minutes / 60)
+  const days = Math.floor(hours / 24)
+  const months = Math.floor(days / 30)
+  const years = Math.floor(months / 12)
+  if (years) return `${years} year${years > 1 ? 's' : ''}`
+  if (months) return `${months} month${months > 1 ? 's' : ''}`
+  if (days) return `${days} day${days > 1 ? 's' : ''}`
+  if (hours) return `${hours} hour${hours > 1 ? 's' : ''}`
+  if (minutes) return `${minutes} minute${minutes > 1 ? 's' : ''}`
+  return `${seconds} second${seconds > 1 ? 's' : ''}`
+}
