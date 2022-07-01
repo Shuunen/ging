@@ -1,8 +1,8 @@
 <template>
   <v-container class="project flex flex-col items-start gap-4" @click="selectProject(id)">
-    <div class="flex flex-row">
-      <h2 class="text-h4 mr-4" :class="{ 'underline underline-offset-2': active }">{{ title }}</h2>
-    </div>
+    <v-text-field :id="'project-title-' + id" v-model="newTitle" :tabindex="edit ? 1 : -1" :autofocus="edit" :readonly="!edit" density="compact"
+                  :variant="edit ? 'outlined' : 'plain'" class="no-details title title-xl" :class="{ active, italic: edit, edit }"
+                  :style="{ width: (newTitle.length * .95) + 'ch' }" @change="updateTitle" />
     <div v-if="steps.length > 0"
          class="steps sm:rounded-xl bg-gradient-to-br sm:flex-row sm:w-auto flex flex-col items-center w-full max-w-full px-2 py-4 overflow-hidden overflow-x-auto rounded-lg"
          :class="[`from-${color}-700`, `to-${color}-900`]">
@@ -50,19 +50,36 @@ export default defineComponent({
   emits: ['addStep'],
   data: () => ({
     confirmDelete: false,
+    newTitle: '',
   }),
   computed: {
-    ...mapState(useStore, ['projects', 'activeProjectIndex', 'activeStepIndex']),
-    processedSteps (){
+    ...mapState(useStore, ['projects', 'activeProjectIndex', 'activeStepIndex', 'editMode']),
+    processedSteps () {
       return processStepsDurations(this.steps)
     },
+    edit () {
+      return this.editMode && this.active
+    },
+  },
+  watch: {
+    title (value) {
+      console.log('title changed', value)
+      this.newTitle = value
+    },
+  },
+  mounted () {
+    this.newTitle = this.title
   },
   methods: {
-    ...mapActions(useStore, ['selectProject', 'deleteProject']),
+    ...mapActions(useStore, ['selectProject', 'deleteProject', 'patchCurrentProjectTitle']),
     addStepHere () {
       console.log('add step here')
       this.selectProject(this.id)
       this.$emit('addStep')
+    },
+    updateTitle () {
+      console.log('update title to', this.newTitle)
+      this.patchCurrentProjectTitle(this.newTitle)
     },
   },
 })
@@ -71,5 +88,10 @@ export default defineComponent({
 <style>
 .steps>.separator:last-child {
   @apply hidden;
+}
+
+.title.title-xl,
+.v-input.title.title-xl .v-field__input input {
+  @apply text-4xl text-left mb-1;
 }
 </style>

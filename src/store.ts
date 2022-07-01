@@ -6,6 +6,7 @@ export const useStore = defineStore('app', {
   state: () => ({
     activeProjectIndex: 0,
     activeStepIndex: 0,
+    editMode: false,
     debugMode: false,
     projects: [] as Project[],
   }),
@@ -99,12 +100,36 @@ export const useStore = defineStore('app', {
         if (error instanceof Error) console.error(error.message)
       }
     },
+    patchCurrentProjectTitle (title: string) {
+      if (title.length === 0) return console.warn('Title cannot be empty')
+      const project = this.projects[this.activeProjectIndex]
+      if (!project) throw new Error(`Project at index ${this.activeProjectIndex} not found`)
+      project.title = title
+    },
     clearStepDurations (step: Step) {
       step.months = undefined
       step.weeks = undefined
       step.days = undefined
       step.hours = undefined
       step.minutes = undefined
+    },
+    toggleEditMode () {
+      this.editMode = !this.editMode
+      console.log('edit mode is now', this.editMode)
+      if (!this.editMode) {
+        const active = document.activeElement
+        if (active && active instanceof HTMLInputElement) active.blur()
+        return
+      }
+      if (this.activeStepIndex === 0) {
+        const input = document.querySelector('input#project-title-' + this.activeProject?.id)
+        if (input && input instanceof HTMLInputElement) input.focus()
+      } else{
+        const input = document.querySelector('input#step-title-' + this.activeStep?.id)
+        console.log('selector', 'input#step-title-' + this.activeStep?.id)
+        console.log('input', input)
+        if (input && input instanceof HTMLInputElement) input.focus()
+      }
     },
     toggleDebugMode () {
       this.debugMode = !this.debugMode

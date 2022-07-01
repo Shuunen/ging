@@ -1,12 +1,18 @@
 <template>
-  <div ref="step" class="step flex select-none flex-col min-w-[10rem] max-w-xs px-4 overflow-hidden text-center" :class="{ edit }"
-       @click="selectCurrentStep" @dblclick="toggleEdit">
-    <v-text-field v-model="newTitle" :readonly="!edit" density="compact" :variant="edit ? 'outlined' : 'plain'" class="no-details title mx-auto"
-                  :class="{ active, italic: edit, edit }" :style="{ width: (newTitle.length * .95) + 'ch' }" @change="updateTitle" />
-    <v-text-field v-model="newDuration" :readonly="!edit" density="compact" prepend-icon="mdi-clock-outline" :variant="edit ? 'outlined' : 'plain'"
-                  class="no-details duration mx-auto my-2 select-none" :class="{ active, italic: edit, edit }" :style="{ width: newDuration.length + 5 + 'ch' }"
-                  @change="updateDuration" />
-    <p class="date-end whitespace-nowrap opacity-60 text-white">
+  <div ref="step" class="step flex select-none flex-col min-w-[10rem] gap-3 max-w-xs px-4 overflow-hidden text-center" :class="{ edit }"
+       @click="selectCurrentStep">
+    <v-text-field :id="'step-title-' + id" v-model="newTitle" :tabindex="edit ? 1 : -1" autofocus :readonly="!edit" density="compact" :variant="edit ? 'outlined' : 'plain'"
+                  class="no-details title mx-auto" :class="{ active, italic: edit, edit }" :style="{ width: (newTitle.length * .95) + 'ch' }"
+                  @change="updateTitle" />
+    <v-text-field v-model="newDuration" :tabindex="edit ? 1 : -1" :readonly="!edit" density="compact" prepend-icon="mdi-clock-outline"
+                  :variant="edit ? 'outlined' : 'plain'" class="no-details duration mx-auto select-none" :class="{ active, italic: edit, edit }"
+                  :style="{ width: newDuration.length + 5 + 'ch' }" @change="updateDuration" />
+
+    <v-text-field v-if="edit" v-model="newStart" :tabindex="edit ? 1 : -1" class="no-details" type="datetime-local" density="compact"
+                  variant="outlined" />
+    <v-text-field v-if="edit" v-model="newEnd" :tabindex="edit ? 1 : -1" class="no-details" type="datetime-local" density="compact"
+                  variant="outlined" />
+    <p v-else class="date-end whitespace-nowrap opacity-60 text-white">
       {{ end.toLocaleDateString() }} <br />
       {{ end.toLocaleTimeString().replace(/:\d\d$/, '') }}
     </p>
@@ -74,12 +80,16 @@ export default defineComponent({
     },
   },
   data: () => ({
-    edit: false,
     newTitle: '',
     newDuration: '',
+    newStart: '',
+    newEnd: '',
   }),
   computed: {
-    ...mapState(useStore, ['activeProject', 'activeStep', 'activeStepIndex']),
+    ...mapState(useStore, ['activeProject', 'activeStep', 'activeStepIndex', 'editMode']),
+    edit () {
+      return this.editMode && this.active
+    },
   },
   watch: {
     title (value) {
@@ -90,10 +100,20 @@ export default defineComponent({
       console.log('duration changed', value)
       this.newDuration = value
     },
+    start (value) {
+      console.log('start changed', value)
+      this.newStart = value
+    },
+    end (value) {
+      console.log('end changed', value)
+      this.newEnd = value
+    },
   },
   mounted () {
     this.newTitle = this.title
     this.newDuration = this.duration
+    this.newStart = this.start.toISOString().slice(0, 16)
+    this.newEnd = this.end.toISOString().slice(0, 16)
   },
   methods: {
     ...mapActions(useStore, ['selectProject', 'selectStep', 'patchCurrentStepTitle', 'patchCurrentStepDuration']),
@@ -108,7 +128,6 @@ export default defineComponent({
       if (!target) return console.error('no title target')
       console.log('update step title to', target.value)
       this.selectCurrentStep()
-      this.edit = false
       this.patchCurrentStepTitle(target.value)
     },
     updateDuration (event: Event) {
@@ -116,12 +135,7 @@ export default defineComponent({
       if (!target) return console.error('no duration target')
       console.log('update step duration with', target.value)
       this.selectCurrentStep()
-      this.edit = false
       this.patchCurrentStepDuration(target.value)
-    },
-    toggleEdit () {
-      console.log('toggle edit', this.$el)
-      this.edit = !this.edit
     },
   },
 })
@@ -136,6 +150,7 @@ export default defineComponent({
   @apply m-0 pt-0.5 pr-2;
 }
 
+.v-input.no-details .v-field__input,
 .v-input.no-details .v-field__field {
   @apply p-0 min-h-0;
 }
