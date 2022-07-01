@@ -11,9 +11,22 @@
           <v-icon class="text-h4" color="secondary" icon="mdi-chevron-right" />
         </div>
         <div class="ml-auto"></div>
-        <add-project />
+        <add-project v-if="editMode" />
+        <toggle-edit />
         <app-about />
       </v-row>
     </v-container>
   </v-app-bar>
 </template>
+
+<script lang="ts">
+import { useStore } from '@/store'
+import { mapState } from 'pinia'
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  computed: {
+    ...mapState(useStore, ['editMode']),
+  },
+})
+</script>
