@@ -10,7 +10,7 @@
             <h2 class="text-h5 sm:block hidden">Keyboard shortcuts</h2>
             <div class="sm:grid hidden grid-cols-2 gap-2">
               <div v-for="(description, shortcut) in shortcuts" :key="shortcut" class="shortcut">
-                <code class="px-2 mr-2 text-black bg-white">{{ shortcut }}</code> {{ description }}
+                <code class="px-2 mr-2 text-lg text-black bg-white">{{ shortcut }}</code> {{ description }}
               </div>
             </div>
           </v-col>
@@ -22,7 +22,8 @@
       </v-card>
     </v-dialog>
   </v-btn>
-  <app-hotkey :keys="[',']" @hotkey="open = true" />
+  <app-hotkey :keys="[',']" @hotkey="open = !open" />
+  <app-hotkey :keys="['h']" @hotkey="open = !open" />
 </template>
 
 <script lang="ts">
@@ -36,6 +37,8 @@ export default defineComponent({
       'Alt + D': 'Delete a project',
       'Ctrl + A': 'Add a step',
       'Ctrl + D': 'Delete a step',
+      'Ctrl + E': 'Toggle Edit mode',
+      'Ctrl + !': 'Toggle Edit mode',
     },
   }),
 })
