@@ -6,6 +6,7 @@ export const useStore = defineStore('app', {
   state: () => ({
     activeProjectIndex: 0,
     activeStepIndex: 0,
+    debugMode: false,
     projects: [] as Project[],
   }),
   getters: {
@@ -104,6 +105,10 @@ export const useStore = defineStore('app', {
       step.days = undefined
       step.hours = undefined
       step.minutes = undefined
+    },
+    toggleDebugMode () {
+      this.debugMode = !this.debugMode
+      console.log('debug mode is now', this.debugMode)
     },
   },
   persist: true,
