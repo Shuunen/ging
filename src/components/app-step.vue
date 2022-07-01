@@ -1,17 +1,17 @@
 <template>
   <div ref="step" class="step flex select-none flex-col min-w-[10rem] gap-3 max-w-xs px-4 overflow-hidden text-center" :class="{ edit }"
        @click="selectCurrentStep">
-    <v-text-field :id="'step-title-' + id" v-model="newTitle" :tabindex="edit ? 1 : -1" autofocus :readonly="!edit" density="compact" :variant="edit ? 'outlined' : 'plain'"
-                  class="no-details title mx-auto" :class="{ active, italic: edit, edit }" :style="{ width: (newTitle.length * .95) + 'ch' }"
-                  @change="updateTitle" />
+    <v-text-field :id="'step-title-' + id" v-model="newTitle" :tabindex="edit ? 1 : -1" autofocus :readonly="!edit" density="compact"
+                  :variant="edit ? 'outlined' : 'plain'" class="no-details title mx-auto" :class="{ active, italic: edit, edit }"
+                  :style="{ width: (newTitle.length * .95) + 'ch' }" @change="updateTitle" />
     <v-text-field v-model="newDuration" :tabindex="edit ? 1 : -1" :readonly="!edit" density="compact" prepend-icon="mdi-clock-outline"
                   :variant="edit ? 'outlined' : 'plain'" class="no-details duration mx-auto select-none" :class="{ active, italic: edit, edit }"
                   :style="{ width: newDuration.length + 5 + 'ch' }" @change="updateDuration" />
 
     <v-text-field v-if="edit" v-model="newStart" :tabindex="edit ? 1 : -1" class="no-details" type="datetime-local" density="compact"
-                  variant="outlined" />
-    <v-text-field v-if="edit" v-model="newEnd" :tabindex="edit ? 1 : -1" class="no-details" type="datetime-local" density="compact"
-                  variant="outlined" />
+                  variant="outlined" @change="calcDuration" />
+    <v-text-field v-if="edit" v-model="newEnd" :tabindex="edit ? 1 : -1" class="no-details" type="datetime-local" density="compact" variant="outlined"
+                  @change="calcDuration" />
     <p v-else class="date-end whitespace-nowrap opacity-60 text-white">
       {{ end.toLocaleDateString() }} <br />
       {{ end.toLocaleTimeString().replace(/:\d\d$/, '') }}
@@ -24,6 +24,7 @@
 
 <script lang="ts">
 import { useStore } from '@/store'
+import { durationBetweenDates } from '@/utils/step'
 import { mapActions, mapState } from 'pinia'
 import { dateIso10 } from 'shuutils'
 import { defineComponent } from 'vue'
@@ -102,22 +103,26 @@ export default defineComponent({
     },
     start (value) {
       console.log('start changed', value)
-      this.newStart = value
+      this.newStart = this.dateIso(value)
     },
     end (value) {
       console.log('end changed', value)
-      this.newEnd = value
+      this.newEnd = this.dateIso(value)
     },
   },
   mounted () {
     this.newTitle = this.title
     this.newDuration = this.duration
-    this.newStart = this.start.toISOString().slice(0, 16)
-    this.newEnd = this.end.toISOString().slice(0, 16)
+    this.newStart = this.dateIso(this.start)
+    this.newEnd = this.dateIso(this.end)
   },
   methods: {
     ...mapActions(useStore, ['selectProject', 'selectStep', 'patchCurrentStepTitle', 'patchCurrentStepDuration']),
     dateIso10,
+    dateIso (date: string | Date) {
+      const newDate = date instanceof Date ? date : new Date(date)
+      return newDate.toISOString().slice(0, 16)
+    },
     selectCurrentStep (event?: Event) {
       if (event !== undefined) event.stopPropagation()
       if (!this.activeProject || (this.activeProject.id !== this.projectId)) this.selectProject(this.projectId)
@@ -136,6 +141,14 @@ export default defineComponent({
       console.log('update step duration with', target.value)
       this.selectCurrentStep()
       this.patchCurrentStepDuration(target.value)
+    },
+    calcDuration () {
+      const start = new Date(this.newStart)
+      const end = new Date(this.newEnd)
+      const duration = durationBetweenDates(start, end)
+      console.log('new duration :', duration)
+      this.selectCurrentStep()
+      this.patchCurrentStepDuration(duration)
     },
   },
 })

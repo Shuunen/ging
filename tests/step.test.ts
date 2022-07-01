@@ -1,5 +1,5 @@
 import { Step } from '@/models'
-import { processStepsDurations, stepToHumanDuration, stepToString, stringToStepData, stringToStepDuration } from '@/utils/step'
+import { durationBetweenDates, processStepsDurations, stepToHumanDuration, stepToString, stringToStepData, stringToStepDuration } from '@/utils/step'
 import { test } from 'uvu'
 import { throws } from 'uvu/assert'
 import { check } from './utils'
@@ -45,5 +45,20 @@ const stepsWithoutStart = [new Step({ months: 2 }), new Step({ hours: 3 }), new 
 const processedB = processStepsDurations(stepsWithoutStart)
 check('processStepsDurations E', processedB[0].duration, '2 months')
 check('processStepsDurations F', processedB[1].duration, '3 hours')
+
+
+check('durationBetweenDates 0 second', durationBetweenDates(new Date('2020-01-01'), new Date('2020-01-01')), '0 second')
+check('durationBetweenDates 1 second', durationBetweenDates(new Date('2020-01-01'), new Date('2020-01-01T00:00:01.000Z')), '1 second')
+check('durationBetweenDates 2 seconds', durationBetweenDates(new Date('2020-01-01'), new Date('2020-01-01T00:00:02.000Z')), '2 seconds')
+check('durationBetweenDates 1 minute', durationBetweenDates(new Date('2020-01-01'), new Date('2020-01-01T00:01:00.000Z')), '1 minute')
+check('durationBetweenDates 2 minutes', durationBetweenDates(new Date('2020-01-01'), new Date('2020-01-01T00:02:00.000Z')), '2 minutes')
+check('durationBetweenDates 1 hour', durationBetweenDates(new Date('2020-01-01'), new Date('2020-01-01T01:00:00.000Z')), '1 hour')
+check('durationBetweenDates 2 hours', durationBetweenDates(new Date('2020-01-01'), new Date('2020-01-01T02:00:00.000Z')), '2 hours')
+check('durationBetweenDates 1 day', durationBetweenDates(new Date('2020-01-01'), new Date('2020-01-02T00:00:00.000Z')), '1 day')
+check('durationBetweenDates 2 days', durationBetweenDates(new Date('2020-01-01'), new Date('2020-01-03T00:00:00.000Z')), '2 days')
+check('durationBetweenDates 1 month', durationBetweenDates(new Date('2020-01-01'), new Date('2020-02-01T00:00:00.000Z')), '1 month')
+check('durationBetweenDates 2 months', durationBetweenDates(new Date('2020-01-01'), new Date('2020-03-01T00:00:00.000Z')), '2 months')
+check('durationBetweenDates 1 year', durationBetweenDates(new Date('2020-01-01'), new Date('2021-01-01T00:00:00.000Z')), '1 year')
+check('durationBetweenDates 2 years', durationBetweenDates(new Date('2020-01-01'), new Date('2022-01-01T00:00:00.000Z')), '2 years')
 
 check.done()
