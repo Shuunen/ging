@@ -1,4 +1,4 @@
-import { requiredRules } from '@/utils/form-rules'
+import { requiredRules } from '@/utils/form'
 import { check } from './utils'
 
 check('required form rule ok', requiredRules[0]('im ok'), true)
