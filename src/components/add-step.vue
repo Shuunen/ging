@@ -5,7 +5,7 @@
         <v-col class="min-w-[20rem]">
           <div class="text-h5 mb-4">New step</div>
           <v-form ref="form" v-model="valid" @submit="submit">
-            <v-text-field v-model="title" :rules="requiredRules" label="Step title, time" autofocus required
+            <v-text-field v-model="title" :rules="requiredRules" label="Step title, time" :autofocus="open" required
                           hint="Like &ldquo;Get some milk, 1 hour&rdquo; or &ldquo;Go to Japan, 3 weeks&rdquo;" />
           </v-form>
         </v-col>

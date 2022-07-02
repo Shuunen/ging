@@ -1,7 +1,7 @@
 <template>
   <div ref="step" class="step flex select-none flex-col min-w-[10rem] gap-3 max-w-xs px-4 overflow-hidden text-center" :class="{ edit }"
        @click="selectCurrentStep">
-    <v-text-field :id="'step-title-' + id" v-model="newTitle" :tabindex="edit ? 1 : -1" autofocus :readonly="!edit" density="compact"
+    <v-text-field :id="'step-title-' + id" v-model="newTitle" :tabindex="edit ? 1 : -1" :autofocus="edit" :readonly="!edit" density="compact"
                   :variant="edit ? 'outlined' : 'plain'" class="no-details title mx-auto" :class="{ active, italic: edit, edit }"
                   :style="{ width: (newTitle.length * .95) + 'ch' }" @change="updateTitle" />
     <v-text-field v-model="newDuration" :tabindex="edit ? 1 : -1" :readonly="!edit" density="compact" prepend-icon="mdi-clock-outline"
