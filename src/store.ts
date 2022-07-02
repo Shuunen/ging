@@ -124,7 +124,7 @@ export const useStore = defineStore('app', {
       if (this.activeStepIndex === 0) {
         const input = document.querySelector('input#project-title-' + this.activeProject?.id)
         if (input && input instanceof HTMLInputElement) input.focus()
-      } else{
+      } else {
         const input = document.querySelector('input#step-title-' + this.activeStep?.id)
         console.log('selector', 'input#step-title-' + this.activeStep?.id)
         console.log('input', input)
@@ -134,6 +134,25 @@ export const useStore = defineStore('app', {
     toggleDebugMode () {
       this.debugMode = !this.debugMode
       console.log('debug mode is now', this.debugMode)
+    },
+    moveStep (direction: 'before' | 'after') {
+      const project = this.projects[this.activeProjectIndex]
+      const step = project.steps[this.activeStepIndex]
+      if (!step) throw new Error(`Step at index ${this.activeStepIndex} not found`)
+      const index = project.steps.indexOf(step)
+      if (direction === 'before') {
+        if (index === 0) return
+        project.steps.splice(index, 1)
+        project.steps.splice(index - 1, 0, step)
+        return this.activeStepIndex--
+      }
+      if (direction === 'after') {
+        if (index === project.steps.length - 1) return
+        project.steps.splice(index, 1)
+        project.steps.splice(index + 1, 0, step)
+        return this.activeStepIndex++
+      }
+      throw new Error('Invalid direction : ' + direction)
     },
   },
   persist: true,
