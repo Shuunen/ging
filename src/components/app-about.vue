@@ -37,6 +37,8 @@ export default defineComponent({
       'Alt + D': 'Delete a project',
       'Ctrl + A': 'Add a step',
       'Ctrl + D': 'Delete a step',
+      'Ctrl + ->': 'Move step after',
+      'Ctrl + <-': 'Move step before',
       'Ctrl + E': 'Toggle Edit mode',
       'Ctrl + !': 'Toggle Edit mode',
     },

@@ -4,9 +4,9 @@
                   :variant="edit ? 'outlined' : 'plain'" class="no-details title title-xl" :class="{ active, italic: edit, edit }"
                   :style="{ width: (newTitle.length * .95) + 'ch' }" @change="updateTitle" />
     <div v-if="steps.length > 0"
-         class="steps sm:rounded-xl bg-gradient-to-br sm:flex-row sm:w-auto flex flex-col items-center w-full max-w-full px-2 py-4 overflow-hidden overflow-x-auto rounded-lg"
+         class="steps sm:rounded-xl bg-gradient-to-br sm:flex-row sm:w-auto flex flex-col items-center w-full max-w-full px-3 py-4 overflow-hidden overflow-x-auto rounded-lg"
          :class="[`from-${color}-700`, `to-${color}-900`]">
-      <app-step v-for="(step, index) in processedSteps" :key="'step-' + index" v-bind="step" :active="active && (index === activeStepIndex)"
+      <app-step v-for="(step, index) in processedSteps" :key="'step-' + index" v-bind="step" :index="index" :active="active && (index === activeStepIndex)"
                 :project-id="id" />
     </div>
     <div v-if="active || steps.length === 0" :class="[active && (steps.length > 0) ? 'sm:hidden' : '']">

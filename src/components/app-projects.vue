@@ -12,6 +12,8 @@
     <app-hotkey :keys="['arrowup']" :enabled="hotkeysActive" @hotkey="selectPrevProject" />
     <app-hotkey :keys="['arrowleft']" :enabled="hotkeysActive" @hotkey="selectPrevStep" />
     <app-hotkey :keys="['arrowright']" :enabled="hotkeysActive" @hotkey="selectNextStep" />
+    <app-hotkey :keys="['ctrl', 'arrowleft']" :enabled="hotkeysActive" @hotkey="moveStep('before')" />
+    <app-hotkey :keys="['ctrl', 'arrowright']" :enabled="hotkeysActive" @hotkey="moveStep('after')" />
 
     <delete-project :active="showDeleteProject" @close="showDeleteProject = false" />
     <app-hotkey :keys="['alt', 'd']" :enabled="hotkeysActive" @hotkey="showDeleteProjectModal" />
@@ -42,7 +44,7 @@ export default defineComponent({
     },
   },
   methods: {
-    ...mapActions(useStore, ['selectNextProject', 'selectPrevProject', 'selectNextStep', 'selectPrevStep']),
+    ...mapActions(useStore, ['moveStep', 'selectNextProject', 'selectPrevProject', 'selectNextStep', 'selectPrevStep']),
     showDeleteStepModal () {
       if (this.activeStep) this.showDeleteStep = true
     },

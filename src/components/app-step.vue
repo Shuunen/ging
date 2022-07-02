@@ -1,5 +1,6 @@
 <template>
-  <div ref="step" class="step flex select-none flex-col min-w-[10rem] gap-3 max-w-xs px-4 overflow-hidden text-center" :class="{ edit }"
+  <v-icon v-if="edit && (index !== 0)" class="separator" @click="moveStep('before')">mdi-swap-horizontal</v-icon>
+  <div ref="step" class="step flex select-none flex-col min-w-[10rem] gap-3 max-w-xs px-2 overflow-hidden text-center" :class="{ edit }"
        @click="selectCurrentStep">
     <v-text-field :id="'step-title-' + id" v-model="newTitle" :tabindex="edit ? 1 : -1" :autofocus="edit" :readonly="!edit" density="compact"
                   :variant="edit ? 'outlined' : 'plain'" class="no-details title mx-auto" :class="{ active, italic: edit, edit }"
@@ -17,9 +18,8 @@
       {{ end.toLocaleTimeString().replace(/:\d\d$/, '') }}
     </p>
   </div>
-  <div class="separator sm:rotate-0 opacity-30 w-7 text-xl leading-none text-center text-white transition transform scale-y-75 rotate-90 select-none">
-    \<br />/
-  </div>
+  <v-icon v-if="edit" class="separator" @click="moveStep('after')">mdi-swap-horizontal</v-icon>
+  <v-icon v-else-if="!editMode || (index !== activeStepIndex -1)" class="separator">mdi-chevron-right</v-icon>
 </template>
 
 <script lang="ts">
@@ -36,6 +36,10 @@ export default defineComponent({
       default: false,
     },
     id: {
+      type: Number,
+      default: 0,
+    },
+    index: {
       type: Number,
       default: 0,
     },
@@ -94,19 +98,15 @@ export default defineComponent({
   },
   watch: {
     title (value) {
-      console.log('title changed', value)
       this.newTitle = value
     },
     duration (value) {
-      console.log('duration changed', value)
       this.newDuration = value
     },
     start (value) {
-      console.log('start changed', value)
       this.newStart = this.dateIso(value)
     },
     end (value) {
-      console.log('end changed', value)
       this.newEnd = this.dateIso(value)
     },
   },
@@ -117,7 +117,7 @@ export default defineComponent({
     this.newEnd = this.dateIso(this.end)
   },
   methods: {
-    ...mapActions(useStore, ['selectProject', 'selectStep', 'patchCurrentStepTitle', 'patchCurrentStepDuration']),
+    ...mapActions(useStore, ['moveStep','selectProject', 'selectStep', 'patchCurrentStepTitle', 'patchCurrentStepDuration']),
     dateIso10,
     dateIso (date: string | Date) {
       const newDate = date instanceof Date ? date : new Date(date)
@@ -189,5 +189,13 @@ export default defineComponent({
 .title.active:not(.edit),
 .v-input.title.active:not(.edit) .v-field__input input {
   @apply underline underline-offset-2;
+}
+
+.separator {
+  @apply md:rotate-0 m-2 opacity-50 rotate-90 transition;
+}
+
+.separator.v-icon--clickable {
+  @apply border rounded-full p-4 opacity-100;
 }
 </style>
