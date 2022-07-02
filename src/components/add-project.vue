@@ -6,7 +6,7 @@
         <v-col class="min-w-[20rem]">
           <div class="text-h5 mb-4">New project</div>
           <v-form ref="form" v-model="valid">
-            <v-text-field v-model="title" :rules="requiredRules" autofocus label="Title" required></v-text-field>
+            <v-text-field v-model="title" :rules="requiredRules" :autofocus="open" label="Title" required></v-text-field>
             <v-select v-model="color" :rules="requiredRules" :items="tailwindColors" label="Color" required></v-select>
           </v-form>
         </v-col>
