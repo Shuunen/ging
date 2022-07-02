@@ -9,11 +9,9 @@
       <app-step v-for="(step, index) in processedSteps" :key="'step-' + index" v-bind="step" :index="index" :active="active && (index === activeStepIndex)"
                 :project-id="id" />
     </div>
-    <div v-if="active || steps.length === 0" :class="[active && (steps.length > 0) ? 'sm:hidden' : '']">
-      <v-btn variant="outlined" color="secondary" prepend-icon="mdi-plus" @click="addStepHere">
-        Add step
-      </v-btn>
-    </div>
+    <v-btn v-if="steps.length === 0" variant="outlined" color="secondary" prepend-icon="mdi-plus" @click="addStepHere">
+      Add step
+    </v-btn>
   </v-container>
 </template>
 

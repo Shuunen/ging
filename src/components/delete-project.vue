@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { useStore } from '@/store'
+import { store, useStore } from '@/store'
 import { mapActions, mapState } from 'pinia'
 import { defineComponent } from 'vue'
 
@@ -43,6 +43,9 @@ export default defineComponent({
     open (value) {
       if (value === false) this.$emit('close')
     },
+  },
+  mounted () {
+    store.$onAction(({ name }) => { if (name === 'openDeleteProjectModal') this.open = true })
   },
   methods: {
     ...mapActions(useStore, ['deleteActiveProject']),
