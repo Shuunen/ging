@@ -1,5 +1,5 @@
 <template>
-  <div v-show="debugMode" class="flex flex-row gap-4 my-2">
+  <div v-show="debugMode" class="flex flex-row flex-wrap items-center justify-center gap-4 mt-2 mb-3">
     <div v-for="item in list" :key="'item' + item" class="item">
       <span class="opacity-50">{{ item }} ?</span> <code>{{ (this as any)[item] }}</code>
     </div>
@@ -16,7 +16,7 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   data () {
     return {
-      list: ['activeProjectIndex', 'activeStepIndex', 'editMode'],
+      list: ['activeProjectIndex', 'activeStepIndex'],
     }
   },
   computed: {
