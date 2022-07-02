@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { Step } from '@/models'
-import { useStore } from '@/store'
+import { store, useStore } from '@/store'
 import { requiredRules } from '@/utils/form'
 import { stringToStepData } from '@/utils/step'
 import colors from 'tailwindcss/colors'
@@ -53,6 +53,9 @@ export default defineComponent({
     open (value) {
       if (value === false) this.$emit('close')
     },
+  },
+  mounted () {
+    store.$onAction(({ name }) => { if (name === 'openAddStepModal') this.open = true })
   },
   methods: {
     close () {

@@ -192,7 +192,7 @@ export default defineComponent({
 }
 
 .separator {
-  @apply md:rotate-0 m-2 opacity-50 rotate-90 transition;
+  @apply md:rotate-0 m-4 opacity-50 rotate-90 transition;
 }
 
 .separator.v-icon--clickable {

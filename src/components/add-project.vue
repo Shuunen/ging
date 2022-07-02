@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { Project } from '@/models'
-import { useStore } from '@/store'
+import { store } from '@/store'
 import { requiredRules } from '@/utils/form'
 import colors from 'tailwindcss/colors'
 import { defineComponent } from 'vue'
@@ -41,10 +41,12 @@ export default defineComponent({
       return Object.keys(colors).filter(color => !['transparent', 'inherit', 'current'].includes(color)).sort()
     },
   },
+  mounted () {
+    store.$onAction(({ name }) => { if (name === 'openAddProjectModal') this.open = true })
+  },
   methods: {
     submit () {
       console.log('submit project')
-      const store = useStore()
       store.addProject(new Project({
         title: this.title,
         color: this.color,

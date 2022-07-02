@@ -6,8 +6,12 @@ export const useStore = defineStore('app', {
   state: () => ({
     activeProjectIndex: 0,
     activeStepIndex: 0,
-    editMode: false,
+    addProjectModalOpened: false,
+    addStepModalOpened: false,
     debugMode: false,
+    deleteProjectModalOpened: false,
+    deleteStepModalOpened: false,
+    editMode: false,
     projects: [] as Project[],
   }),
   getters: {
@@ -154,6 +158,20 @@ export const useStore = defineStore('app', {
       }
       throw new Error('Invalid direction : ' + direction)
     },
+    openAddProjectModal () {
+      this.addProjectModalOpened = true
+    },
+    openAddStepModal () {
+      this.addStepModalOpened = true
+    },
+    openDeleteStepModal () {
+      this.deleteStepModalOpened = true
+    },
+    openDeleteProjectModal () {
+      this.deleteProjectModalOpened = true
+    },
   },
   persist: true,
 })
+
+export const store = useStore()
