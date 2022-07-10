@@ -1,5 +1,5 @@
 <template>
-  <v-icon v-if="edit && (index !== 0)" class="separator" @click="moveStep('before')">mdi-swap-horizontal</v-icon>
+  <v-icon v-if="edit && (index !== 0)" class="separator switch" @click="moveStep('before')">mdi-swap-horizontal</v-icon>
   <div ref="step" class="step flex select-none flex-col min-w-[10rem] gap-3 max-w-xs px-2 overflow-hidden text-center" :class="{ edit }"
        @click="selectCurrentStep">
     <v-text-field :id="'step-title-' + id" v-model="newTitle" :tabindex="edit ? 1 : -1" :autofocus="edit" :readonly="!edit" density="compact"
@@ -18,8 +18,8 @@
       {{ end.toLocaleTimeString().replace(/:\d\d$/, '') }}
     </p>
   </div>
-  <v-icon v-if="edit" class="separator" @click="moveStep('after')">mdi-swap-horizontal</v-icon>
-  <v-icon v-else-if="!editMode || (index !== activeStepIndex -1)" class="separator">mdi-chevron-right</v-icon>
+  <v-icon v-if="edit" class="separator switch" @click="moveStep('after')">mdi-swap-horizontal</v-icon>
+  <v-icon v-else-if="!editMode || !projectActive || (index !== activeStepIndex -1)" class="separator">mdi-chevron-right</v-icon>
 </template>
 
 <script lang="ts">
@@ -46,6 +46,10 @@ export default defineComponent({
     projectId: {
       type: Number,
       default: 0,
+    },
+    projectActive: {
+      type: Boolean,
+      default: false,
     },
     title: {
       type: String,
@@ -196,6 +200,9 @@ export default defineComponent({
 }
 
 .separator.v-icon--clickable {
-  @apply border rounded-full p-4 opacity-100;
+  @apply border rounded-full p-4;
+}
+.separator.switch:hover {
+  @apply rotate-180 opacity-100 scale-110;
 }
 </style>
