@@ -4,19 +4,30 @@
     <v-dialog v-model="open" activator="parent">
       <v-card>
         <v-container>
-          <v-col class="flex flex-col gap-4">
-            <h2 class="text-h5">About</h2>
-            <p>This is a simple Vue.js app that allows you to create and manage your own projects.</p>
-            <h2 class="text-h5 sm:block hidden">Keyboard shortcuts</h2>
-            <div class="sm:grid hidden grid-cols-2 gap-2">
-              <div v-for="(description, shortcut) in shortcuts" :key="shortcut" class="shortcut">
-                <code class="px-2 mr-2 text-lg text-black bg-white">{{ shortcut }}</code> {{ description }}
+          <v-col class="flex flex-col gap-8">
+            <h1 class="text-4xl font-thin text-center">GING Is Not Gantt</h1>
+            <div class="section">
+              <h2 class="title">About</h2>
+              <p>This is a simple Vue.js app that allows you to create and manage your own projects.</p>
+              <p>This project is open source and licenced under GPL-3.0.</p>
+              <div class="flex flex-row gap-2">
+                <icon-github class="inline w-6 text-orange-300" />
+                <a class="underline" href="https://github.com/Shuunen/ging">Project & sources on Github</a>
               </div>
             </div>
+            <div class="section sm:flex hidden">
+              <h2 class="title">Keyboard shortcuts</h2>
+              <div class="grid grid-cols-2 gap-2">
+                <div v-for="(description, shortcut) in shortcuts" :key="shortcut" class="shortcut">
+                  <code class="px-2 mr-2 text-lg text-black bg-white">{{ shortcut }}</code> {{ description }}
+                </div>
+              </div>
+            </div>
+            <code class="text-center">Version {{ pkg.version }}</code>
           </v-col>
           <v-card-actions>
             <v-spacer />
-            <v-btn @click="open = false">Ok</v-btn>
+            <v-btn variant="tonal" @click="open = false">Ok</v-btn>
           </v-card-actions>
         </v-container>
       </v-card>
@@ -28,9 +39,13 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import pkg from '../../package.json'
+import IconGithub from './icon-github.vue'
 
 export default defineComponent({
+  components: { IconGithub },
   data: () => ({
+    pkg,
     open: false,
     shortcuts: {
       'Alt + A': 'Add a project',
@@ -45,3 +60,13 @@ export default defineComponent({
   }),
 })
 </script>
+
+<style>
+.section {
+  @apply flex flex-col items-start gap-3;
+}
+
+.section>.title {
+  @apply text-2xl;
+}
+</style>
