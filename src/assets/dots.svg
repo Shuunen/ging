@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <radialGradient id="a" cx="50" cy="50" r="7" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fb923c"/>
+      <stop offset="1" stop-color="transparent"/>
+    </radialGradient>
+    <radialGradient id="b" cx="145.9" cy="51" r="14" gradientTransform="matrix(.64137 0 0 .60268 52 20)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fb923c"/>
+      <stop offset="1" stop-color="transparent"/>
+    </radialGradient>
+    <radialGradient id="c" cx="50.7" cy="167.4" r="14" gradientTransform="matrix(.69808 0 0 .69705 15 51)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fb923c"/>
+      <stop offset="1" stop-color="transparent"/>
+    </radialGradient>
+    <radialGradient id="d" cx="97.2" cy="170.3" r="7" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fb923c"/>
+      <stop offset="1" stop-color="transparent"/>
+    </radialGradient>
+  </defs>
+  <circle cx="50" cy="50" r="7" fill="url(#a)" fill-opacity=".3" paint-order="fill"/>
+  <circle cx="145.9" cy="51" r="14" fill="url(#b)" fill-opacity=".3" transform="translate(4 -1)"/>
+  <circle cx="50.7" cy="167.6" r="14" fill="url(#c)" fill-opacity=".4" transform="translate(-1 -18)"/>
+  <circle cx="97.5" cy="170.5" r="7" fill="url(#d)" fill-opacity=".3" paint-order="fill" transform="translate(53 -21)"/>
+</svg>

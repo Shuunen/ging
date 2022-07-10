@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="projects flex flex-col justify-center h-full">
+  <v-container fluid class="projects flex flex-col justify-center h-full gap-2">
     <p v-if="projects.length === 0" class="text-h6 mt-2 mb-4 text-center">
       No projects yet but you can add one with the above button.
       <v-icon>mdi-arrow-top-right-thin-circle-outline</v-icon>
@@ -54,3 +54,10 @@ export default defineComponent({
   },
 })
 </script>
+
+<style>
+.projects {
+  background-image: url('../assets/bg.svg');
+  @apply bg-cover;
+}
+</style>
