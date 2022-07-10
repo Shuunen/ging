@@ -1,5 +1,5 @@
 <template>
-  <v-btn class="shortcut-trigger" variant="contained-text" size="small" icon color="info">
+  <v-btn class="shortcut-trigger" variant="tonal" size="small" icon color="info">
     <v-icon>mdi-help-circle-outline</v-icon>
     <v-dialog v-model="open" activator="parent">
       <v-card>
