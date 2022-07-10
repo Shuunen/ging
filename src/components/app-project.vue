@@ -1,15 +1,17 @@
 <template>
   <v-container class="project hover:grayscale-0 flex flex-col items-start gap-4 transition duration-300"
-               :class="[active ? 'opacity-100' : 'opacity-80 grayscale']" @click="selectProject(id)">
+               :class="[active ? '' : 'brightness-75 grayscale']" @click="selectProject(id)">
     <div class="flex flex-row items-center cursor-pointer">
       <v-text-field :id="'project-title-' + id" v-model="newTitle" :tabindex="edit ? 1 : -1" :autofocus="edit" :readonly="!edit" density="compact"
                     :variant="edit ? 'outlined' : 'plain'" class="no-details title title-xl" :class="{ active, italic: edit, edit }"
                     :style="{ width: (newTitle.length * .90) + 'ch' }" @change="updateTitle" />
-      <v-icon :class="[active ? 'opacity-100' : 'opacity-0']" class="text-h4 transition-opacity" color="secondary" icon="mdi-chevron-triple-right" />
+      <v-scroll-x-transition>
+        <v-icon v-if="active" class="text-h4" color="secondary" icon="mdi-chevron-triple-right" />
+      </v-scroll-x-transition>
     </div>
     <div v-if="steps.length > 0"
          class="steps sm:rounded-xl bg-gradient-to-br sm:flex-row sm:w-auto flex flex-col items-center w-full max-w-full px-3 py-4 overflow-hidden overflow-x-auto rounded-lg cursor-pointer"
-         :class="[`from-${color}-700`, `to-${color}-900`]">
+         :class="[`from-${color}-700`, `to-${color}-900`, active ? 'shadow-2xl' : 'shadow']">
       <app-step v-for="(step, index) in processedSteps" :key="'step-' + index" v-bind="step" :index="index"
                 :active="active && (index === activeStepIndex)" :project-active="active" :project-id="id" />
     </div>
@@ -94,6 +96,6 @@ export default defineComponent({
 
 .title.title-xl,
 .v-input.title.title-xl .v-field__input input {
-  @apply text-4xl text-left mb-1;
+  @apply text-4xl text-left mb-1 font-light;
 }
 </style>
