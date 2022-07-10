@@ -12,9 +12,9 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-purple-100;
+  @apply bg-gray-300;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-purple-600 border border-current;
+  @apply bg-gray-700;
 }
