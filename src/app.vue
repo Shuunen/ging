@@ -5,10 +5,13 @@
       <app-projects />
     </v-main>
     <v-footer app>
-      <div class="flex flex-col items-center justify-center mx-auto">
-        <app-debug />
-        <span class="text-body-1 mx-auto">GING &copy; {{ new Date().getFullYear() }}</span>
-      </div>
+      <app-footer />
     </v-footer>
   </v-app>
 </template>
+
+<style>
+.v-footer {
+  @apply p-0;
+}
+</style>

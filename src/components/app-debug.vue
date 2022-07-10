@@ -1,5 +1,5 @@
 <template>
-  <div v-show="debugMode" class="flex flex-row flex-wrap items-center justify-center gap-4 mt-2 mb-3">
+  <div class="flex flex-row flex-wrap items-center justify-center gap-4 mt-2 mb-3">
     <div v-for="item in list" :key="'item' + item" class="item">
       <span class="opacity-50">{{ item }} ?</span> <code>{{ (this as any)[item] }}</code>
     </div>
@@ -11,7 +11,6 @@
 import { useStore } from '@/store'
 import { mapActions, mapState } from 'pinia'
 import { defineComponent } from 'vue'
-
 
 export default defineComponent({
   data () {
