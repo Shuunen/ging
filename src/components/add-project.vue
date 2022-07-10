@@ -1,11 +1,11 @@
 <template>
-  <v-btn variant="outlined" color="secondary" prepend-icon="mdi-plus" @click="open = true">Add project</v-btn>
+  <v-btn variant="tonal" color="secondary" prepend-icon="mdi-plus" @click="open = true">Add project</v-btn>
   <v-dialog v-model="open">
     <v-card>
       <v-container>
         <v-col class="min-w-[20rem]">
           <div class="text-h5 mb-4">New project</div>
-          <v-form ref="form" v-model="valid">
+          <v-form ref="form">
             <v-text-field v-model="title" :rules="requiredRules" :autofocus="open" label="Title" required></v-text-field>
             <v-select v-model="color" :rules="requiredRules" :items="tailwindColors" label="Color" required></v-select>
           </v-form>
@@ -13,7 +13,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn variant="plain" @click="open = false">Cancel</v-btn>
-          <v-btn :disabled="!valid" variant="contained" color="primary" @click="submit()">Add</v-btn>
+          <v-btn :disabled="(title.length === 0) || (color.length === 0)" variant="elevated" color="primary" @click="submit()">Add</v-btn>
         </v-card-actions>
       </v-container>
     </v-card>
@@ -31,7 +31,6 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   data: () => ({
     open: false,
-    valid: false,
     title: '',
     color: '',
     requiredRules,

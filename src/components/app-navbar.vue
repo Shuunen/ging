@@ -1,7 +1,7 @@
 <template>
   <v-app-bar app>
     <v-container>
-      <v-row class="items-center">
+      <v-row class="items-center pt-0.5">
         <div class="flex flex-row gap-2">
           <h1 class="text-h4 sm:hidden ml-2">G</h1>
           <h1 class="text-h4 sm:block hidden ml-2">GING</h1>
