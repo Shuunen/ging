@@ -2,10 +2,10 @@
   <v-app-bar app>
     <v-container>
       <v-row class="items-center pt-0.5">
-        <div class="flex flex-row gap-2">
+        <div class="flex flex-row gap-2 pt-1">
           <h1 class="text-h4 sm:hidden ml-2">G</h1>
           <h1 class="text-h4 sm:block hidden ml-2">GING</h1>
-          <v-icon class="text-h4" color="secondary" icon="mdi-chevron-triple-right" />
+          <v-icon v-if="!activeProject" class="text-h4" color="secondary" icon="mdi-chevron-triple-right" />
         </div>
         <div class="ml-auto"></div>
         <div class="sm:flex hidden gap-4">
@@ -30,7 +30,7 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   computed: {
-    ...mapState(useStore, ['editMode']),
+    ...mapState(useStore, ['editMode', 'activeProject']),
   },
 })
 </script>

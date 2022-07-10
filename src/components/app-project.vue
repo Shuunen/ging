@@ -1,13 +1,17 @@
 <template>
-  <v-container class="project flex flex-col items-start gap-4" @click="selectProject(id)">
-    <v-text-field :id="'project-title-' + id" v-model="newTitle" :tabindex="edit ? 1 : -1" :autofocus="edit" :readonly="!edit" density="compact"
-                  :variant="edit ? 'outlined' : 'plain'" class="no-details title title-xl" :class="{ active, italic: edit, edit }"
-                  :style="{ width: (newTitle.length * .95) + 'ch' }" @change="updateTitle" />
+  <v-container class="project hover:grayscale-0 flex flex-col items-start gap-4 transition duration-300"
+               :class="[active ? 'opacity-100' : 'opacity-80 grayscale']" @click="selectProject(id)">
+    <div class="flex flex-row items-center cursor-pointer">
+      <v-text-field :id="'project-title-' + id" v-model="newTitle" :tabindex="edit ? 1 : -1" :autofocus="edit" :readonly="!edit" density="compact"
+                    :variant="edit ? 'outlined' : 'plain'" class="no-details title title-xl" :class="{ active, italic: edit, edit }"
+                    :style="{ width: (newTitle.length * .90) + 'ch' }" @change="updateTitle" />
+      <v-icon :class="[active ? 'opacity-100' : 'opacity-0']" class="text-h4 transition-opacity" color="secondary" icon="mdi-chevron-triple-right" />
+    </div>
     <div v-if="steps.length > 0"
-         class="steps sm:rounded-xl bg-gradient-to-br sm:flex-row sm:w-auto flex flex-col items-center w-full max-w-full px-3 py-4 overflow-hidden overflow-x-auto rounded-lg"
+         class="steps sm:rounded-xl bg-gradient-to-br sm:flex-row sm:w-auto flex flex-col items-center w-full max-w-full px-3 py-4 overflow-hidden overflow-x-auto rounded-lg cursor-pointer"
          :class="[`from-${color}-700`, `to-${color}-900`]">
-      <app-step v-for="(step, index) in processedSteps" :key="'step-' + index" v-bind="step" :index="index" :active="active && (index === activeStepIndex)"
-                :project-id="id" />
+      <app-step v-for="(step, index) in processedSteps" :key="'step-' + index" v-bind="step" :index="index"
+                :active="active && (index === activeStepIndex)" :project-active="active" :project-id="id" />
     </div>
     <v-btn v-if="steps.length === 0" variant="outlined" color="secondary" prepend-icon="mdi-plus" @click="addStepHere">
       Add step
