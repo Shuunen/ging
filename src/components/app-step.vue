@@ -190,8 +190,8 @@ export default defineComponent({
   @apply p-0;
 }
 
-.title.active:not(.edit),
-.v-input.title.active:not(.edit) .v-field__input input {
+.step .title.active:not(.edit),
+.step .v-input.title.active:not(.edit) .v-field__input input {
   @apply underline underline-offset-2;
 }
 
