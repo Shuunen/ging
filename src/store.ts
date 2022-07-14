@@ -62,9 +62,18 @@ export const useStore = defineStore('app', {
     },
     selectPrevStep () {
       this.activeStepIndex = (this.activeStepIndex - 1 < 0) ? (this.projects[this.activeProjectIndex].steps.length - 1) : this.activeStepIndex - 1
+      this.scrollToStep()
     },
     selectNextStep () {
       this.activeStepIndex = (this.activeStepIndex + 1 >= this.projects[this.activeProjectIndex].steps.length) ? 0 : this.activeStepIndex + 1
+      this.scrollToStep()
+    },
+    scrollToStep () {
+      if (!this.activeStep) return console.log('Cannot scroll to step without an active step')
+      const stepElement = document.querySelector(`#step-${this.activeStep.id}`)
+      if (!stepElement) return console.log('Cannot scroll to step without an dom element')
+      console.log('scrolling to step', stepElement)
+      stepElement.scrollIntoView({ behavior: 'smooth' })
     },
     selectProject (projectId: number) {
       this.activeProjectIndex = this.projects.findIndex(p => p.id === projectId)

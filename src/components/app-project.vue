@@ -10,7 +10,7 @@
       </v-scroll-x-transition>
     </div>
     <div v-if="steps.length > 0"
-         class="steps sm:rounded-xl bg-gradient-to-br sm:flex-row sm:w-auto flex flex-col items-center w-full max-w-full px-3 py-4 overflow-hidden overflow-x-auto rounded-lg cursor-pointer"
+         class="steps sm:rounded-xl bg-gradient-to-br sm:flex-row sm:w-auto flex flex-col items-center w-full max-w-full py-4 overflow-hidden overflow-x-auto rounded-lg cursor-pointer"
          :class="[`from-${color}-700`, `to-${color}-900`, active ? 'shadow-2xl' : 'shadow']">
       <app-step v-for="(step, index) in processedSteps" :key="'step-' + index" v-bind="step" :index="index"
                 :active="active && (index === activeStepIndex)" :project-active="active" :project-id="id" />
@@ -92,6 +92,14 @@ export default defineComponent({
 <style>
 .steps>.separator:last-child {
   @apply hidden;
+}
+
+.steps>.step:first-of-type {
+  @apply pl-6;
+}
+
+.steps>.step:last-of-type {
+  @apply pr-6;
 }
 
 .title.title-xl,
