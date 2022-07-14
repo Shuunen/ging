@@ -1,5 +1,6 @@
 import { Project, Step } from '@/models'
 import { defineStore } from 'pinia'
+import { sleep } from 'shuutils'
 import { stringToStepData, stringToStepDuration } from './utils/step'
 
 export const useStore = defineStore('app', {
@@ -32,6 +33,8 @@ export const useStore = defineStore('app', {
     deleteActiveStep () {
       const project = this.projects[this.activeProjectIndex]
       project.steps.splice(this.activeStepIndex, 1)
+      this.preventStepIndexOverflow()
+      this.scrollToStep()
     },
     deleteActiveProject () {
       this.projects.splice(this.activeProjectIndex, 1)
@@ -45,7 +48,7 @@ export const useStore = defineStore('app', {
       if (!project) throw new Error(`Project at index ${this.activeProjectIndex} not found`)
       if (this.activeStepIndex === project.steps.length - 1) project.steps.push(step)
       else project.steps.splice(this.activeStepIndex + 1, 0, step)
-      this.selectNextStep()
+      sleep(100).then(() => this.selectNextStep())
     },
     preventStepIndexOverflow () {
       const maxStepIndex = this.projects[this.activeProjectIndex].steps.length - 1
@@ -74,7 +77,7 @@ export const useStore = defineStore('app', {
       const stepElement = document.querySelector(`#step-${this.activeStep.id}`)
       if (!stepElement) return console.log('Cannot scroll to step without an dom element')
       console.log('scrolling to step', stepElement)
-      stepElement.scrollIntoView({ behavior: 'smooth' })
+      sleep(100).then(() => stepElement.scrollIntoView({ behavior: 'smooth' }))
     },
     selectProject (projectId: number) {
       this.activeProjectIndex = this.projects.findIndex(p => p.id === projectId)
