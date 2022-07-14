@@ -80,14 +80,13 @@ export const useStore = defineStore('app', {
       this.activeProjectIndex = this.projects.findIndex(p => p.id === projectId)
     },
     selectStep (stepId: number) {
-      const project = this.projects[this.activeProjectIndex]
-      this.activeStepIndex = project.steps.findIndex(s => s.id === stepId)
+      if (!this.activeProject) return console.log('Cannot select step without an active project')
+      this.activeStepIndex = this.activeProject.steps.findIndex(s => s.id === stepId)
     },
     patchCurrentStepTitle (title: string) {
+      if (!this.activeStep) return console.warn('Cannot patch step title without an active step')
       if (title.length === 0) return console.warn('Title cannot be empty')
-      const project = this.projects[this.activeProjectIndex]
-      const step = project.steps[this.activeStepIndex]
-      if (!step) throw new Error(`Step at index ${this.activeStepIndex} not found`)
+      const step = this.activeStep
       try {
         const data = stringToStepData(title)
         // if data contains title & one duration, clear the step duration
@@ -101,15 +100,13 @@ export const useStore = defineStore('app', {
       }
     },
     patchCurrentStepDuration (duration: string) {
-      const project = this.projects[this.activeProjectIndex]
-      const step = project.steps[this.activeStepIndex]
-      if (!step) throw new Error(`Step at index ${this.activeStepIndex} not found`)
+      if (!this.activeStep) return console.warn('Cannot patch step duration without an active step')
       try {
         const data = stringToStepDuration(duration)
         // if data contains one duration, clear the step duration
-        if (Object.keys(data).length > 0) this.clearStepDurations(step)
+        if (Object.keys(data).length > 0) this.clearStepDurations(this.activeStep)
         console.log('updating step with data', data)
-        Object.assign(step, data)
+        Object.assign(this.activeStep, data)
       } catch (error) {
         if (error instanceof Error) console.error(error.message)
       }
