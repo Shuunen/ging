@@ -9,9 +9,9 @@
                   :style="{ width: newDuration.length + 5 + 'ch' }" @change="updateDuration" />
 
     <v-text-field v-if="edit" v-model="newStart" :tabindex="edit ? 1 : -1" class="no-details mx-auto" type="datetime-local" density="compact"
-                  variant="outlined" @change="calcDuration" />
+                  variant="outlined" @change="updateStart" />
     <v-text-field v-if="edit" v-model="newEnd" :tabindex="edit ? 1 : -1" class="no-details mx-auto" type="datetime-local" density="compact" variant="outlined"
-                  @change="calcDuration" />
+                  @change="updateEnd" />
     <p v-else class="date-end whitespace-nowrap opacity-60 text-white">
       {{ end.toLocaleDateString() }} <br />
       {{ end.toLocaleTimeString().replace(/:\d\d$/, '') }}
@@ -25,7 +25,7 @@
 import { useStore } from '@/store'
 import { durationBetweenDates } from '@/utils/step'
 import { mapActions, mapState } from 'pinia'
-import { dateIso10 } from 'shuutils'
+import { dateToIsoString } from 'shuutils'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -99,7 +99,7 @@ export default defineComponent({
       return this.editMode && this.active
     },
     stepWidth () {
-      return Math.min(Math.max(this.newTitle.length + 6, (this.edit && this.active) ? 20 : 12), 40) + 'ch'
+      return Math.min(Math.max(Math.max(this.newTitle.length, this.newDuration.length) + 8, (this.edit && this.active) ? 22 : 14), 40) + 'ch'
     },
   },
   watch: {
@@ -123,11 +123,11 @@ export default defineComponent({
     this.newEnd = this.dateIso(this.end)
   },
   methods: {
-    ...mapActions(useStore, ['moveStep','selectProject', 'selectStep', 'patchCurrentStepTitle', 'patchCurrentStepDuration']),
-    dateIso10,
+    ...mapActions(useStore, ['moveStep','selectProject', 'selectStep', 'patchCurrentStepTitle', 'patchCurrentStepDuration','patchCurrentStepStart']),
     dateIso (date: string | Date) {
       const newDate = date instanceof Date ? date : new Date(date)
-      return newDate.toISOString().slice(0, 16)
+      const result = dateToIsoString(newDate,true).slice(0, 16)
+      return result
     },
     selectCurrentStep (event?: Event) {
       if (event !== undefined) event.stopPropagation()
@@ -148,11 +148,17 @@ export default defineComponent({
       this.selectCurrentStep()
       this.patchCurrentStepDuration(target.value)
     },
-    calcDuration () {
+    updateStart () {
+      const start = new Date(this.newStart)
+      console.log(`update step start from "${this.newStart}" to "${start}"`)
+      this.selectCurrentStep()
+      this.patchCurrentStepStart(start)
+    },
+    updateEnd () {
       const start = new Date(this.newStart)
       const end = new Date(this.newEnd)
       const duration = durationBetweenDates(start, end)
-      console.log('new duration :', duration)
+      console.log('update end via new duration :', duration)
       this.selectCurrentStep()
       this.patchCurrentStepDuration(duration)
     },
