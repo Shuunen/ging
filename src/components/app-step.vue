@@ -1,17 +1,16 @@
 <template>
   <v-icon v-if="edit && (index !== 0)" class="separator switch" @click="moveStep('before')">mdi-swap-horizontal</v-icon>
-  <div ref="step" class="step flex select-none flex-col min-w-[10rem] gap-3 max-w-xs px-2 overflow-hidden text-center" :class="{ edit }"
-       @click="selectCurrentStep">
+  <div :id="'step-'+id" ref="step" class="step" :class="{ edit }" :style="{ width: stepWidth }" @click="selectCurrentStep">
     <v-text-field :id="'step-title-' + id" v-model="newTitle" :tabindex="edit ? 1 : -1" :autofocus="edit" :readonly="!edit" density="compact"
-                  :variant="edit ? 'outlined' : 'plain'" class="no-details title mx-auto" :class="{ active, italic: edit, edit }"
-                  :style="{ width: (newTitle.length * .95) + 'ch' }" @change="updateTitle" />
+                  :variant="edit ? 'outlined' : 'plain'" class="no-details title w-full mx-auto" :class="{ active, italic: edit, edit }"
+                  @change="updateTitle" />
     <v-text-field v-model="newDuration" :tabindex="edit ? 1 : -1" :readonly="!edit" density="compact" prepend-icon="mdi-clock-outline"
                   :variant="edit ? 'outlined' : 'plain'" class="no-details duration mx-auto select-none" :class="{ active, italic: edit, edit }"
                   :style="{ width: newDuration.length + 5 + 'ch' }" @change="updateDuration" />
 
-    <v-text-field v-if="edit" v-model="newStart" :tabindex="edit ? 1 : -1" class="no-details" type="datetime-local" density="compact"
+    <v-text-field v-if="edit" v-model="newStart" :tabindex="edit ? 1 : -1" class="no-details mx-auto" type="datetime-local" density="compact"
                   variant="outlined" @change="calcDuration" />
-    <v-text-field v-if="edit" v-model="newEnd" :tabindex="edit ? 1 : -1" class="no-details" type="datetime-local" density="compact" variant="outlined"
+    <v-text-field v-if="edit" v-model="newEnd" :tabindex="edit ? 1 : -1" class="no-details mx-auto" type="datetime-local" density="compact" variant="outlined"
                   @change="calcDuration" />
     <p v-else class="date-end whitespace-nowrap opacity-60 text-white">
       {{ end.toLocaleDateString() }} <br />
@@ -99,6 +98,9 @@ export default defineComponent({
     edit () {
       return this.editMode && this.active
     },
+    stepWidth () {
+      return Math.min(Math.max(this.newTitle.length + 6, (this.edit && this.active) ? 20 : 12), 40) + 'ch'
+    },
   },
   watch: {
     title (value) {
@@ -159,6 +161,10 @@ export default defineComponent({
 </script>
 
 <style>
+.step {
+  @apply flex flex-col gap-3 px-2 flex-shrink-0 text-center select-none;
+}
+
 .step.edit {
   @apply sepia;
 }
@@ -202,6 +208,7 @@ export default defineComponent({
 .separator.v-icon--clickable {
   @apply border rounded-full p-4;
 }
+
 .separator.switch:hover {
   @apply rotate-180 opacity-100 scale-110;
 }
