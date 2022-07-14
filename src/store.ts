@@ -45,6 +45,7 @@ export const useStore = defineStore('app', {
       if (!project) throw new Error(`Project at index ${this.activeProjectIndex} not found`)
       if (this.activeStepIndex === project.steps.length - 1) project.steps.push(step)
       else project.steps.splice(this.activeStepIndex + 1, 0, step)
+      this.selectNextStep()
     },
     preventStepIndexOverflow () {
       const maxStepIndex = this.projects[this.activeProjectIndex].steps.length - 1
