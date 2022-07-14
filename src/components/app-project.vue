@@ -26,6 +26,7 @@ import { Step } from '@/models'
 import { useStore } from '@/store'
 import { processStepsDurations } from '@/utils/step'
 import { mapActions, mapState } from 'pinia'
+import { sleep } from 'shuutils'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -73,9 +74,10 @@ export default defineComponent({
   },
   mounted () {
     this.newTitle = this.title
+    if (this.active) sleep(100).then(() => this.scrollToStep())
   },
   methods: {
-    ...mapActions(useStore, ['selectProject', 'deleteProject', 'patchCurrentProjectTitle']),
+    ...mapActions(useStore, ['selectProject', 'deleteProject', 'patchCurrentProjectTitle', 'scrollToStep']),
     addStepHere () {
       console.log('add step here')
       this.selectProject(this.id)
