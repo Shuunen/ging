@@ -6,7 +6,7 @@
         <v-container>
           <v-col class="flex flex-col gap-8">
             <h1 class="text-4xl font-thin text-center">GING Is Not Gantt</h1>
-            <div class="section">
+            <div class="section flex">
               <h2 class="title">About</h2>
               <p>This is a simple Vue.js app that allows you to create and manage your own projects.</p>
               <p>This project is open source and licenced under GPL-3.0.</p>
@@ -15,7 +15,7 @@
                 <a class="underline" href="https://github.com/Shuunen/ging">Project & sources on Github</a>
               </div>
             </div>
-            <div class="section sm:flex hidden">
+            <div class="section md:flex hidden">
               <h2 class="title">Keyboard shortcuts</h2>
               <div class="grid grid-cols-2 gap-2">
                 <div v-for="(description, shortcut) in shortcuts" :key="shortcut" class="shortcut">
@@ -23,7 +23,7 @@
                 </div>
               </div>
             </div>
-            <code class="text-center">Version {{ pkg.version }}</code>
+            <code class="text-center">__unique-mark__</code>
           </v-col>
           <v-card-actions>
             <v-spacer />
@@ -63,7 +63,7 @@ export default defineComponent({
 
 <style>
 .section {
-  @apply flex flex-col items-start gap-3;
+  @apply flex-col items-start gap-3;
 }
 
 .section>.title {
