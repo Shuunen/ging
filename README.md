@@ -11,6 +11,9 @@
 
 - [ ] limit fonts used in src\plugins\webfontloader.ts
 - [ ] data from & to url
+- [ ] remote storage
+- [ ] floating plus button that dynamically add project/step
+- [ ] refresh button to clear cache & get latest version
 
 ## Thanks
 
