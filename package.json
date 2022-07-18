@@ -23,7 +23,7 @@
     "@vue/eslint-config-typescript": "11",
     "c8": "7",
     "eslint": "8.20",
-    "eslint-plugin-html": "6",
+    "eslint-plugin-html": "7",
     "eslint-plugin-unicorn": "43",
     "eslint-plugin-vue": "9",
     "module-alias": "2",
