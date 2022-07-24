@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { Step } from '@/models'
+import type { Step } from '@/models'
 import { useStore } from '@/store'
 import { processStepsDurations } from '@/utils/step'
 import { mapActions, mapState } from 'pinia'

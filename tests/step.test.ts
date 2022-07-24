@@ -1,8 +1,8 @@
 import { Step } from '@/models'
 import { durationBetweenDates, processStepsDurations, stepToHumanDuration, stepToString, stringToStepData, stringToStepDuration } from '@/utils/step'
+import { check } from 'shuutils'
 import { test } from 'uvu'
 import { throws } from 'uvu/assert'
-import { check } from './utils'
 
 check('stepToString A', stepToString(new Step({ title: 'A', days: 1, hours: 0 })), 'A, 1 day')
 check('stepToString B', stepToString(new Step({ title: 'B', days: 0, hours: 1 })), 'B, 1 hour')
@@ -34,18 +34,19 @@ check('stepToHumanDuration B', stepToHumanDuration(new Step({ title: 'B', days: 
 check('stepToHumanDuration C', stepToHumanDuration(new Step({ title: 'C', days: 3 })), '3 days')
 check('stepToHumanDuration D without duration', stepToHumanDuration(new Step({ title: 'D' })), '')
 
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 const steps = [new Step({ start: new Date('2020-01-01'), days: 2 }), new Step({ minutes: 3 })]
 const processedA = processStepsDurations(steps)
-check('processStepsDurations A', processedA[0].duration, '2 days')
-check('processStepsDurations B', processedA[1].duration, '3 minutes')
-check('processStepsDurations C', processedA[0].end, new Date('2020-01-03'))
-check('processStepsDurations D', processedA[1].end, new Date('2020-01-03T00:03:00.000Z'))
+check('processStepsDurations A', processedA[0]!.duration, '2 days')
+check('processStepsDurations B', processedA[1]!.duration, '3 minutes')
+check('processStepsDurations C', processedA[0]!.end, new Date('2020-01-03'))
+check('processStepsDurations D', processedA[1]!.end, new Date('2020-01-03T00:03:00.000Z'))
 
 const stepsWithoutStart = [new Step({ months: 2 }), new Step({ hours: 3 }), new Step({ weeks: 4 })]
 const processedB = processStepsDurations(stepsWithoutStart)
-check('processStepsDurations E', processedB[0].duration, '2 months')
-check('processStepsDurations F', processedB[1].duration, '3 hours')
-
+check('processStepsDurations E', processedB[0]!.duration, '2 months')
+check('processStepsDurations F', processedB[1]!.duration, '3 hours')
+/* eslint-enable @typescript-eslint/no-non-null-assertion */
 
 check('durationBetweenDates 0 second', durationBetweenDates(new Date('2020-01-01'), new Date('2020-01-01')), '0 second')
 check('durationBetweenDates 1 second', durationBetweenDates(new Date('2020-01-01'), new Date('2020-01-01T00:00:01.000Z')), '1 second')
@@ -61,4 +62,4 @@ check('durationBetweenDates 2 months', durationBetweenDates(new Date('2020-01-01
 check('durationBetweenDates 1 year', durationBetweenDates(new Date('2020-01-01'), new Date('2021-01-01T00:00:00.000Z')), '1 year')
 check('durationBetweenDates 2 years', durationBetweenDates(new Date('2020-01-01'), new Date('2022-01-01T00:00:00.000Z')), '2 years')
 
-check.done()
+check.run()

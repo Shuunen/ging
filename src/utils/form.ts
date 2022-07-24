@@ -1,3 +1,3 @@
 export const requiredRules = [
-  (v: string) => !!v || 'Please fill out this field',
+  (v: string): true | string => !!v || 'Please fill out this field',
 ]

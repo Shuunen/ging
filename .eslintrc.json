@@ -1,5 +1,4 @@
 {
-  "root": true,
   "env": {
     "node": true
   },
@@ -16,6 +15,7 @@
     "html",
     "unicorn"
   ],
+  "root": true,
   "rules": {
     "@typescript-eslint/brace-style": [
       "error",
@@ -24,6 +24,7 @@
         "allowSingleLine": true
       }
     ],
+    "@typescript-eslint/explicit-function-return-type": "error",
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
@@ -73,14 +74,8 @@
       "error",
       "always"
     ],
-    "vue/max-attributes-per-line": "off",
     "unicorn/no-array-for-each": "off",
-    "vue/html-self-closing": "off",
-    "vue/html-closing-bracket-newline": "off",
-    "vue/first-attribute-linebreak": "off",
     "unicorn/no-process-exit": "off",
-    "vue/no-multiple-template-root": "off",
-    "vue/singleline-html-element-content-newline": "off",
     "unicorn/prefer-module": "off",
     "unicorn/prefer-node-protocol": "off",
     "unicorn/prefer-switch": "off",
@@ -93,6 +88,12 @@
           "str": true
         }
       }
-    ]
+    ],
+    "vue/first-attribute-linebreak": "off",
+    "vue/html-closing-bracket-newline": "off",
+    "vue/html-self-closing": "off",
+    "vue/max-attributes-per-line": "off",
+    "vue/no-multiple-template-root": "off",
+    "vue/singleline-html-element-content-newline": "off"
   }
 }
