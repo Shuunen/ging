@@ -1,4 +1,4 @@
-import { Project, Step } from '@/models'
+import type { Project, Step } from '@/models'
 import { defineStore } from 'pinia'
 import { sleep } from 'shuutils'
 import { stringToStepData, stringToStepDuration } from './utils/step'
@@ -21,6 +21,7 @@ export const useStore = defineStore('app', {
     },
     activeStep: (state): Step | undefined => {
       const project = state.projects[state.activeProjectIndex]
+      if (!project) return undefined
       const step = project.steps[state.activeStepIndex]
       if (!step) return undefined
       return step
@@ -32,6 +33,7 @@ export const useStore = defineStore('app', {
     },
     deleteActiveStep () {
       const project = this.projects[this.activeProjectIndex]
+      if (!project) return console.error('cannot delete step: no active project')
       project.steps.splice(this.activeStepIndex, 1)
       this.preventStepIndexOverflow()
       this.scrollToStep()
@@ -51,7 +53,8 @@ export const useStore = defineStore('app', {
       sleep(100).then(() => this.selectNextStep())
     },
     preventStepIndexOverflow () {
-      const maxStepIndex = this.projects[this.activeProjectIndex].steps.length - 1
+      if (!this.activeProject) return
+      const maxStepIndex = this.activeProject.steps.length - 1
       if (this.activeStepIndex > maxStepIndex) this.activeStepIndex = maxStepIndex
       const minStepIndex = 0
       if (this.activeStepIndex < minStepIndex) this.activeStepIndex = minStepIndex
@@ -65,11 +68,13 @@ export const useStore = defineStore('app', {
       this.preventStepIndexOverflow()
     },
     selectPrevStep () {
-      this.activeStepIndex = (this.activeStepIndex - 1 < 0) ? (this.projects[this.activeProjectIndex].steps.length - 1) : this.activeStepIndex - 1
+      if (!this.activeProject) return
+      this.activeStepIndex = (this.activeStepIndex - 1 < 0) ? (this.activeProject.steps.length - 1) : this.activeStepIndex - 1
       this.scrollToStep()
     },
     selectNextStep () {
-      this.activeStepIndex = (this.activeStepIndex + 1 >= this.projects[this.activeProjectIndex].steps.length) ? 0 : this.activeStepIndex + 1
+      if (!this.activeProject) return
+      this.activeStepIndex = (this.activeStepIndex + 1 >= this.activeProject.steps.length) ? 0 : this.activeStepIndex + 1
       this.scrollToStep()
     },
     scrollToStep () {
@@ -125,11 +130,11 @@ export const useStore = defineStore('app', {
       project.title = title
     },
     clearStepDurations (step: Step) {
-      step.months = undefined
-      step.weeks = undefined
-      step.days = undefined
-      step.hours = undefined
-      step.minutes = undefined
+      delete step.months
+      delete step.weeks
+      delete step.days
+      delete step.hours
+      delete step.minutes
     },
     toggleEditMode () {
       this.editMode = !this.editMode
@@ -155,6 +160,7 @@ export const useStore = defineStore('app', {
     },
     moveStep (direction: 'before' | 'after') {
       const project = this.projects[this.activeProjectIndex]
+      if (!project) throw new Error(`Project at index ${this.activeProjectIndex} not found`)
       const step = project.steps[this.activeStepIndex]
       if (!step) throw new Error(`Step at index ${this.activeStepIndex} not found`)
       const index = project.steps.indexOf(step)

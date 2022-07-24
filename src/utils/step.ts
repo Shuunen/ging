@@ -3,7 +3,7 @@ import { Step } from '@/models'
 
 export const units = ['month', 'week', 'day', 'hour', 'minute']
 
-export const stepToString = (step: Step) => {
+export const stepToString = (step: Step): string | undefined => {
   const unit = units.find(unit => Boolean(step[(unit + 's') as keyof Step]))
   const value = step[(unit + 's') as keyof Step] as number
   if (!value) return step.title
@@ -15,7 +15,7 @@ export const titleWithDurationRegex = /([^,]*)[\s,]+(\d+\s?[a-z]+)/
 
 export const stringToStepData = (input: string): Partial<Step> => {
   if (titleWithDurationRegex.test(input) === false) throw new Error('Invalid title with duration string ' + input)
-  const [, title, duration] = titleWithDurationRegex.exec(input) as string[]
+  const [, title = '', duration = ''] = titleWithDurationRegex.exec(input) ?? []
   const step: Partial<Step> = { title: title.trim() }
   Object.assign(step, stringToStepDuration(duration))
   return step
@@ -25,7 +25,7 @@ export const durationRegex = /(\d+)\s?([a-z]+)/
 
 export const stringToStepDuration = (input: string): Partial<Step> => {
   if (durationRegex.test(input) === false) throw new Error('Invalid duration string : ' + input)
-  const [, duration, unitInput] = durationRegex.exec(input) as string[]
+  const [, duration = '', unitInput = ''] = durationRegex.exec(input) ?? []
   const unitSingular = unitInput.endsWith('s') ? unitInput.slice(0, -1) : unitInput
   const unit = units.find(unit => unit.startsWith(unitSingular)) ?? ''
   if (unit === '') throw new Error('Invalid step unit : ' + unitInput)
@@ -33,7 +33,7 @@ export const stringToStepDuration = (input: string): Partial<Step> => {
   return { [unit + 's' as keyof Step]: value }
 }
 
-export const stepToHumanDuration = (step: Step) => {
+export const stepToHumanDuration = (step: Step): string => {
   const unit = units.find(unit => Boolean(step[(unit + 's') as keyof Step]))
   const value = step[(unit + 's') as keyof Step] as number
   if (!value) return ''
@@ -57,7 +57,7 @@ export const processStepsDurations = (steps: Step[]): Step[] => {
   })
 }
 
-export const durationBetweenDates = (start: Date, end: Date) => {
+export const durationBetweenDates = (start: Date, end: Date): string => {
   const ms = end.getTime() - start.getTime()
   const seconds = Math.floor(ms / 1000)
   const minutes = Math.floor(seconds / 60)
