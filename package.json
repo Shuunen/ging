@@ -45,7 +45,7 @@
     "watchlist": "0",
     "webfontloader": "1",
     "webpack": "5",
-    "webpack-plugin-vuetify": "2.0.0-alpha.11"
+    "webpack-plugin-vuetify": "2.0.0-alpha.12"
   },
   "files": [
     "src"
