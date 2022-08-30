@@ -105,7 +105,7 @@ export default defineComponent({
 }
 
 .title.title-xl,
-.v-input.title.title-xl .v-field__input input {
+.v-input.title.title-xl .v-field__input {
   @apply text-4xl text-left mb-1 font-light;
 }
 </style>
