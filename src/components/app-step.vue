@@ -1,24 +1,40 @@
 <template>
-  <v-icon v-if="edit && (index !== 0)" class="separator switch" @click="moveStep('before')">mdi-swap-horizontal</v-icon>
-  <div :id="'step-'+id" ref="step" class="step" :class="{ edit }" :style="{ width: stepWidth }" @click="selectCurrentStep">
-    <v-text-field :id="'step-title-' + id" v-model="newTitle" :tabindex="edit ? 1 : -1" :autofocus="edit" :readonly="!edit" density="compact"
-                  :variant="edit ? 'outlined' : 'plain'" class="no-details title w-full mx-auto" :class="{ active, italic: edit, edit }"
-                  @change="updateTitle" />
-    <v-text-field v-model="newDuration" :tabindex="edit ? 1 : -1" :readonly="!edit" density="compact" prepend-icon="mdi-clock-outline"
-                  :variant="edit ? 'outlined' : 'plain'" class="no-details duration mx-auto select-none" :class="{ active, italic: edit, edit }"
-                  :style="{ width: newDuration.length + 5 + 'ch' }" @change="updateDuration" />
+  <v-icon v-if="edit && index !== 0" class="separator switch" @click="moveStep('before')">mdi-swap-horizontal</v-icon>
+  <div :id="'step-' + id" ref="step" class="step" :class="{ edit }" :style="{ width: stepWidth }" @click="selectCurrentStep">
+    <v-text-field
+      :id="'step-title-' + id"
+      v-model="newTitle"
+      :tabindex="edit ? 1 : -1"
+      :autofocus="edit"
+      :readonly="!edit"
+      density="compact"
+      :variant="edit ? 'outlined' : 'plain'"
+      class="no-details title w-full mx-auto"
+      :class="{ active, italic: edit, edit }"
+      @change="updateTitle"
+    />
+    <v-text-field
+      v-model="newDuration"
+      :tabindex="edit ? 1 : -1"
+      :readonly="!edit"
+      density="compact"
+      prepend-icon="mdi-clock-outline"
+      :variant="edit ? 'outlined' : 'plain'"
+      class="no-details duration mx-auto select-none"
+      :class="{ active, italic: edit, edit }"
+      :style="{ width: newDuration.length + 5 + 'ch' }"
+      @change="updateDuration"
+    />
 
-    <v-text-field v-if="edit" v-model="newStart" :tabindex="edit ? 1 : -1" class="no-details mx-auto" type="datetime-local" density="compact"
-                  variant="outlined" @change="updateStart" />
-    <v-text-field v-if="edit" v-model="newEnd" :tabindex="edit ? 1 : -1" class="no-details mx-auto" type="datetime-local" density="compact" variant="outlined"
-                  @change="updateEnd" />
+    <v-text-field v-if="edit" v-model="newStart" :tabindex="edit ? 1 : -1" class="no-details mx-auto" type="datetime-local" density="compact" variant="outlined" @change="updateStart" />
+    <v-text-field v-if="edit" v-model="newEnd" :tabindex="edit ? 1 : -1" class="no-details mx-auto" type="datetime-local" density="compact" variant="outlined" @change="updateEnd" />
     <p v-else class="date-end whitespace-nowrap opacity-60 text-white">
       {{ end.toLocaleDateString() }} <br />
-      {{ end.toLocaleTimeString().replace(/:\d\d$/, '') }}
+      {{ end.toLocaleTimeString().replace(/:\d\d$/, "") }}
     </p>
   </div>
   <v-icon v-if="edit" class="separator switch" @click="moveStep('after')">mdi-swap-horizontal</v-icon>
-  <v-icon v-else-if="!editMode || !projectActive || (index !== activeStepIndex -1)" class="separator">mdi-chevron-right</v-icon>
+  <v-icon v-else-if="!editMode || !projectActive || index !== activeStepIndex - 1" class="separator">mdi-chevron-right</v-icon>
 </template>
 
 <script lang="ts">
@@ -123,10 +139,10 @@ export default defineComponent({
     this.newEnd = this.dateIso(this.end)
   },
   methods: {
-    ...mapActions(useStore, ['moveStep','selectProject', 'selectStep', 'patchCurrentStepTitle', 'patchCurrentStepDuration','patchCurrentStepStart']),
+    ...mapActions(useStore, ['moveStep', 'selectProject', 'selectStep', 'patchCurrentStepTitle', 'patchCurrentStepDuration', 'patchCurrentStepStart']),
     dateIso (date: string | Date) {
       const newDate = date instanceof Date ? date : new Date(date)
-      const result = dateToIsoString(newDate,true).slice(0, 16)
+      const result = dateToIsoString(newDate, true).slice(0, 16)
       return result
     },
     selectCurrentStep (event?: Event) {
