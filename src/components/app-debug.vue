@@ -15,11 +15,15 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   data () {
     return {
-      list: ['activeProjectIndex', 'activeStepIndex'],
+      user: this.$auth0.user,
+      list: ['activeProjectIndex', 'activeStepIndex', 'userNickname'],
     }
   },
   computed: {
     ...mapState(useStore, ['activeProjectIndex', 'activeStepIndex', 'editMode', 'debugMode']),
+    userNickname () {
+      return this.user?.nickname
+    },
   },
   methods: {
     ...mapActions(useStore, ['toggleDebugMode']),

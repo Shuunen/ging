@@ -6,6 +6,7 @@
   "bugs": "https://github.com/Shuunen/ging/issues",
   "description": "GING Is Not Gantt, but kind of :)",
   "devDependencies": {
+    "@auth0/auth0-vue": "1",
     "@babel/core": "7",
     "@mdi/font": "7",
     "@simolation/vue-hotkey": "1",
