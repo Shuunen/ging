@@ -1,5 +1,6 @@
 <template>
-  <v-dialog v-model="open">
+  <v-snackbar v-if="projects.length === 0" v-model="open" color="primary">You first need to create a project to add a step to it.</v-snackbar>
+  <v-dialog v-else v-model="open">
     <v-card>
       <v-container>
         <v-col class="min-w-[20rem]">
@@ -30,6 +31,7 @@ import { Step } from '@/models'
 import { store, useStore } from '@/store'
 import { requiredRules } from '@/utils/form'
 import { stringToStepData } from '@/utils/step'
+import { mapState } from 'pinia'
 import colors from 'tailwindcss/colors'
 import { defineComponent } from 'vue'
 
@@ -47,6 +49,7 @@ export default defineComponent({
     requiredRules,
   }),
   computed: {
+    ...mapState(useStore, ['projects']),
     tailwindColors () {
       return Object.keys(colors).filter(color => !['transparent', 'inherit', 'current'].includes(color))
     },
