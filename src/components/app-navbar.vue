@@ -8,7 +8,7 @@
           <v-icon v-if="!activeProject" class="text-h4" color="secondary" icon="mdi-chevron-triple-right" />
         </div>
         <div class="ml-auto"></div>
-        <div class="sm:flex hidden gap-4">
+        <div v-if="projects.length > 0" class="sm:flex hidden gap-4">
           <add-project />
           <toggle-edit />
         </div>
@@ -30,7 +30,7 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   computed: {
-    ...mapState(useStore, ['editMode', 'activeProject']),
+    ...mapState(useStore, ['editMode', 'activeProject', 'projects']),
   },
 })
 </script>
