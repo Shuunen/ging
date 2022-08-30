@@ -3,6 +3,7 @@
     <app-debug />
     <span class="text-body-1 mx-auto">GING &copy; {{ new Date().getFullYear() }}</span>
   </div>
+  <app-toast />
 </template>
 
 
