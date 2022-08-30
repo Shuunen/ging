@@ -205,11 +205,11 @@ export default defineComponent({
 }
 
 .title,
-.v-input.title .v-field__input input {
+.v-input.title .v-field__input {
   @apply text-center text-2xl;
 }
 
-.v-input.duration .v-field__input input {
+.v-input.duration .v-field__input {
   @apply text-xl;
 }
 
@@ -219,7 +219,7 @@ export default defineComponent({
 }
 
 .step .title.active:not(.edit),
-.step .v-input.title.active:not(.edit) .v-field__input input {
+.step .v-input.title.active:not(.edit) .v-field__input {
   @apply underline underline-offset-2;
 }
 
