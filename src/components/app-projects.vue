@@ -1,12 +1,11 @@
 <template>
   <v-container fluid class="projects flex flex-col justify-center h-full gap-2">
-    <p v-if="projects.length === 0" class="text-h6 mt-2 mb-4 text-center">
-      No projects yet but you can add one with the above button.
-      <v-icon>mdi-arrow-top-right-thin-circle-outline</v-icon>
+    <p v-if="projects.length === 0" class="text-h6 flex flex-col items-center gap-4 mx-auto">
+      There is no projects to display.
+      <add-project />
     </p>
 
-    <app-project v-for="(project, index) in projects" :key="'project-' + index" v-bind="project" :active="index === activeProjectIndex"
-                 @add-step="showAddStep = true" />
+    <app-project v-for="(project, index) in projects" :key="'project-' + index" v-bind="project" :active="index === activeProjectIndex" @add-step="showAddStep = true" />
 
     <app-hotkey :keys="['arrowdown']" :enabled="hotkeysActive" @hotkey="selectNextProject" />
     <app-hotkey :keys="['arrowup']" :enabled="hotkeysActive" @hotkey="selectPrevProject" />
