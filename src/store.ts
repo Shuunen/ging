@@ -1,6 +1,7 @@
 import type { Project, Step } from '@/models'
 import { defineStore } from 'pinia'
 import { sleep } from 'shuutils'
+import { debouncedPersist } from './utils/gist'
 import { stringToStepData, stringToStepDuration } from './utils/step'
 
 export const useStore = defineStore('app', {
@@ -195,3 +196,5 @@ export const useStore = defineStore('app', {
 })
 
 export const store = useStore()
+
+store.$subscribe(mutation => debouncedPersist(`mutation type "${mutation.type}" on store "${mutation.storeId}"`, JSON.parse(JSON.stringify(store.$state))))
