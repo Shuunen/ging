@@ -15,7 +15,8 @@
         <div class="sm:hidden">
           <app-actions />
         </div>
-        <div class="ml-4">
+        <div class="ml-1">
+          <app-login />
           <app-about />
         </div>
       </v-row>
