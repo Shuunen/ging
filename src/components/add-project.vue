@@ -13,7 +13,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn variant="plain" @click="open = false">Cancel</v-btn>
-          <v-btn :disabled="(title.length === 0) || (color.length === 0)" variant="elevated" color="primary" @click="submit()">Add</v-btn>
+          <v-btn :disabled="title.length === 0 || color.length === 0" variant="elevated" color="primary" @click="submit()">Add</v-btn>
         </v-card-actions>
       </v-container>
     </v-card>
@@ -37,7 +37,7 @@ export default defineComponent({
   }),
   computed: {
     tailwindColors () {
-      return Object.keys(colors).filter(color => !['transparent', 'inherit', 'current'].includes(color)).sort()
+      return Object.keys(colors).filter(color => !['transparent', 'inherit', 'current'].includes(color) && !/[A-Z]/.test(color)).sort()
     },
   },
   mounted () {
