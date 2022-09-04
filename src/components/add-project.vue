@@ -41,6 +41,7 @@ export default defineComponent({
     },
   },
   mounted () {
+    store.isLoading = false
     store.$onAction(({ name }) => { if (name === 'openAddProjectModal') this.open = true })
   },
   methods: {

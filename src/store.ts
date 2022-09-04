@@ -17,6 +17,7 @@ export const initialState = {
   gistId: '',
   gistToken: '',
   gistState: {} as GistState,
+  isLoading: false,
   projects: [] as Project[],
 }
 
@@ -227,9 +228,12 @@ export const useStore = defineStore('app', {
         projects: this.projects,
         isGistState: true,
       }
+      if (!this.gistToken) return console.log('cannot persist without a gist token')
+      this.isLoading = true
       const { success, message, data } = await debouncedPersist('updateGistState', this)
       console.log('persisted', { success, message, data })
       if (data) this.setGistId(String(data))
+      this.isLoading = false
       if (!message) return
       if (!success) this.emitToast(message)
       console.log(message)
