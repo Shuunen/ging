@@ -1,21 +1,31 @@
 import type { Project, Step } from '@/models'
 import { defineStore } from 'pinia'
-import { sleep } from 'shuutils'
-import { debouncedPersist } from './utils/gist'
+import { emit, sleep } from 'shuutils'
+import { debouncedScrollToElement } from './utils/dom'
+import { debouncedPersist, GistState } from './utils/gist'
 import { stringToStepData, stringToStepDuration } from './utils/step'
 
+export const initialState = {
+  activeProjectIndex: 0,
+  activeStepIndex: 0,
+  addProjectModalOpened: false,
+  addStepModalOpened: false,
+  debugMode: false,
+  deleteProjectModalOpened: false,
+  deleteStepModalOpened: false,
+  editMode: false,
+  gistId: '',
+  gistToken: '',
+  gistState: {} as GistState,
+  projects: [] as Project[],
+}
+
+export type State = typeof initialState
+
+export type StateKey = keyof State
+
 export const useStore = defineStore('app', {
-  state: () => ({
-    activeProjectIndex: 0,
-    activeStepIndex: 0,
-    addProjectModalOpened: false,
-    addStepModalOpened: false,
-    debugMode: false,
-    deleteProjectModalOpened: false,
-    deleteStepModalOpened: false,
-    editMode: false,
-    projects: [] as Project[],
-  }),
+  state: () => initialState,
   getters: {
     activeProject: (state): Project | undefined => {
       return state.projects[state.activeProjectIndex]
@@ -31,20 +41,23 @@ export const useStore = defineStore('app', {
   actions: {
     addProject (project: Project) {
       this.projects.push(project)
+      this.updateGistState('addProject')
     },
     deleteActiveStep () {
-      const project = this.projects[this.activeProjectIndex]
-      if (!project) return console.error('cannot delete step: no active project')
-      project.steps.splice(this.activeStepIndex, 1)
+      if (!this.activeProject) return console.error('cannot delete step: no active project')
+      this.activeProject.steps.splice(this.activeStepIndex, 1)
       this.preventStepIndexOverflow()
       this.scrollToStep()
+      this.updateGistState('deleteActiveStep')
     },
     deleteActiveProject () {
       this.projects.splice(this.activeProjectIndex, 1)
+      this.updateGistState('deleteActiveProject')
     },
     deleteProject (projectId: number) {
       const index = this.projects.findIndex(p => p.id === projectId)
       this.projects.splice(index, 1)
+      this.updateGistState('deleteProject')
     },
     addStep (step: Step) {
       const project = this.projects[this.activeProjectIndex]
@@ -52,6 +65,7 @@ export const useStore = defineStore('app', {
       if (this.activeStepIndex === project.steps.length - 1) project.steps.push(step)
       else project.steps.splice(this.activeStepIndex + 1, 0, step)
       sleep(100).then(() => this.selectNextStep())
+      this.updateGistState('addStep')
     },
     preventStepIndexOverflow () {
       if (!this.activeProject) return
@@ -82,8 +96,7 @@ export const useStore = defineStore('app', {
       if (!this.activeStep) return console.log('Cannot scroll to step without an active step')
       const stepElement = document.querySelector(`#step-${this.activeStep.id}`)
       if (!stepElement) return console.log('Cannot scroll to step without an dom element')
-      console.log('scrolling to step', stepElement)
-      sleep(100).then(() => stepElement.scrollIntoView({ behavior: 'smooth' }))
+      debouncedScrollToElement(stepElement)
     },
     selectProject (projectId: number) {
       this.activeProjectIndex = this.projects.findIndex(p => p.id === projectId)
@@ -107,6 +120,7 @@ export const useStore = defineStore('app', {
         step.title = title
         console.log('step got new title', step)
       }
+      this.updateGistState('patchCurrentStepTitle')
     },
     patchCurrentStepDuration (duration: string) {
       if (!this.activeStep) return console.warn('Cannot patch step duration without an active step')
@@ -116,6 +130,7 @@ export const useStore = defineStore('app', {
         if (Object.keys(data).length > 0) this.clearStepDurations(this.activeStep)
         console.log('updating step with data', data)
         Object.assign(this.activeStep, data)
+        this.updateGistState('patchCurrentStepDuration')
       } catch (error) {
         if (error instanceof Error) console.error(error.message)
       }
@@ -123,12 +138,14 @@ export const useStore = defineStore('app', {
     patchCurrentStepStart (date: Date) {
       if (!this.activeStep) return console.warn('Cannot patch step date without an active step')
       this.activeStep.start = date
+      this.updateGistState('patchCurrentStepStart')
     },
     patchCurrentProjectTitle (title: string) {
       if (title.length === 0) return console.warn('Title cannot be empty')
       const project = this.projects[this.activeProjectIndex]
       if (!project) throw new Error(`Project at index ${this.activeProjectIndex} not found`)
       project.title = title
+      this.updateGistState('patchCurrentProjectTitle')
     },
     clearStepDurations (step: Step) {
       delete step.months
@@ -169,15 +186,14 @@ export const useStore = defineStore('app', {
         if (index === 0) return
         project.steps.splice(index, 1)
         project.steps.splice(index - 1, 0, step)
-        return this.activeStepIndex--
-      }
-      if (direction === 'after') {
+        this.activeStepIndex--
+      } else if (direction === 'after') {
         if (index === project.steps.length - 1) return
         project.steps.splice(index, 1)
         project.steps.splice(index + 1, 0, step)
-        return this.activeStepIndex++
-      }
-      throw new Error('Invalid direction : ' + direction)
+        this.activeStepIndex++
+      } else throw new Error('Invalid direction : ' + direction)
+      this.updateGistState('moveStep')
     },
     openAddProjectModal () {
       this.addProjectModalOpened = true
@@ -191,10 +207,40 @@ export const useStore = defineStore('app', {
     openDeleteProjectModal () {
       this.deleteProjectModalOpened = true
     },
+    setGistToken (token: string) {
+      if (this.gistToken === token) return
+      if (token === '') {
+        console.log('clearing gist token')
+        this.setGistId('')
+      } else console.log('setting gist token to', token)
+      this.gistToken = token
+    },
+    setGistId (id: string) {
+      if (this.gistId === id) return
+      if (id === '') console.log('clearing gist id')
+      else console.log('setting gist id', id)
+      this.gistId = id
+    },
+    async updateGistState (reason: string) {
+      console.log('updating gist state, cause :', reason)
+      this.gistState = {
+        projects: this.projects,
+        isGistState: true,
+      }
+      const { success, message, data } = await debouncedPersist('updateGistState', this)
+      console.log('persisted', { success, message, data })
+      if (data) this.setGistId(String(data))
+      if (!message) return
+      if (!success) this.emitToast(message)
+      console.log(message)
+    },
+    emitToast (message: string) {
+      emit('toast', message)
+    },
   },
   persist: true,
 })
 
 export const store = useStore()
 
-store.$subscribe(mutation => debouncedPersist(`mutation type "${mutation.type}" on store "${mutation.storeId}"`, JSON.parse(JSON.stringify(store.$state))))
+export type Store = typeof store
