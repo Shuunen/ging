@@ -2,7 +2,7 @@ import type { Project, Step } from '@/models'
 import { defineStore } from 'pinia'
 import { emit, sleep } from 'shuutils'
 import { debouncedScrollToElement } from './utils/dom'
-import { debouncedPersist, GistState } from './utils/gist'
+import { debouncedPersist, getId, GistState, read } from './utils/gist'
 import { stringToStepData, stringToStepDuration } from './utils/step'
 
 export const initialState = {
@@ -208,13 +208,36 @@ export const useStore = defineStore('app', {
     openDeleteProjectModal () {
       this.deleteProjectModalOpened = true
     },
-    setGistToken (token: string) {
-      if (this.gistToken === token) return
+    async setGistToken (token: string) {
       if (token === '') {
         console.log('clearing gist token')
         this.setGistId('')
-      } else console.log('setting gist token to', token)
+        this.gistToken = ''
+        return
+      }
+      console.log('setting gist token to', token)
       this.gistToken = token
+      this.isLoading = true
+      if (this.gistId.length === 0) await this.getGistId()
+      await this.fetchGist()
+      this.isLoading = false
+    },
+    async getGistId () {
+      const { success, message, data: id } = await getId(this)
+      if (!success || id === undefined) return console.error(message)
+      console.log('got gist id', id)
+      this.setGistId(id)
+    },
+    async fetchGist () {
+      if (!this.gistId) return console.log('Cannot fetch gist without an id')
+      if (!this.gistToken) return console.log('Cannot fetch gist without a token')
+      console.log('fetching gist', this.gistId)
+      const { success, message, data } = await read(this.gistId, this.gistToken)
+      if (!success || !data) return this.emitToast(message)
+      console.log('fetched gist content :', data)
+      const same = JSON.stringify(data.projects) === JSON.stringify(this.projects)
+      if (same) return console.log('no changes detected')
+      this.projects = data.projects
     },
     setGistId (id: string) {
       if (this.gistId === id) return
