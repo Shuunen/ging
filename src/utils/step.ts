@@ -14,8 +14,8 @@ export const stepToString = (step: Step): string | undefined => {
 export const titleWithDurationRegex = /([^,]*)[\s,]+(\d+\s?[a-z]+)/
 
 export const stringToStepData = (input: string): Partial<Step> => {
-  if (titleWithDurationRegex.test(input) === false) throw new Error('Invalid title with duration string ' + input)
-  const [, title = '', duration = ''] = titleWithDurationRegex.exec(input) ?? []
+  const [, title, duration] = titleWithDurationRegex.exec(input) ?? []
+  if (!title || !duration) throw new Error('Invalid title with duration string ' + input)
   const step: Partial<Step> = { title: title.trim() }
   Object.assign(step, stringToStepDuration(duration))
   return step
@@ -24,8 +24,8 @@ export const stringToStepData = (input: string): Partial<Step> => {
 export const durationRegex = /(\d+)\s?([a-z]+)/
 
 export const stringToStepDuration = (input: string): Partial<Step> => {
-  if (durationRegex.test(input) === false) throw new Error('Invalid duration string : ' + input)
-  const [, duration = '', unitInput = ''] = durationRegex.exec(input) ?? []
+  const [, duration, unitInput] = durationRegex.exec(input) ?? []
+  if (!duration || !unitInput) throw new Error('Invalid duration string : ' + input)
   const unitSingular = unitInput.endsWith('s') ? unitInput.slice(0, -1) : unitInput
   const unit = units.find(unit => unit.startsWith(unitSingular)) ?? ''
   if (unit === '') throw new Error('Invalid step unit : ' + unitInput)
