@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import { emit, sleep } from 'shuutils'
 import { debouncedScrollToElement } from './utils/dom'
 import { debouncedPersist, getId, GistState, read } from './utils/gist'
+import { objectSum } from './utils/object'
 import { stringToStepData, stringToStepDuration } from './utils/step'
 
 export const initialState = {
@@ -17,6 +18,7 @@ export const initialState = {
   gistId: '',
   gistToken: '',
   gistState: {} as GistState,
+  gistStateLastSum: '',
   isLoading: false,
   projects: [] as Project[],
 }
@@ -121,7 +123,6 @@ export const useStore = defineStore('app', {
         step.title = title
         console.log('step got new title', step)
       }
-      this.updateGistState('patchCurrentStepTitle')
     },
     patchCurrentStepDuration (duration: string) {
       if (!this.activeStep) return console.warn('Cannot patch step duration without an active step')
@@ -131,7 +132,6 @@ export const useStore = defineStore('app', {
         if (Object.keys(data).length > 0) this.clearStepDurations(this.activeStep)
         console.log('updating step with data', data)
         Object.assign(this.activeStep, data)
-        this.updateGistState('patchCurrentStepDuration')
       } catch (error) {
         if (error instanceof Error) console.error(error.message)
       }
@@ -139,14 +139,12 @@ export const useStore = defineStore('app', {
     patchCurrentStepStart (date: Date) {
       if (!this.activeStep) return console.warn('Cannot patch step date without an active step')
       this.activeStep.start = date
-      this.updateGistState('patchCurrentStepStart')
     },
     patchCurrentProjectTitle (title: string) {
       if (title.length === 0) return console.warn('Title cannot be empty')
       const project = this.projects[this.activeProjectIndex]
       if (!project) throw new Error(`Project at index ${this.activeProjectIndex} not found`)
       project.title = title
-      this.updateGistState('patchCurrentProjectTitle')
     },
     clearStepDurations (step: Step) {
       delete step.months
@@ -158,9 +156,10 @@ export const useStore = defineStore('app', {
     toggleEditMode () {
       this.editMode = !this.editMode
       console.log('edit mode is now', this.editMode)
-      if (!this.editMode) {
+      if (this.editMode === false) {
         const active = document.activeElement
         if (active && active instanceof HTMLInputElement) active.blur()
+        this.updateGistState('toggleEditMode to false')
         return
       }
       if (this.activeStepIndex === 0) {
@@ -246,11 +245,14 @@ export const useStore = defineStore('app', {
       this.gistId = id
     },
     async updateGistState (reason: string) {
-      console.log('updating gist state, cause :', reason)
+      console.log('updating gist state, cause :', reason, this.projects)
       this.gistState = {
         projects: this.projects,
         isGistState: true,
       }
+      const gistStateSum = objectSum(this.gistState)
+      if (gistStateSum === this.gistStateLastSum) return console.log('prevent update : no changes detected')
+      this.gistStateLastSum = gistStateSum
       if (!this.gistToken) return console.log('cannot persist without a gist token')
       this.isLoading = true
       const { success, message, data } = await debouncedPersist('updateGistState', this)
