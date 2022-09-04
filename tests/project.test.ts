@@ -1,6 +1,10 @@
 import { Project } from '@/models'
-import { check } from 'shuutils'
+import { check, daysAgo, getTimestampMs } from 'shuutils'
 
-check('project default', new Project().id >= Date.now(), true)
+const defaults = new Project()
+check('project default id', defaults.id >= getTimestampMs(daysAgo(1)), true)
+check('project default title is empty', defaults.title, '')
+check('project default color is undefined', defaults.color)
+check('project default has no steps', defaults.steps, [])
 
 check.run()
