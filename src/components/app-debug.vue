@@ -18,11 +18,11 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   data () {
     return {
-      list: ['activeProjectIndex', 'activeStepIndex', 'gistToken', 'gistId'],
+      list: ['activeProjectIndex', 'activeStepIndex', 'gistToken', 'gistId', 'isLoading'],
     }
   },
   computed: {
-    ...mapState(useStore, ['activeProjectIndex', 'activeStepIndex', 'editMode', 'debugMode', 'gistToken', 'gistId']),
+    ...mapState(useStore, ['activeProjectIndex', 'activeStepIndex', 'editMode', 'debugMode', 'gistToken', 'gistId', 'isLoading']),
   },
   methods: {
     ...mapActions(useStore, ['toggleDebugMode']),
