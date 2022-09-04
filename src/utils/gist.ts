@@ -1,3 +1,4 @@
+/* c8 ignore next */
 import type { Project } from '@/models'
 import type { State, Store } from '@/store'
 import type { Endpoints } from '@octokit/types'
@@ -9,25 +10,26 @@ export interface GistState {
 }
 
 const API_URL = 'https://api.github.com/gists'
-const FILE_NAME = 'ging.json'
 
-const headers = (token: string): HeadersInit => ({
+export const FILE_NAME = 'ging.json'
+
+export const headers = (token: string): { Accept: string; Authorization: string } => ({
   Accept: 'application/vnd.github+json',
   Authorization: `Bearer ${token}`,
 })
 
-const file = (state: GistState): { [FILE_NAME]: { content: string } } => {
+export const file = (state: GistState): { [FILE_NAME]: { content: string } } => {
   const content = JSON.stringify(state, undefined, 2)
   return { [FILE_NAME]: { content } }
 }
 
-const body = (state: GistState): string => (JSON.stringify({
+export const body = (state: GistState): string => (JSON.stringify({
   description: 'GING Web App Data',
   public: false,
   files: file(state),
 }))
 
-const request = async <T> (method: RequestInit['method'] = 'GET', url: string, token: string, state?: GistState): Promise<Result<T>> => {
+export const request = async <T> (method: RequestInit['method'] = 'GET', url: string, token: string, state?: GistState, fetch = window.fetch): Promise<Result<T>> => {
   const options: RequestInit = { method, headers: headers(token) }
   if (state) options.body = body(state)
   const request = await fetch(url, options)
@@ -36,33 +38,31 @@ const request = async <T> (method: RequestInit['method'] = 'GET', url: string, t
   return { success: true, message: `${method} request on ${url} succeed`, data: response as T }
 }
 
-const create = async (state: GistState, token: string): Promise<Result> => {
-  const { success, message, data: gist } = await request<Endpoints['POST /gists']['response']['data']>('POST', API_URL, token, state)
-  if (!success || !gist || !gist.id) return { success, message }
-  console.log('gist created', { gist })
-  if (gist.id) return { success: true, message: 'gist created', data: gist.id }
-  return { success: false, message: 'gist create failed' }
+export const create = async (state: GistState, token: string, fetch = window.fetch): Promise<Result> => {
+  const { success, message, data: gist } = await request<Endpoints['POST /gists']['response']['data']>('POST', API_URL, token, state, fetch)
+  if (!success || !gist || gist.id === undefined) return { success: false, message }
+  return { success: true, message: 'gist created', data: gist.id }
 }
 
-const update = async (state: GistState, token: string, id: string): Promise<Result> => {
-  const { success, message, data: gist } = await request<Endpoints['PATCH /gists/{gist_id}']['response']['data']>('PATCH', `${API_URL}/${id}`, token, state)
-  if (!success || !gist || !gist.id) return { success, message }
+export const update = async (state: GistState, token: string, id: string, fetch = window.fetch): Promise<Result> => {
+  const { success, message, data: gist } = await request<Endpoints['PATCH /gists/{gist_id}']['response']['data']>('PATCH', `${API_URL}/${id}`, token, state, fetch)
+  if (!success || !gist || !gist.id) return { success: false, message }
   return { success: true, message: 'gist updated', data: gist.id }
 }
 
-export const getId = async (state: State): Promise<Result> => {
+export const getId = async (state: State, fetch = window.fetch): Promise<Result> => {
   if (state.gistId) return { success: true, message: 'gist id already set', data: state.gistId }
   console.log('listing gists to find a potential existing one')
-  const { success, message, data: gists } = await request<Endpoints['GET /gists']['response']['data']>('GET', API_URL, state.gistToken)
-  if (!success || !gists) return { success, message }
+  const { success, message, data: gists } = await request<Endpoints['GET /gists']['response']['data']>('GET', API_URL, state.gistToken, undefined, fetch)
+  if (!success || !gists) return { success: false, message }
   const gist = gists.find(gist => gist.files[FILE_NAME])
-  if (gist?.id) return { success: true, message: 'gist found', data: gist.id }
-  return create(state.gistState, state.gistToken)
+  if (gist) return { success: true, message: 'gist id found', data: gist.id }
+  return create(state.gistState, state.gistToken, fetch)
 }
 
-export const read = async (id: string, token: string): Promise<Result<GistState>> => {
-  const { success, message, data } = await request<Endpoints['GET /gists/{gist_id}']['response']['data']>('GET', `${API_URL}/${id}`, token)
-  if (!success || !data) return { success, message }
+export const read = async (id: string, token: string, fetch = window.fetch): Promise<Result<GistState>> => {
+  const { success, message, data } = await request<Endpoints['GET /gists/{gist_id}']['response']['data']>('GET', `${API_URL}/${id}`, token, undefined, fetch)
+  if (!success || !data) return { success: false, message }
   if (data.files && data.files[FILE_NAME]) {
     const content = String(data.files[FILE_NAME].content)
     const state = JSON.parse(content) as GistState
@@ -75,14 +75,11 @@ export const read = async (id: string, token: string): Promise<Result<GistState>
  * Persist state in a gist
  * @returns true if the state was persisted
  */
-export const persist = async (reason = 'unknown', store: Store): Promise<Result> => {
+export const persist = async (_reason = 'unknown', store: Store, fetch = window.fetch): Promise<Result> => {
   if (store.gistToken === '') return { success: false, message: 'Cannot save your work without a Gist token' }
-  if (typeof window === 'undefined') return { success: true, message: `will persist to gist, cause : ${reason}` } // unit tests stop here
-  /* c8 ignore next */
-  const { success, message, data: id } = await getId(store)
-  if (!success) return { success, message }
-  if (id) return update(store.gistState, store.gistToken, id)
-  return { success: false, message: 'unknown persist error' }
+  const { success, message, data: id } = await getId(store, fetch)
+  if (!success || id === undefined) return { success: false, message }
+  return update(store.gistState, store.gistToken, id, fetch)
 }
 
 export const debouncedPersist = debounce(persist, 1000)
