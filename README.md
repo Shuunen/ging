@@ -7,11 +7,16 @@
 
 > GING Is Not Gantt, but kind of :)
 
+## Features
+
+- [x] keyboard navigation & used
+- [x] responsive / mobile friendly
+- [x] handle GitHub login to save app state to a private Gist
+
 ## Todo
 
 - [ ] limit fonts used in src\plugins\webfontloader.ts
 - [ ] data from & to url
-- [ ] remote storage
 - [ ] floating plus button that dynamically add project/step
 - [ ] refresh button to clear cache & get latest version
 
