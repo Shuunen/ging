@@ -17,6 +17,8 @@
 
 - [ ] limit fonts used in src\plugins\webfontloader.ts
 - [ ] data from & to url
+- [ ] export JSON state to file
+- [ ] allow loading that JSON file
 - [ ] floating plus button that dynamically add project/step
 - [ ] refresh button to clear cache & get latest version
 
