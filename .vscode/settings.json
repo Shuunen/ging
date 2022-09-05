@@ -24,6 +24,10 @@
     "vuetify",
     "webfontloader"
   ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "editor.formatOnSave": false,
   "workbench.colorCustomizations": {
     "activityBar.background": "#50134E",
     "titleBar.activeBackground": "#6F1A6D",
