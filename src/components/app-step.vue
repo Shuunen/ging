@@ -28,10 +28,14 @@
 
     <v-text-field v-if="edit" v-model="newStart" :tabindex="edit ? 1 : -1" class="no-details mx-auto" type="datetime-local" density="compact" variant="outlined" @change="updateStart" />
     <v-text-field v-if="edit" v-model="newEnd" :tabindex="edit ? 1 : -1" class="no-details mx-auto" type="datetime-local" density="compact" variant="outlined" @change="updateEnd" />
-    <p v-else class="date-end whitespace-nowrap opacity-60 text-white">
-      {{ end.toLocaleDateString() }} <br />
-      {{ end.toLocaleTimeString().replace(/:\d\d$/, "") }}
-    </p>
+    <div v-else class="date-end whitespace-nowrap opacity-60 text-white">
+      {{ end.toLocaleDateString() }}
+      <div class="flex flex-row items-center justify-center gap-2">
+        {{ end.toLocaleTimeString().replace(/:\d\d$/, "").replace(':00', ' h').replace(':', ' h') }}
+        <v-icon v-if="parseInt(end.toLocaleTimeString()) <= 12" class="brightness-125" size="x-small">mdi-white-balance-sunny</v-icon>
+        <v-icon v-if="parseInt(end.toLocaleTimeString()) > 12" class="brightness-50" size="x-small">mdi-white-balance-sunny</v-icon>
+      </div>
+    </div>
   </div>
   <v-icon v-if="edit" class="separator switch" @click="moveStep('after')">mdi-swap-horizontal</v-icon>
   <v-icon v-else-if="!editMode || !projectActive || index !== activeStepIndex - 1" class="separator">mdi-chevron-right</v-icon>
