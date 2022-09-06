@@ -29,6 +29,10 @@
 - [ ] add arrows to navigate horizontally step by step
 - [ ] WHERE IS THE KONAMI CODE ?!?
 - [ ] suggests notifications to help user keep in mind an incoming
+- [ ] show color preview in color picker
+- [ ] add step error only appears in console
+- [ ] step selection not clear
+- [ ] step add input has no char limit
 
 ## Thanks
 
