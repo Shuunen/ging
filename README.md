@@ -21,6 +21,14 @@
 - [ ] allow loading that JSON file
 - [ ] floating plus button that dynamically add project/step
 - [ ] refresh button to clear cache & get latest version
+- [ ] edit step in modal
+- [ ] add Markdown description to a step
+- [ ] add complete status on a step
+- [ ] allow complete step on edit mode
+- [ ] underline project title with completion percent
+- [ ] add arrows to navigate horizontally step by step
+- [ ] WHERE IS THE KONAMI CODE ?!?
+- [ ] suggests notifications to help user keep in mind an incoming
 
 ## Thanks
 
