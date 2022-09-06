@@ -236,7 +236,7 @@ export const useStore = defineStore('app', {
       console.log('fetched gist content :', data)
       const same = JSON.stringify(data.projects) === JSON.stringify(this.projects)
       if (same) return console.log('no changes detected')
-      this.projects = data.projects
+      if (data.projects) this.projects = data.projects
     },
     setGistId (id: string) {
       if (this.gistId === id) return
