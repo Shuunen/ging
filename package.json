@@ -32,7 +32,7 @@
     "pinia": "2",
     "pinia-plugin-persistedstate": "2",
     "register-service-worker": "1",
-    "repo-check": "1.25",
+    "repo-check": "1.26",
     "roboto-fontface": "0",
     "shuutils": "6.2",
     "tailwindcss": "3",
