@@ -8,6 +8,11 @@ graph LR
     Auth0PostLogin --> |Augmented auth0 token| WebApp
 ```
 
+Environnement :
+
+- Node 16
+- node-fetch 2 (v3 has a different API)
+
 ```js
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 
