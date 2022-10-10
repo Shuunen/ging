@@ -1,6 +1,6 @@
 import type { State, Store } from '@/store'
 import { body, create, file, FILE_NAME, getId, headers, persist, read, request, update } from '@/utils/gist'
-import { check } from 'shuutils'
+import { check, checksRun } from 'shuutils'
 
 const token = 'aUnitTest_gist_token'
 check('gist headers contains Accept', headers('').Accept, 'application/vnd.github+json')
@@ -70,4 +70,4 @@ const storeC = { gistToken: token } as Store
 // same tricky check as above
 check('gist persist update with a token', persist('reason C', storeC, fetch.successList), { success: false, message: 'PATCH request on https://api.github.com/gists/aUnitTest_gist_id succeed' })
 
-check.run()
+checksRun()

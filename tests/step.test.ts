@@ -1,6 +1,6 @@
 import { Step } from '@/models'
 import { durationBetweenDates, processStepsDurations, stepToHumanDuration, stepToString, stringToStepData, stringToStepDuration } from '@/utils/step'
-import { check } from 'shuutils'
+import { check, checksRun } from 'shuutils'
 import { test } from 'uvu'
 import { throws } from 'uvu/assert'
 
@@ -62,4 +62,4 @@ check('durationBetweenDates 2 months', durationBetweenDates(new Date('2020-01-01
 check('durationBetweenDates 1 year', durationBetweenDates(new Date('2020-01-01'), new Date('2021-01-01T00:00:00.000Z')), '1 year')
 check('durationBetweenDates 2 years', durationBetweenDates(new Date('2020-01-01'), new Date('2022-01-01T00:00:00.000Z')), '2 years')
 
-check.run()
+checksRun()
