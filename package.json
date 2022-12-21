@@ -44,7 +44,7 @@
     "vue": "3",
     "vue-cli-plugin-tailwind": "3",
     "vue-cli-plugin-vuetify": "2",
-    "vuetify": "npm:@vuetify/nightly@next",
+    "vuetify": "3",
     "watchlist": "0",
     "webfontloader": "1",
     "webpack": "5",
