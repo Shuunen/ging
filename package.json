@@ -11,7 +11,7 @@
     "@babel/core": "7",
     "@mdi/font": "7",
     "@octokit/types": "9",
-    "@simolation/vue-hotkey": "1",
+    "@simolation/vue-hotkey": "2",
     "@types/node": "18",
     "@types/tailwindcss": "3",
     "@types/webfontloader": "1",
