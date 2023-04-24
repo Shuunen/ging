@@ -56,7 +56,7 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
 
       - name: Audit URLs using Lighthouse
-        uses: treosh/lighthouse-ci-action@v9
+        uses: treosh/lighthouse-ci-action@v10
         with:
           urls: |
             ${{ steps.netlify.outputs.url }}
