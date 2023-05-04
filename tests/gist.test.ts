@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/require-await */
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
-/* eslint-disable unused-imports/no-unused-vars */
 /* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import type { State, Store } from '@/store'
 import { body, create, file, fileName, getId, headers, persist, read, request, update } from '@/utils/gist'
@@ -23,17 +21,17 @@ check('gist body contains files', JSON.parse(body(gistStateA)).files, fileA)
 const id = 'aUnitTest_gist_id'
 // eslint-disable-next-line @typescript-eslint/no-shadow
 const fetch = {
-  fail: async (_url: RequestInfo | URL, _options?: RequestInit): Promise<Response> => ({ json: async () => ({ message: fetch.failMessage }) } as never),
+  fail: async (): Promise<Response> => ({ json: async () => ({ message: fetch.failMessage }) } as never),
   failMessage: 'a fake server error occurred',
-  failReadEmpty: async (_url: RequestInfo | URL, _options?: RequestInit): Promise<Response> => ({ json: async () => (fetch.failReadEmptyContent) } as never),
+  failReadEmpty: async (): Promise<Response> => ({ json: async () => (fetch.failReadEmptyContent) } as never),
   failReadEmptyContent: { files: {} },
-  success: async (_url: RequestInfo | URL, _options?: RequestInit): Promise<Response> => ({ json: async () => (fetch.successContent) } as never),
+  success: async (): Promise<Response> => ({ json: async () => (fetch.successContent) } as never),
   successContent: { id },
-  successList: async (_url: RequestInfo | URL, _options?: RequestInit): Promise<Response> => ({ json: async () => (fetch.successListContent) } as never),
+  successList: async (): Promise<Response> => ({ json: async () => (fetch.successListContent) } as never),
   successListContent: [{ id, files: { [fileName]: { content: JSON.stringify(gistStateA, undefined, 2) } } }],
-  successListEmpty: async (_url: RequestInfo | URL, _options?: RequestInit): Promise<Response> => ({ json: async () => (fetch.successListEmptyContent) } as never),
+  successListEmpty: async (): Promise<Response> => ({ json: async () => (fetch.successListEmptyContent) } as never),
   successListEmptyContent: [],
-  successRead: async (_url: RequestInfo | URL, _options?: RequestInit): Promise<Response> => ({ json: async () => (fetch.successReadContent) } as never),
+  successRead: async (): Promise<Response> => ({ json: async () => (fetch.successReadContent) } as never),
   successReadContent: { files: { [fileName]: { content: JSON.stringify(gistStateA, undefined, 2) } } },
 }
 check('gist request fails', request('GET', '/url/A', token, gistStateA, fetch.fail), { success: false, message: fetch.failMessage })
