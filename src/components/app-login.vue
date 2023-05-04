@@ -1,7 +1,7 @@
 <template>
   <v-btn v-if="!isAuthenticated" :loading="isLoading" variant="tonal" class="mx-3" color="secondary" @click="login">Login</v-btn>
   <v-btn v-show="isAuthenticated" id="menu-activator" color="secondary">
-    <p v-if="user?.nickname" class="sm:block hidden mr-4">{{ user.nickname }}</p>
+    <p v-if="user?.nickname" class="mr-4 hidden sm:block">{{ user.nickname }}</p>
     <img v-if="user?.picture" class="w-8 rounded-full" :src="user.picture" alt="John" />
   </v-btn>
 
@@ -25,33 +25,36 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   data () {
     return {
-      user: this.$auth0.user, // like : { "nickname": "Shuunen", "name": "Romain Racamier", "picture": "https://avatars.githubusercontent.com/u/439158?v=4", "updated_at": "2022-08-30T18:20:28.874Z", "email": "romain.racamier@gmail.com", "sub": "github|123456" }
+      user: this.$auth0.user, // looks like : { "nickname": "Shuunen", "name": "Romain Racamier", "picture": "https://avatars.githubusercontent.com/u/439158?v=4", "updated_at": "2022-08-30T18:20:28.874Z", "email": "romain.racamier@gmail.com", "sub": "github|123456" }
       isLoading: this.$auth0.isLoading,
       isAuthenticated: this.$auth0.isAuthenticated,
     }
   },
   watch: {
-    isAuthenticated (newValue: boolean) {
-      console.log('isAuthenticated ?', newValue)
-      if (newValue === false) {
-        this.setGistToken('')
+    isAuthenticated (isAuthenticated: boolean) {
+      console.log('isAuthenticated ?', isAuthenticated)
+      if (!isAuthenticated) {
+        void this.setGistToken('')
         return
       }
-      this.$auth0.getAccessTokenSilently().then(() => {
+      // eslint-disable-next-line promise/prefer-await-to-then
+      void this.$auth0.getAccessTokenSilently().then(() => {
         const claims = this.$auth0.idTokenClaims.value
-        const token = claims['custom_github_token']
-        if (token) this.setGistToken(token)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const token = claims.custom_github_token
+        // eslint-disable-next-line promise/always-return, @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unsafe-argument
+        if (token) void this.setGistToken(token)
       })
     },
   },
   methods: {
     ...mapActions(useStore, ['setGistToken']),
     login () {
-      this.$auth0.loginWithRedirect()
+      void this.$auth0.loginWithRedirect()
     },
     logout () {
-      this.setGistToken('')
-      this.$auth0.logout({ returnTo: window.location.origin })
+      void this.setGistToken('')
+      void this.$auth0.logout({ returnTo: window.location.origin })
     },
   },
 })

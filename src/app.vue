@@ -10,7 +10,8 @@
   </v-app>
 </template>
 
-<style>
+<style scoped>
+/* eslint-disable-next-line vue-scoped-css/require-selector-used-inside */
 .v-footer {
   @apply p-0;
 }

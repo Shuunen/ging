@@ -1,9 +1,9 @@
 <template>
-  <div class="flex flex-row flex-wrap items-center justify-center gap-4 mt-2 mb-3">
-    <div v-for="item in list" :key="'item' + item" class="item">
+  <div class="mb-3 mt-2 flex flex-row flex-wrap items-center justify-center gap-4">
+    <div v-for="item in list" :key="`item${item}`" class="app-item">
       <span class="mr-2 opacity-50">{{ item }} ?</span>
-      <code v-if="(this as any)[item] === ''" class="italic">empty string</code> <!-- eslint-disable-line vue/no-v-html -->
-      <code v-else-if="(this as any)[item] !== undefined" v-html="(this as any)[item]"></code> <!-- eslint-disable-line vue/no-v-html -->
+      <code v-if="read(item) === ''" class="italic">empty string</code> <!-- eslint-disable-line vue/no-v-html -->
+      <code v-else-if="read(item) !== undefined" v-html="read(item)"></code> <!-- eslint-disable-line vue/no-v-html -->
       <code v-else class="italic">undefined or null</code>
     </div>
   </div>
@@ -26,6 +26,10 @@ export default defineComponent({
   },
   methods: {
     ...mapActions(useStore, ['toggleDebugMode']),
+    read (key: string) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/consistent-type-assertions, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+      return (this as any)[key]
+    },
   },
 })
 </script>

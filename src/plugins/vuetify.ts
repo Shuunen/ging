@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
+/* eslint-disable @typescript-eslint/naming-convention */
 import '@mdi/font/css/materialdesignicons.css'
 import colors from 'tailwindcss/colors'
 import { createVuetify } from 'vuetify'
 import 'vuetify/styles'
 
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 export default createVuetify({
   theme: {
     defaultTheme: 'dark',

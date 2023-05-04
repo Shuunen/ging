@@ -1,8 +1,19 @@
 import { debounce } from 'shuutils'
 
-const scrollToElement = (element: Element): void => {
-  // console.log('scrolling to', element)
+function scrollToElement (element: Element): void {
   element.scrollIntoView({ behavior: 'smooth' })
 }
 
-export const debouncedScrollToElement = debounce(scrollToElement, 100)
+const scrollDelay = 100
+
+export const debouncedScrollToElement = debounce(scrollToElement, scrollDelay)
+
+export function unfocusActiveElement () {
+  const active = document.activeElement
+  if (active && active instanceof HTMLInputElement) active.blur()
+}
+
+export function focusInput (selector: string) {
+  const input = document.querySelector(selector)
+  if (input && input instanceof HTMLInputElement) input.focus()
+}

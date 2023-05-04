@@ -1,7 +1,7 @@
 <template>
-  <div v-show="debugMode" class="flex flex-col items-center justify-center pb-1 mx-auto">
+  <div v-show="debugMode" class="mx-auto flex flex-col items-center justify-center pb-1">
     <app-debug />
-    <span class="text-body-1 mx-auto">GING &copy; {{ new Date().getFullYear() }}</span>
+    <span class="mx-auto">GING &copy; {{ new Date().getFullYear() }}</span>
   </div>
   <app-toast />
 </template>

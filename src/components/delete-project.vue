@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="open">
+  <v-dialog v-model="isOpen">
     <v-card>
       <v-card-text>
         <p class="mb-4">You are about to delete the project "{{ title }}", are you sure ?</p>
@@ -23,12 +23,11 @@ export default defineComponent({
   props: {
     active: {
       type: Boolean,
-      default: false,
     },
   },
   emits: ['close'],
   data: () => ({
-    open: false,
+    isOpen: false,
   }),
   computed: {
     ...mapState(useStore, ['projects', 'activeProject']),
@@ -37,15 +36,15 @@ export default defineComponent({
     },
   },
   watch: {
-    active (value) {
-      this.open = value
+    active (isOpen: boolean) {
+      this.isOpen = isOpen
     },
     open (value) {
       if (value === false) this.$emit('close')
     },
   },
   mounted () {
-    store.$onAction(({ name }) => { if (name === 'openDeleteProjectModal') this.open = true })
+    store.$onAction(({ name }) => { if (name === 'openDeleteProjectModal') this.isOpen = true })
   },
   methods: {
     ...mapActions(useStore, ['deleteActiveProject']),
@@ -55,7 +54,7 @@ export default defineComponent({
       this.close()
     },
     close () {
-      this.open = false
+      this.isOpen = false
     },
   },
 })

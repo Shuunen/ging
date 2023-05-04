@@ -1,18 +1,20 @@
 <template>
-  <v-snackbar v-model="open" color="primary">{{ message }}</v-snackbar>
+  <v-snackbar v-model="isOpen" color="primary">{{ message }}</v-snackbar>
 </template>
 
 <script lang="ts">
-import { Listener, off, on } from 'shuutils'
+import { off, on, type Listener } from 'shuutils'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   data: () => ({
-    open: false,
+    isOpen: false,
     message: '',
-    listener: false as boolean | Listener,
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+    listener: false as Listener | boolean,
   }),
   mounted () {
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     this.listener = on('toast', this.show)
   },
   beforeUnmount () {
@@ -20,7 +22,7 @@ export default defineComponent({
   },
   methods: {
     show (message: string) {
-      this.open = true
+      this.isOpen = true
       this.message = message
     },
   },

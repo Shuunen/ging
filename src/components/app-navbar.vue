@@ -3,13 +3,13 @@
     <v-container>
       <v-row class="items-center pt-0.5">
         <div class="flex flex-row gap-2 pt-1">
-          <h1 class="text-h4 sm:hidden font-weight-thin ml-2">G</h1>
-          <h1 class="text-h4 sm:block font-weight-thin hidden ml-2">GING</h1>
-          <v-icon v-if="!activeProject" class="text-h4" color="secondary" icon="mdi-chevron-triple-right" />
+          <h1 class="ml-2 text-4xl font-thin sm:hidden">G</h1>
+          <h1 class="ml-2 hidden text-4xl font-thin sm:block">GING</h1>
+          <v-icon v-if="!activeProject" class="text-4xl" color="secondary" icon="mdi-chevron-triple-right" />
           <v-progress-circular v-show="isLoading" class="mt-0.5" indeterminate color="primary"></v-progress-circular>
         </div>
         <div class="ml-auto"></div>
-        <div v-if="projects.length > 0" class="sm:flex hidden gap-4">
+        <div v-if="projects.length > 0" class="hidden gap-4 sm:flex">
           <add-project />
           <toggle-edit />
         </div>

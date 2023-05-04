@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable max-statements */
 import type { Project, Step } from '@/models'
 import { defineStore } from 'pinia'
-import { emit, sleep } from 'shuutils'
-import { debouncedScrollToElement } from './utils/dom'
-import { debouncedPersist, getId, GistState, read } from './utils/gist'
-import { objectSum } from './utils/object'
+import { emit, objectSum, sleep } from 'shuutils'
+import { debouncedScrollToElement, focusInput, unfocusActiveElement } from './utils/dom'
+import { debouncedPersist, getId, read, type GistState } from './utils/gist'
 import { stringToStepData, stringToStepDuration } from './utils/step'
 
 export const initialState = {
@@ -17,9 +18,11 @@ export const initialState = {
   editMode: false,
   gistId: '',
   gistToken: '',
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   gistState: {} as GistState,
-  gistStateLastSum: '',
+  gistStateLastSum: -1,
   isLoading: false,
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   projects: [] as Project[],
 }
 
@@ -30,9 +33,7 @@ export type StateKey = keyof State
 export const useStore = defineStore('app', {
   state: () => initialState,
   getters: {
-    activeProject: (state): Project | undefined => {
-      return state.projects[state.activeProjectIndex]
-    },
+    activeProject: (state): Project | undefined => state.projects[state.activeProjectIndex],
     activeStep: (state): Step | undefined => {
       const project = state.projects[state.activeProjectIndex]
       if (!project) return undefined
@@ -44,31 +45,33 @@ export const useStore = defineStore('app', {
   actions: {
     addProject (project: Project) {
       this.projects.push(project)
-      this.updateGistState('addProject')
+      void this.updateGistState('addProject')
     },
     deleteActiveStep () {
-      if (!this.activeProject) return console.error('cannot delete step: no active project')
+      if (!this.activeProject) { console.error('cannot delete step: no active project'); return }
       this.activeProject.steps.splice(this.activeStepIndex, 1)
       this.preventStepIndexOverflow()
       this.scrollToStep()
-      this.updateGistState('deleteActiveStep')
+      void this.updateGistState('deleteActiveStep')
     },
     deleteActiveProject () {
       this.projects.splice(this.activeProjectIndex, 1)
-      this.updateGistState('deleteActiveProject')
+      void this.updateGistState('deleteActiveProject')
     },
     deleteProject (projectId: number) {
-      const index = this.projects.findIndex(p => p.id === projectId)
+      const index = this.projects.findIndex(project => project.id === projectId)
       this.projects.splice(index, 1)
-      this.updateGistState('deleteProject')
+      void this.updateGistState('deleteProject')
     },
     addStep (step: Step) {
       const project = this.projects[this.activeProjectIndex]
       if (!project) throw new Error(`Project at index ${this.activeProjectIndex} not found`)
       if (this.activeStepIndex === project.steps.length - 1) project.steps.push(step)
       else project.steps.splice(this.activeStepIndex + 1, 0, step)
-      sleep(100).then(() => this.selectNextStep())
-      this.updateGistState('addStep')
+      const timeBeforeSelect = 100
+      // eslint-disable-next-line promise/always-return, promise/prefer-await-to-then
+      void sleep(timeBeforeSelect).then(() => { this.selectNextStep() })
+      void this.updateGistState('addStep')
     },
     preventStepIndexOverflow () {
       if (!this.activeProject) return
@@ -82,7 +85,7 @@ export const useStore = defineStore('app', {
       this.preventStepIndexOverflow()
     },
     selectNextProject () {
-      this.activeProjectIndex = (this.activeProjectIndex + 1 >= this.projects.length) ? 0 : this.activeProjectIndex + 1
+      this.activeProjectIndex = (this.projects.length <= this.activeProjectIndex + 1) ? 0 : this.activeProjectIndex + 1
       this.preventStepIndexOverflow()
     },
     selectPrevStep () {
@@ -92,25 +95,25 @@ export const useStore = defineStore('app', {
     },
     selectNextStep () {
       if (!this.activeProject) return
-      this.activeStepIndex = (this.activeStepIndex + 1 >= this.activeProject.steps.length) ? 0 : this.activeStepIndex + 1
+      this.activeStepIndex = (this.activeProject.steps.length <= this.activeStepIndex + 1) ? 0 : this.activeStepIndex + 1
       this.scrollToStep()
     },
     scrollToStep () {
-      if (!this.activeStep) return console.log('Cannot scroll to step without an active step')
+      if (!this.activeStep) { console.log('Cannot scroll to step without an active step'); return }
       const stepElement = document.querySelector(`#step-${this.activeStep.id}`)
-      if (!stepElement) return console.log('Cannot scroll to step without an dom element')
-      debouncedScrollToElement(stepElement)
+      if (!stepElement) { console.log('Cannot scroll to step without an dom element'); return }
+      void debouncedScrollToElement(stepElement)
     },
     selectProject (projectId: number) {
-      this.activeProjectIndex = this.projects.findIndex(p => p.id === projectId)
+      this.activeProjectIndex = this.projects.findIndex(project => project.id === projectId)
     },
     selectStep (stepId: number) {
-      if (!this.activeProject) return console.log('Cannot select step without an active project')
-      this.activeStepIndex = this.activeProject.steps.findIndex(s => s.id === stepId)
+      if (!this.activeProject) { console.log('Cannot select step without an active project'); return }
+      this.activeStepIndex = this.activeProject.steps.findIndex(step => step.id === stepId)
     },
     patchCurrentStepTitle (title: string) {
-      if (!this.activeStep) return console.warn('Cannot patch step title without an active step')
-      if (title.length === 0) return console.warn('Title cannot be empty')
+      if (!this.activeStep) { console.warn('Cannot patch step title without an active step'); return }
+      if (title.length === 0) { console.warn('Title cannot be empty'); return }
       const step = this.activeStep
       try {
         const data = stringToStepData(title)
@@ -125,7 +128,7 @@ export const useStore = defineStore('app', {
       }
     },
     patchCurrentStepDuration (duration: string) {
-      if (!this.activeStep) return console.warn('Cannot patch step duration without an active step')
+      if (!this.activeStep) { console.warn('Cannot patch step duration without an active step'); return }
       try {
         const data = stringToStepDuration(duration)
         // if data contains one duration, clear the step duration
@@ -137,46 +140,36 @@ export const useStore = defineStore('app', {
       }
     },
     patchCurrentStepStart (date: Date) {
-      if (!this.activeStep) return console.warn('Cannot patch step date without an active step')
+      if (!this.activeStep) { console.warn('Cannot patch step date without an active step'); return }
       this.activeStep.start = date
     },
     patchCurrentProjectTitle (title: string) {
-      if (title.length === 0) return console.warn('Title cannot be empty')
+      if (title.length === 0) { console.warn('Title cannot be empty'); return }
       const project = this.projects[this.activeProjectIndex]
       if (!project) throw new Error(`Project at index ${this.activeProjectIndex} not found`)
       project.title = title
     },
     clearStepDurations (step: Step) {
+      /* eslint-disable no-param-reassign */
       delete step.months
       delete step.weeks
       delete step.days
       delete step.hours
       delete step.minutes
+      /* eslint-enable no-param-reassign */
     },
     toggleEditMode () {
       this.editMode = !this.editMode
       console.log('edit mode is now', this.editMode)
-      if (this.editMode === false) {
-        const active = document.activeElement
-        if (active && active instanceof HTMLInputElement) active.blur()
-        this.updateGistState('toggleEditMode to false')
-        return
-      }
-      if (this.activeStepIndex === 0) {
-        const input = document.querySelector('input#project-title-' + this.activeProject?.id)
-        if (input && input instanceof HTMLInputElement) input.focus()
-      } else {
-        const input = document.querySelector('input#step-title-' + this.activeStep?.id)
-        console.log('selector', 'input#step-title-' + this.activeStep?.id)
-        console.log('input', input)
-        if (input && input instanceof HTMLInputElement) input.focus()
-      }
+      if (!this.editMode) { unfocusActiveElement(); return }
+      if (this.activeStepIndex === 0) { focusInput(`input#project-title-${this.activeProject?.id ?? 'UNKNOWN'}`); return }
+      focusInput(`input#step-title-${this.activeStep?.id ?? 'UNKNOWN'}`)
     },
     toggleDebugMode () {
       this.debugMode = !this.debugMode
       console.log('debug mode is now', this.debugMode)
     },
-    moveStep (direction: 'before' | 'after') {
+    moveStep (direction: 'after' | 'before' | 'UNKNOWN') {
       const project = this.projects[this.activeProjectIndex]
       if (!project) throw new Error(`Project at index ${this.activeProjectIndex} not found`)
       const step = project.steps[this.activeStepIndex]
@@ -186,14 +179,14 @@ export const useStore = defineStore('app', {
         if (index === 0) return
         project.steps.splice(index, 1)
         project.steps.splice(index - 1, 0, step)
-        this.activeStepIndex--
+        this.activeStepIndex -= 1
       } else if (direction === 'after') {
         if (index === project.steps.length - 1) return
         project.steps.splice(index, 1)
         project.steps.splice(index + 1, 0, step)
-        this.activeStepIndex++
-      } else throw new Error('Invalid direction : ' + direction)
-      this.updateGistState('moveStep')
+        this.activeStepIndex += 1
+      } else throw new Error(`Invalid direction : ${direction}`)
+      void this.updateGistState('moveStep')
     },
     openAddProjectModal () {
       this.addProjectModalOpened = true
@@ -208,6 +201,7 @@ export const useStore = defineStore('app', {
       this.deleteProjectModalOpened = true
     },
     async setGistToken (token: string) {
+      // eslint-disable-next-line security/detect-possible-timing-attacks
       if (token === '') {
         console.log('clearing gist token')
         this.setGistId('')
@@ -223,20 +217,20 @@ export const useStore = defineStore('app', {
     },
     async getGistId () {
       const { success, message, data: id } = await getId(this)
-      if (!success || id === undefined) return console.error(message)
+      if (!success || id === undefined) { console.error(message); return }
       console.log('got gist id', id)
       this.setGistId(id)
     },
     async fetchGist () {
-      if (!this.gistId) return console.log('Cannot fetch gist without an id')
-      if (!this.gistToken) return console.log('Cannot fetch gist without a token')
+      if (!this.gistId) { console.log('Cannot fetch gist without an id'); return }
+      if (!this.gistToken) { console.log('Cannot fetch gist without a token'); return }
       console.log('fetching gist', this.gistId)
       const { success, message, data } = await read(this.gistId, this.gistToken)
-      if (!success || !data) return this.emitToast(message)
+      if (!success || !data) { this.emitToast(message); return }
       console.log('fetched gist content :', data)
       const same = JSON.stringify(data.projects) === JSON.stringify(this.projects)
-      if (same) return console.log('no changes detected')
-      if (data.projects) this.projects = data.projects
+      if (same) { console.log('no changes detected'); return }
+      if (data.projects.length > 0) this.projects = data.projects
     },
     setGistId (id: string) {
       if (this.gistId === id) return
@@ -251,13 +245,13 @@ export const useStore = defineStore('app', {
         isGistState: true,
       }
       const gistStateSum = objectSum(this.gistState)
-      if (gistStateSum === this.gistStateLastSum) return console.log('prevent update : no changes detected')
+      if (gistStateSum === this.gistStateLastSum) { console.log('prevent update : no changes detected'); return }
       this.gistStateLastSum = gistStateSum
-      if (!this.gistToken) return console.log('cannot persist without a gist token')
+      if (!this.gistToken) { console.log('cannot persist without a gist token'); return }
       this.isLoading = true
       const { success, message, data } = await debouncedPersist('updateGistState', this)
       console.log('persisted', { success, message, data })
-      if (data) this.setGistId(String(data))
+      if (data !== undefined) this.setGistId(String(data))
       this.isLoading = false
       if (!message) return
       if (!success) this.emitToast(message)

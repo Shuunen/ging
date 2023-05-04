@@ -4,8 +4,9 @@
     <v-card>
       <v-container>
         <v-col class="min-w-[20rem]">
-          <div class="text-h5 mb-4">New project</div>
+          <div class="mb-4 text-4xl">New project</div>
           <v-form ref="form">
+            <!-- eslint-disable-next-line vuejs-accessibility/no-autofocus -->
             <v-text-field v-model="title" :rules="requiredRules" :autofocus="open" label="Title" required></v-text-field>
             <v-select v-model="color" :rules="requiredRules" :items="tailwindColors" label="Color" required></v-select>
           </v-form>
@@ -13,7 +14,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn variant="plain" @click="open = false">Cancel</v-btn>
-          <v-btn :disabled="title.length === 0 || color.length === 0" variant="elevated" color="primary" @click="submit()">Add</v-btn>
+          <v-btn :disabled="title.length === 0 || color.length === 0" variant="elevated" color="primary" @click="submit">Add</v-btn>
         </v-card-actions>
       </v-container>
     </v-card>
@@ -30,6 +31,7 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   data: () => ({
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     open: false,
     title: '',
     color: '',
@@ -37,7 +39,8 @@ export default defineComponent({
   }),
   computed: {
     tailwindColors () {
-      return Object.keys(colors).filter(color => !['transparent', 'inherit', 'current'].includes(color) && !/[A-Z]/.test(color)).sort()
+      // eslint-disable-next-line @typescript-eslint/require-array-sort-compare
+      return Object.keys(colors).filter(color => !['transparent', 'inherit', 'current'].includes(color) && !/[A-Z]/u.test(color)).sort()
     },
   },
   mounted () {

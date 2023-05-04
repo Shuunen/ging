@@ -60,7 +60,7 @@ export default defineComponent({
 })
 </script>
 
-<style>
+<style scoped>
 .v-list-item-title {
   @apply flex flex-row gap-3;
 }
