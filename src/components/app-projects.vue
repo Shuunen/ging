@@ -1,11 +1,11 @@
 <template>
-  <v-container fluid class="projects flex flex-col justify-center h-full gap-2">
-    <p v-if="projects.length === 0" class="text-h6 flex flex-col items-center gap-4 mx-auto">
+  <v-container fluid class="app-projects flex h-full flex-col justify-center gap-2">
+    <p v-if="projects.length === 0" class="mx-auto flex flex-col items-center gap-4 text-2xl">
       There is no projects to display.
       <add-project />
     </p>
 
-    <app-project v-for="(project, index) in projects" :key="'project-' + index" v-bind="project" :active="index === activeProjectIndex" @add-step="showAddStep = true" />
+    <app-project v-for="(project, index) in projects" :key="`project-${  index}`" v-bind="project" :active="index === activeProjectIndex" @add-step="showAddStep = true" />
 
     <app-hotkey :keys="['arrowdown']" :enabled="hotkeysActive" @hotkey="selectNextProject" />
     <app-hotkey :keys="['arrowup']" :enabled="hotkeysActive" @hotkey="selectPrevProject" />
@@ -32,8 +32,11 @@ import { useStore } from '../store'
 
 export default defineComponent({
   data: () => ({
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     showAddStep: false,
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     showDeleteProject: false,
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     showDeleteStep: false,
   }),
   computed: {
@@ -54,8 +57,8 @@ export default defineComponent({
 })
 </script>
 
-<style>
-.projects {
+<style scoped>
+.app-projects {
   background-image: url('../assets/bg.svg');
   @apply bg-cover;
 }

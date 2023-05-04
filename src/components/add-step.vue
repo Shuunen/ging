@@ -1,16 +1,17 @@
 <template>
-  <v-snackbar v-if="projects.length === 0" v-model="open" color="primary">You first need to create a project to add a step to it.</v-snackbar>
-  <v-dialog v-else v-model="open">
+  <v-snackbar v-if="projects.length === 0" v-model="isOpen" color="primary">You first need to create a project to add a step to it.</v-snackbar>
+  <v-dialog v-else v-model="isOpen">
     <v-card>
       <v-container>
         <v-col class="min-w-[20rem]">
-          <div class="text-h5 mb-4">New step</div>
+          <div class="mb-4 text-3xl">New step</div>
           <v-form ref="form" @submit="submit">
+            <!-- eslint-disable vuejs-accessibility/no-autofocus -->
             <v-text-field
               v-model="title"
               :rules="requiredRules"
               label="Step title, time"
-              :autofocus="open"
+              :autofocus="isOpen"
               required
               hint="Like &ldquo;Get some milk, 1 hour&rdquo; or &ldquo;Go to Japan, 3 weeks&rdquo;"
             />
@@ -39,12 +40,11 @@ export default defineComponent({
   props: {
     active: {
       type: Boolean,
-      default: false,
     },
   },
   emits: ['close'],
   data: () => ({
-    open: false,
+    isOpen: false,
     title: '',
     requiredRules,
   }),
@@ -55,27 +55,27 @@ export default defineComponent({
     },
   },
   watch: {
-    active (value) {
-      this.open = value
+    active (isOpen: boolean) {
+      this.isOpen = isOpen
     },
     open (value) {
       if (value === false) this.$emit('close')
     },
   },
   mounted () {
-    store.$onAction(({ name }) => { if (name === 'openAddStepModal') this.open = true })
+    store.$onAction(({ name }) => { if (name === 'openAddStepModal') this.isOpen = true })
   },
   methods: {
     close () {
-      this.open = false
+      this.isOpen = false
     },
     submit (event: Event) {
       event.preventDefault()
-      const store = useStore()
-      const str = /\d/.test(this.title) ? this.title : `${this.title} 1 hour`
+      const storeInstance = useStore()
+      const str = /\d/u.test(this.title) ? this.title : `${this.title} 1 hour`
       const step = new Step(stringToStepData(str))
       console.log('submit, adding step', step)
-      store.addStep(step)
+      storeInstance.addStep(step)
       this.title = ''
       this.close()
     },

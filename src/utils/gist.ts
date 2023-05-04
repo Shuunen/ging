@@ -1,85 +1,105 @@
 /* c8 ignore next */
+/* eslint-disable @typescript-eslint/naming-convention */
 import type { Project } from '@/models'
 import type { State, Store } from '@/store'
 import type { Endpoints } from '@octokit/types'
 import { debounce } from 'shuutils'
 
+const apiUrl = 'https://api.github.com/gists'
+const debouncePersistDelay = 1000
+const jsonSpaceIndent = 2
+type Method = 'GET' | 'PATCH' | 'POST'
+
 export interface GistState {
-  projects: Project[],
-  isGistState: boolean,
+  projects: Project[]
+  isGistState: boolean
 }
 
-const API_URL = 'https://api.github.com/gists'
+export const fileName = 'ging.json'
 
-export const FILE_NAME = 'ging.json'
-
-export const headers = (token: string): { Accept: string; Authorization: string } => ({
-  Accept: 'application/vnd.github+json',
-  Authorization: `Bearer ${token}`,
-})
-
-export const file = (state: GistState): { [FILE_NAME]: { content: string } } => {
-  const content = JSON.stringify(state, undefined, 2)
-  return { [FILE_NAME]: { content } }
+export function headers (token: string): { Accept: string; Authorization: string } {
+  return ({
+    Accept: 'application/vnd.github+json',
+    Authorization: `Bearer ${token}`,
+  })
 }
 
-export const body = (state: GistState): string => (JSON.stringify({
-  description: 'GING Web App Data',
-  public: false,
-  files: file(state),
-}))
+export function file (state: GistState): { [fileName]: { content: string } } {
+  const content = JSON.stringify(state, undefined, jsonSpaceIndent)
+  return { [fileName]: { content } }
+}
 
-export const request = async <T> (method: RequestInit['method'] = 'GET', url: string, token: string, state?: GistState, fetch = window.fetch): Promise<Result<T>> => {
+export function body (state: GistState): string {
+  return (JSON.stringify({
+    description: 'GING Web App Data',
+    public: false,
+    files: file(state),
+  }))
+}
+
+// eslint-disable-next-line max-params, etc/no-misused-generics, @typescript-eslint/no-shadow
+export async function request<Type> (method: Method, url: string, token: string, state?: GistState, fetch = window.fetch): Promise<Result<Type>> {
   const options: RequestInit = { method, headers: headers(token) }
   if (state) options.body = body(state)
-  const request = await fetch(url, options)
-  const response = await request.json()
+  const query = await fetch(url, options)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const response = await query.json()
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/strict-boolean-expressions
   if (response.message) return { success: false, message: response.message }
-  return { success: true, message: `${method} request on ${url} succeed`, data: response as T }
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  return { success: true, message: `${String(method)} request on ${url} succeed`, data: response as Type }
 }
 
-export const create = async (state: GistState, token: string, fetch = window.fetch): Promise<Result> => {
-  const { success, message, data: gist } = await request<Endpoints['POST /gists']['response']['data']>('POST', API_URL, token, state, fetch)
+// eslint-disable-next-line @typescript-eslint/no-shadow
+export async function create (state: GistState, token: string, fetch = window.fetch): Promise<Result> {
+  const { success, message, data: gist } = await request<Endpoints['POST /gists']['response']['data']>('POST', apiUrl, token, state, fetch)
   if (!success || !gist || gist.id === undefined) return { success: false, message }
   return { success: true, message: 'gist created', data: gist.id }
 }
 
-export const update = async (state: GistState, token: string, id: string, fetch = window.fetch): Promise<Result> => {
-  const { success, message, data: gist } = await request<Endpoints['PATCH /gists/{gist_id}']['response']['data']>('PATCH', `${API_URL}/${id}`, token, state, fetch)
-  if (!success || !gist || !gist.id) return { success: false, message }
+// eslint-disable-next-line @typescript-eslint/no-shadow, max-params
+export async function update (state: GistState, token: string, id: string, fetch = window.fetch): Promise<Result> {
+  const { success, message, data: gist } = await request<Endpoints['PATCH /gists/{gist_id}']['response']['data']>('PATCH', `${apiUrl}/${id}`, token, state, fetch)
+  if (!success || !gist || gist.id === undefined) return { success: false, message }
   return { success: true, message: 'gist updated', data: gist.id }
 }
 
-export const getId = async (state: State, fetch = window.fetch): Promise<Result> => {
+// eslint-disable-next-line @typescript-eslint/no-shadow
+export async function getId (state: State, fetch = window.fetch): Promise<Result> {
   if (state.gistId) return { success: true, message: 'gist id already set', data: state.gistId }
   console.log('listing gists to find a potential existing one')
-  const { success, message, data: gists } = await request<Endpoints['GET /gists']['response']['data']>('GET', API_URL, state.gistToken, undefined, fetch)
+  const { success, message, data: gists } = await request<Endpoints['GET /gists']['response']['data']>('GET', apiUrl, state.gistToken, undefined, fetch)
   if (!success || !gists) return { success: false, message }
-  const gist = gists.find(gist => gist.files[FILE_NAME])
-  if (gist) return { success: true, message: 'gist id found', data: gist.id }
-  return create(state.gistState, state.gistToken, fetch)
+  const target = gists.find(gist => gist.files[fileName])
+  if (target) return { success: true, message: 'gist id found', data: target.id }
+  return await create(state.gistState, state.gistToken, fetch)
 }
 
-export const read = async (id: string, token: string, fetch = window.fetch): Promise<Result<GistState>> => {
-  const { success, message, data } = await request<Endpoints['GET /gists/{gist_id}']['response']['data']>('GET', `${API_URL}/${id}`, token, undefined, fetch)
+// eslint-disable-next-line @typescript-eslint/no-shadow
+export async function read (id: string, token: string, fetch = window.fetch): Promise<Result<GistState>> {
+  const { success, message, data } = await request<Endpoints['GET /gists/{gist_id}']['response']['data']>('GET', `${apiUrl}/${id}`, token, undefined, fetch)
   if (!success || !data) return { success: false, message }
-  if (data.files && data.files[FILE_NAME]) {
-    const content = String(data.files[FILE_NAME].content)
+  if (data.files?.[fileName]) {
+    const content = String(data.files[fileName].content)
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     const state = JSON.parse(content) as GistState
     return { success: true, message: 'gist read', data: state }
   }
-  return { success: false, message: 'gist read failed to find ' + FILE_NAME }
+  return { success: false, message: `gist read failed to find ${fileName}` }
 }
 
 /**
  * Persist state in a gist
  * @returns true if the state was persisted
  */
-export const persist = async (_reason = 'unknown', store: Store, fetch = window.fetch): Promise<Result> => {
+// eslint-disable-next-line @typescript-eslint/no-shadow
+export async function persist (reason: string, store: Store, fetch = window.fetch): Promise<Result> {
+  console.log(`persisting state because ${reason}`)
   if (store.gistToken === '') return { success: false, message: 'Cannot save your work without a Gist token' }
   const { success, message, data: id } = await getId(store, fetch)
   if (!success || id === undefined) return { success: false, message }
-  return update(store.gistState, store.gistToken, id, fetch)
+  return await update(store.gistState, store.gistToken, id, fetch)
 }
 
-export const debouncedPersist = debounce(persist, 1000)
+export const debouncedPersist = debounce(persist, debouncePersistDelay)
+

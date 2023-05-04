@@ -1,19 +1,19 @@
 <template>
-  <v-container class="project hover:grayscale-0 flex flex-col items-start gap-4 transition duration-300"
-               :class="[active ? '' : 'brightness-75 grayscale']" @click="selectProject(id)">
-    <div class="flex flex-row items-center cursor-pointer">
-      <v-text-field :id="'project-title-' + id" v-model="newTitle" :tabindex="edit ? 1 : -1" :autofocus="edit" :readonly="!edit" density="compact"
-                    :variant="edit ? 'outlined' : 'plain'" class="no-details title title-xl" :class="{ active, italic: edit, edit }"
-                    :style="{ width: (newTitle.length * .90) + 'ch' }" @change="updateTitle" />
+  <v-container class="app-project flex flex-col items-start gap-4 transition duration-300 hover:grayscale-0"
+    :class="[active ? 'app-active' : 'brightness-75 grayscale']" @click="selectProject(id)">
+    <div class="flex cursor-pointer flex-row items-center">
+      <v-text-field :id="`project-title-${id}`" v-model="updatedTitle" :tabindex="edit ? 1 : -1" :autofocus="edit" :readonly="!edit" density="compact"
+        :variant="edit ? 'outlined' : 'plain'" class="app-no-details app-title app-title-xl" :class="{ active, italic: edit, edit }"
+        :style="{ width: titleWidth }" @change="updateTitle" />
       <v-scroll-x-transition>
-        <v-icon v-if="active" class="text-h4" color="secondary" icon="mdi-chevron-triple-right" />
+        <v-icon v-if="active" class="text-4xl" color="secondary" icon="mdi-chevron-triple-right" />
       </v-scroll-x-transition>
     </div>
     <div v-if="steps.length > 0"
-         class="steps sm:rounded-xl bg-gradient-to-br sm:flex-row sm:w-auto flex flex-col items-center w-full max-w-full py-4 overflow-hidden overflow-x-auto rounded-lg cursor-pointer"
-         :class="[`from-${color}-700`, `to-${color}-900`, active ? 'shadow-2xl' : 'shadow']">
-      <app-step v-for="(step, index) in processedSteps" :key="'step-' + index" v-bind="step" :index="index"
-                :active="active && (index === activeStepIndex)" :project-active="active" :project-id="id" />
+      class="app-steps flex w-full max-w-full cursor-pointer flex-col items-center overflow-hidden overflow-x-auto rounded-lg bg-gradient-to-br py-4 sm:w-auto sm:flex-row sm:rounded-xl"
+      :class="[colorFrom(700), colorTo(900), active ? 'shadow-2xl' : 'shadow']">
+      <app-step v-for="(step, index) in processedSteps" :key="`step-${index}`" v-bind="step" :index="index"
+        :active="active && (index === activeStepIndex)" :project-active="active" :project-id="id" />
     </div>
     <v-btn v-if="steps.length === 0" variant="outlined" color="secondary" prepend-icon="mdi-plus" @click="addStepHere">
       Add step
@@ -33,7 +33,6 @@ export default defineComponent({
   props: {
     active: {
       type: Boolean,
-      default: false,
     },
     id: {
       type: Number,
@@ -48,14 +47,14 @@ export default defineComponent({
       default: 'red',
     },
     steps: {
-      type: Array as () => Array<Step>,
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+      type: Array as () => Step[],
       default: (): Step[] => [],
     },
   },
   emits: ['addStep'],
   data: () => ({
-    confirmDelete: false,
-    newTitle: '',
+    updatedTitle: '',
   }),
   computed: {
     ...mapState(useStore, ['projects', 'activeProjectIndex', 'activeStepIndex', 'editMode']),
@@ -65,47 +64,65 @@ export default defineComponent({
     edit () {
       return this.editMode && this.active
     },
+    titleWidth () {
+      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+      return `${Math.max(this.updatedTitle.length, 5.5) * (this.edit ? 0.92 : 0.91)}ch`
+    },
   },
   watch: {
-    title (value) {
+    title (value: string) {
       console.log('title changed', value)
-      this.newTitle = value
+      this.updatedTitle = value
     },
   },
   mounted () {
-    this.newTitle = this.title
-    if (this.active) sleep(100).then(() => this.scrollToStep())
+    this.updatedTitle = this.title
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers, promise/always-return, promise/prefer-await-to-then
+    if (this.active) void sleep(100).then(() => { this.scrollToStep() })
   },
   methods: {
     ...mapActions(useStore, ['selectProject', 'deleteProject', 'patchCurrentProjectTitle', 'scrollToStep']),
+    colorFrom (shade: number) {
+      return `from-${this.color}-${shade}`
+    },
+    colorTo (shade: number) {
+      return `to-${this.color}-${shade}`
+    },
     addStepHere () {
       console.log('add step here')
       this.selectProject(this.id)
       this.$emit('addStep')
     },
     updateTitle () {
-      console.log('update title to', this.newTitle)
-      this.patchCurrentProjectTitle(this.newTitle)
+      console.log('update title to', this.updatedTitle)
+      this.patchCurrentProjectTitle(this.updatedTitle)
     },
   },
 })
 </script>
 
+<!-- eslint-disable-next-line vue-scoped-css/enforce-style-type -->
 <style>
-.steps>.separator:last-child {
+.app-steps>.separator:last-child {
   @apply hidden;
 }
 
-.steps>.step:first-of-type {
+.app-steps>.step:first-of-type {
   @apply pl-6;
 }
 
-.steps>.step:last-of-type {
+.app-steps>.step:last-of-type {
   @apply pr-6;
 }
 
-.title.title-xl,
-.v-input.title.title-xl .v-field__input {
-  @apply text-4xl text-left mb-1 font-light;
+/* eslint-disable-next-line vue-scoped-css/require-selector-used-inside */
+.app-title.app-title-xl,
+.v-input.app-title.app-title-xl .v-field__input {
+  @apply text-4xl text-left mb-1 font-thin;
+}
+
+.app-active .app-title.app-title-xl,
+.app-active .v-input.app-title.app-title-xl .v-field__input {
+  @apply font-light;
 }
 </style>

@@ -33,6 +33,7 @@
 - [ ] add step error only appears in console
 - [ ] step selection not clear
 - [ ] step add input has no char limit
+- [ ] remove eslintrc overrides for vue files
 
 ## Thanks
 
