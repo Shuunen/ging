@@ -1,5 +1,6 @@
 <template>
   <v-icon v-if="edit && index !== 0" class="app-separator app-switch" @click="moveStep('before')">mdi-swap-horizontal</v-icon>
+  <div v-else-if="edit && index === 0" class="app-spacer-left w-6"></div>
   <div :id="`step-${id}`" ref="step" class="app-step" :class="{ edit }" :style="{ width: stepWidth }" @click="selectCurrentStep">
     <v-text-field :id="`step-title-${id}`" v-model="updatedTitle" :tabindex="edit ? 1 : -1" :autofocus="edit" :readonly="!edit" density="compact"
       :variant="edit ? 'outlined' : 'plain'" class="app-no-details app-title mx-auto w-full" :class="{ active, italic: edit, edit }"
@@ -26,8 +27,9 @@
       </div>
     </div>
   </div>
-  <v-icon v-if="edit" class="app-separator app-switch" @click="moveStep('after')">mdi-swap-horizontal</v-icon>
-  <v-icon v-else-if="!editMode || !projectActive || index !== activeStepIndex - 1" class="app-separator">mdi-chevron-right</v-icon>
+  <v-icon v-if="showRightSwap" class="app-separator app-switch" @click="moveStep('after')">mdi-swap-horizontal</v-icon>
+  <v-icon v-else-if="showRightChevron" class="app-separator">mdi-chevron-right</v-icon>
+  <div v-else-if="isLast" class="app-spacer-right w-6"></div>
 </template>
 
 <script lang="ts">
@@ -101,6 +103,9 @@ export default defineComponent({
       type: Boolean,
       default: true, // eslint-disable-line vue/no-boolean-default
     },
+    isLast: {
+      type: Boolean,
+    },
   },
   data: () => ({
     updatedTitle: '',
@@ -122,6 +127,14 @@ export default defineComponent({
     },
     endDateHour () {
       return formatDate(this.end, 'HH h mm').replace('h 00', 'h').replace(/\s/gu, '&ThinSpace;')
+    },
+    showRightSwap () {
+      return this.edit && !this.isLast && (this.index !== this.activeStepIndex - 1)
+    },
+    showRightChevron () {
+      // old method : !editMode || !projectActive || index !== activeStepIndex - 1
+      if (this.isLast) return false
+      return !this.editMode || !this.projectActive || (this.index !== this.activeStepIndex - 1)
     },
   },
   watch: {
