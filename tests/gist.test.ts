@@ -1,10 +1,11 @@
+/* eslint-disable total-functions/no-unsafe-readonly-mutable-assignment */
 /* eslint-disable @typescript-eslint/require-await */
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import type { State, Store } from '@/store'
 import { body, create, file, fileName, getId, headers, persist, read, request, update } from '@/utils/gist'
-import { check, checksRun } from 'shuutils'
+import { check } from './utils'
 
 const token = 'aUnitTest_gist_token'
 check('gist headers contains Accept', headers('').Accept, 'application/vnd.github+json')
@@ -62,5 +63,3 @@ check('gist persist fails with empty token', persist('reason B', storeB, fetch.s
 const storeC = { gistToken: token } as Store
 // same tricky check as above
 check('gist persist update with a token', persist('reason C', storeC, fetch.successList), { success: false, message: 'PATCH request on https://api.github.com/gists/aUnitTest_gist_id succeed' })
-
-checksRun()
