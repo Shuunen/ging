@@ -19,7 +19,7 @@
       class="app-steps flex w-full max-w-full cursor-pointer flex-col items-center overflow-hidden overflow-x-auto rounded-lg bg-gradient-to-br py-4 sm:w-auto sm:flex-row sm:rounded-xl"
       :class="[colorFrom(700), colorTo(900), active ? 'shadow-2xl' : 'shadow']">
       <app-step v-for="(step, index) in processedSteps" :key="`step-${index}`" v-bind="step" :show-date="isDateDisplayed" :show-time="isTimeDisplayed" :index="index"
-        :active="active && (index === activeStepIndex)" :project-active="active" :project-id="id" />
+        :active="active && (index === activeStepIndex)" :project-active="active" :project-id="id" :is-last="index === steps.length - 1" />
     </div>
     <v-btn v-if="steps.length === 0" variant="outlined" color="secondary" prepend-icon="mdi-plus" @click="addStepHere">
       Add step
