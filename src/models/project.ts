@@ -9,6 +9,10 @@ export class Project {
 
   public steps: Step[] = []
 
+  public isDateDisplayed?: boolean
+
+  public isTimeDisplayed?: boolean
+
   public constructor (data: Partial<Project> = {}) {
     Object.assign(this, data)
   }
