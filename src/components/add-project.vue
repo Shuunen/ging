@@ -31,7 +31,6 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   data: () => ({
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     open: false,
     title: '',
     color: '',
