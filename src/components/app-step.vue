@@ -13,11 +13,16 @@
     <v-text-field v-if="edit" v-model="updatedEnd" :tabindex="edit ? 1 : -1" class="app-no-details mx-auto" type="datetime-local" density="compact"
       variant="outlined" @change="updateEnd" />
     <div v-else class="app-date-end whitespace-nowrap text-white opacity-60">
-      {{ end.toLocaleDateString() }}
       <div class="flex flex-row items-center justify-center gap-2">
-        {{ end.toLocaleTimeString().replace(/:\d\d$/, "").replace(':00', ' h').replace(':', ' h') }}
-        <v-icon v-if="parseInt(end.toLocaleTimeString()) <= 12" class="brightness-125" size="x-small">mdi-white-balance-sunny</v-icon>
-        <v-icon v-if="parseInt(end.toLocaleTimeString()) > 12" class="brightness-50" size="x-small">mdi-white-balance-sunny</v-icon>
+        <v-icon size="x-small">mdi-calendar-month</v-icon>
+        <!-- eslint-disable-next-line vue/no-v-html -->
+        <span v-html="endDateDay"></span>
+      </div>
+      <div class="flex flex-row items-center justify-center gap-2">
+        <v-icon v-if="parseInt(endDateHour) <= 12" class="brightness-125" size="x-small">mdi-white-balance-sunny</v-icon>
+        <v-icon v-if="parseInt(endDateHour) > 12" class="brightness-50" size="x-small">mdi-white-balance-sunny</v-icon>
+        <!-- eslint-disable-next-line vue/no-v-html -->
+        <span v-html="endDateHour"></span>
       </div>
     </div>
   </div>
@@ -29,7 +34,7 @@
 import { useStore } from '@/store'
 import { durationBetweenDates } from '@/utils/step'
 import { mapActions, mapState } from 'pinia'
-import { dateToIsoString } from 'shuutils'
+import { dateToIsoString, formatDate } from 'shuutils'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -103,6 +108,12 @@ export default defineComponent({
     stepWidth () {
       // eslint-disable-next-line @typescript-eslint/no-magic-numbers
       return `${Math.min(Math.max(Math.max(this.updatedTitle.length, this.updatedDuration.length) + 8, this.edit ? 22 : 14), 40)}ch`
+    },
+    endDateDay () {
+      return formatDate(this.end, 'dd / MM').replace(/\s/gu,'&ThinSpace;')
+    },
+    endDateHour () {
+      return formatDate(this.end, 'HH h mm').replace('h 00', 'h').replace(/\s/gu,'&ThinSpace;')
     },
   },
   watch: {
