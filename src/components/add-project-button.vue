@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { Project } from '@/models'
+import { Project } from '@/models/project'
 import { store } from '@/store'
 import { requiredRules } from '@/utils/form'
 import colors from 'tailwindcss/colors'

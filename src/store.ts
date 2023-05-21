@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable max-statements */
-import type { Project, Step } from '@/models'
+import type { Project } from '@/models/project'
+import type { Step } from '@/models/step'
 import { defineStore } from 'pinia'
 import { emit, objectSum, sleep } from 'shuutils'
 import { debouncedScrollToElement, focusInput, unfocusActiveElement } from './utils/dom'

@@ -1,6 +1,6 @@
 /* c8 ignore next */
 /* eslint-disable @typescript-eslint/naming-convention */
-import type { Project } from '@/models'
+import type { Project } from '@/models/project'
 import type { State, Store } from '@/store'
 import type { Endpoints } from '@octokit/types'
 import { debounce } from 'shuutils'
