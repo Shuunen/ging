@@ -47,4 +47,3 @@
 - [TailwindCss](https://tailwindcss.com) : awesome lib to produce maintainable style
 - [Vitest](https://github.com/vitest-dev/vitest) : super fast vite-native testing framework
 - [Vue](https://vuejs.org) : when I need a front framework, this is the one I choose <3
-- [Watchlist](https://github.com/lukeed/watchlist) : recursively watch a list of directories & run a command on any file system

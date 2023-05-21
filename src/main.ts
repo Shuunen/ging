@@ -11,7 +11,6 @@ import './register-service-worker'
 
 void loadFonts()
 
-// eslint-disable-next-line total-functions/no-unsafe-readonly-mutable-assignment
 const app = createApp(App)
 
 const pinia = createPinia()
@@ -32,7 +31,6 @@ requireComponent.keys().forEach(fileName => {
   app.component(componentName, componentConfig.default || componentConfig)
 })
 
-// eslint-disable-next-line total-functions/no-unsafe-readonly-mutable-assignment
 app.component('AppHotkey', Hotkey)
 
 app.use(

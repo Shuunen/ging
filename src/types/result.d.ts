@@ -1,5 +1,5 @@
-interface Result<T = string> {
+interface Result<Data = string> {
   success: boolean
   message: string
-  data?: T
+  data?: Data
 }

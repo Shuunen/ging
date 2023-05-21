@@ -7,6 +7,8 @@ import { debouncedScrollToElement, focusInput, unfocusActiveElement } from './ut
 import { debouncedPersist, getId, read, type GistState } from './utils/gist'
 import { stringToStepData, stringToStepDuration } from './utils/step'
 
+const first = 0
+
 export const initialState = {
   activeProjectIndex: 0,
   activeStepIndex: 0,
@@ -113,7 +115,7 @@ export const useStore = defineStore('app', {
     },
     patchCurrentStepTitle (title: string) {
       if (!this.activeStep) { console.warn('Cannot patch step title without an active step'); return }
-      if (title.length === 0) { console.warn('Title cannot be empty'); return }
+      if (title === '') { console.warn('Title cannot be empty'); return }
       const step = this.activeStep
       try {
         const data = stringToStepData(title)
@@ -144,7 +146,7 @@ export const useStore = defineStore('app', {
       this.activeStep.start = date
     },
     patchCurrentProjectTitle (title: string) {
-      if (title.length === 0) { console.warn('Title cannot be empty'); return }
+      if (title === '') { console.warn('Title cannot be empty'); return }
       const project = this.projects[this.activeProjectIndex]
       if (!project) throw new Error(`Project at index ${this.activeProjectIndex} not found`)
       project.title = title
@@ -162,7 +164,7 @@ export const useStore = defineStore('app', {
       this.editMode = !this.editMode
       console.log('edit mode is now', this.editMode)
       if (!this.editMode) { unfocusActiveElement(); return }
-      if (this.activeStepIndex === 0) { focusInput(`input#project-title-${this.activeProject?.id ?? 'UNKNOWN'}`); return }
+      if (this.activeStepIndex === first) { focusInput(`input#project-title-${this.activeProject?.id ?? 'UNKNOWN'}`); return }
       focusInput(`input#step-title-${this.activeStep?.id ?? 'UNKNOWN'}`)
     },
     toggleDebugMode () {
@@ -176,7 +178,7 @@ export const useStore = defineStore('app', {
       if (!step) throw new Error(`Step at index ${this.activeStepIndex} not found`)
       const index = project.steps.indexOf(step)
       if (direction === 'before') {
-        if (index === 0) return
+        if (index === first) return
         project.steps.splice(index, 1)
         project.steps.splice(index - 1, 0, step)
         this.activeStepIndex -= 1
@@ -211,7 +213,7 @@ export const useStore = defineStore('app', {
       console.log('setting gist token to', token)
       this.gistToken = token
       this.isLoading = true
-      if (this.gistId.length === 0) await this.getGistId()
+      if (this.gistId === '') await this.getGistId()
       await this.fetchGist()
       this.isLoading = false
     },
