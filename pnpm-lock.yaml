@@ -112,7 +112,7 @@ devDependencies:
     specifier: '2.5'
     version: 2.5.8(vue@3.3.4)(webpack@5.83.1)
   vue-tsc:
-    specifier: ^1.6.5
+    specifier: '1.6'
     version: 1.6.5(typescript@5.0.4)
   webfontloader:
     specifier: '1.6'
