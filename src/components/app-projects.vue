@@ -2,7 +2,7 @@
   <v-container fluid class="app-projects flex h-full flex-col justify-center gap-2">
     <p v-if="projects.length === 0" class="mx-auto flex flex-col items-center gap-4 text-2xl">
       There is no projects to display.
-      <add-project />
+      <add-project-button />
     </p>
 
     <app-project v-for="(project, index) in projects" :key="`project-${  index}`" v-bind="project" :active="index === activeProjectIndex" @add-step="showAddStep = true" />
@@ -14,13 +14,13 @@
     <app-hotkey :keys="['ctrl', 'arrowleft']" :enabled="hotkeysActive" @hotkey="moveStep('before')" />
     <app-hotkey :keys="['ctrl', 'arrowright']" :enabled="hotkeysActive" @hotkey="moveStep('after')" />
 
-    <delete-project :active="showDeleteProject" @close="showDeleteProject = false" />
+    <delete-project-modal :active="showDeleteProject" @close="showDeleteProject = false" />
     <app-hotkey :keys="['alt', 'd']" :enabled="hotkeysActive" @hotkey="showDeleteProjectModal" />
 
-    <add-step :active="showAddStep" @close="showAddStep = false" />
+    <add-step-modal :active="showAddStep" @close="showAddStep = false" />
     <app-hotkey :keys="['ctrl', 'a']" :enabled="hotkeysActive" @hotkey="showAddStep = true" />
 
-    <delete-step :active="showDeleteStep" @close="showDeleteStep = false" />
+    <delete-step-modal :active="showDeleteStep" @close="showDeleteStep = false" />
     <app-hotkey :keys="['ctrl', 'd']" :enabled="hotkeysActive" @hotkey="showDeleteStepModal" />
   </v-container>
 </template>
