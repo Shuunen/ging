@@ -129,6 +129,7 @@ export const useStore = defineStore('app', {
         step.title = title
         console.log('step got new title', step)
       }
+      // let the edit toggle trigger => void this.updateGistState('patchCurrentStepTitle')
     },
     patchCurrentStepDuration (duration: string) {
       if (!this.activeStep) { console.warn('Cannot patch step duration without an active step'); return }
@@ -138,6 +139,7 @@ export const useStore = defineStore('app', {
         if (Object.keys(data).length > 0) this.clearStepDurations(this.activeStep)
         console.log('updating step with data', data)
         Object.assign(this.activeStep, data)
+        // let the edit toggle trigger => void this.updateGistState('patchCurrentStepDuration')
       } catch (error) {
         if (error instanceof Error) console.error(error.message)
       }
@@ -145,12 +147,28 @@ export const useStore = defineStore('app', {
     patchCurrentStepStart (date: Date) {
       if (!this.activeStep) { console.warn('Cannot patch step date without an active step'); return }
       this.activeStep.start = date
+      // let the edit toggle trigger => void this.updateGistState('patchCurrentStepStart')
     },
     patchCurrentProjectTitle (title: string) {
       if (title === '') { console.warn('Title cannot be empty'); return }
       const project = this.projects[this.activeProjectIndex]
       if (!project) throw new Error(`Project at index ${this.activeProjectIndex} not found`)
       project.title = title
+      // let the edit toggle trigger => void this.updateGistState('patchCurrentProjectTitle')
+    },
+    toggleDateDisplay () {
+      if (!this.activeProject) { console.warn('Cannot toggle date display without an active project'); return }
+      const before = this.activeProject.isDateDisplayed ?? true
+      console.log('toggling date display, was', before, 'now', !before)
+      this.activeProject.isDateDisplayed = !before
+      void this.updateGistState('toggleDateDisplay')
+    },
+    toggleTimeDisplay () {
+      if (!this.activeProject) { console.warn('Cannot toggle time display without an active project'); return }
+      const before = this.activeProject.isTimeDisplayed ?? true
+      console.log('toggling time display, was', before, 'now', !before)
+      this.activeProject.isTimeDisplayed = !before
+      void this.updateGistState('toggleTimeDisplay')
     },
     clearStepDurations (step: Step) {
       /* eslint-disable no-param-reassign */
@@ -161,12 +179,20 @@ export const useStore = defineStore('app', {
       delete step.minutes
       /* eslint-enable no-param-reassign */
     },
+    enterEditMode () {
+      console.log('entering edit mode')
+      const selector = this.activeStepIndex === first ? `input#project-title-${this.activeProject?.id ?? 'UNKNOWN'}` : `input#step-title-${this.activeStep?.id ?? 'UNKNOWN'}`
+      focusInput(selector)
+    },
+    exitEditMode () {
+      console.log('exiting edit mode')
+      unfocusActiveElement()
+      void this.updateGistState('exitEditMode')
+    },
     toggleEditMode () {
       this.editMode = !this.editMode
-      console.log('edit mode is now', this.editMode)
-      if (!this.editMode) { unfocusActiveElement(); return }
-      if (this.activeStepIndex === first) { focusInput(`input#project-title-${this.activeProject?.id ?? 'UNKNOWN'}`); return }
-      focusInput(`input#step-title-${this.activeStep?.id ?? 'UNKNOWN'}`)
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      this.editMode ? this.enterEditMode() : this.exitEditMode()
     },
     toggleDebugMode () {
       this.debugMode = !this.debugMode

@@ -1,10 +1,16 @@
 <template>
   <v-container class="app-project flex flex-col items-start gap-4 transition duration-300 hover:grayscale-0"
     :class="[active ? 'app-active' : 'brightness-75 grayscale']" @click="selectProject(id)">
-    <div class="flex cursor-pointer flex-row items-center">
+    <div class="flex cursor-pointer flex-row items-center" :class="{ 'gap-4': edit }">
       <v-text-field :id="`project-title-${id}`" v-model="updatedTitle" :tabindex="edit ? 1 : -1" :autofocus="edit" :readonly="!edit" density="compact"
         :variant="edit ? 'outlined' : 'plain'" class="app-no-details app-title app-title-xl" :class="{ active, italic: edit, edit }"
         :style="{ width: titleWidth }" @change="updateTitle" />
+      <v-btn v-if="edit" variant="tonal" color="secondary" prepend-icon="mdi-calendar-month" @click="toggleDateDisplay">
+        {{ isDateDisplayed ? 'Hide' : 'Show' }} dates
+      </v-btn>
+      <v-btn v-if="edit" variant="tonal" color="secondary" prepend-icon="mdi-white-balance-sunny" @click="toggleTimeDisplay">
+        {{ isTimeDisplayed ? 'Hide' : 'Show' }} hours
+      </v-btn>
       <v-scroll-x-transition>
         <v-icon v-if="active" class="text-4xl" color="secondary" icon="mdi-chevron-triple-right" />
       </v-scroll-x-transition>
@@ -12,7 +18,7 @@
     <div v-if="steps.length > 0"
       class="app-steps flex w-full max-w-full cursor-pointer flex-col items-center overflow-hidden overflow-x-auto rounded-lg bg-gradient-to-br py-4 sm:w-auto sm:flex-row sm:rounded-xl"
       :class="[colorFrom(700), colorTo(900), active ? 'shadow-2xl' : 'shadow']">
-      <app-step v-for="(step, index) in processedSteps" :key="`step-${index}`" v-bind="step" :index="index"
+      <app-step v-for="(step, index) in processedSteps" :key="`step-${index}`" v-bind="step" :show-date="isDateDisplayed" :show-time="isTimeDisplayed" :index="index"
         :active="active && (index === activeStepIndex)" :project-active="active" :project-id="id" />
     </div>
     <v-btn v-if="steps.length === 0" variant="outlined" color="secondary" prepend-icon="mdi-plus" @click="addStepHere">
@@ -51,13 +57,21 @@ export default defineComponent({
       type: Array as () => Step[],
       default: (): Step[] => [],
     },
+    isDateDisplayed: {
+      type: Boolean,
+      default: true, // eslint-disable-line vue/no-boolean-default
+    },
+    isTimeDisplayed: {
+      type: Boolean,
+      default: true, // eslint-disable-line vue/no-boolean-default
+    },
   },
   emits: ['addStep'],
   data: () => ({
     updatedTitle: '',
   }),
   computed: {
-    ...mapState(useStore, ['projects', 'activeProjectIndex', 'activeStepIndex', 'editMode']),
+    ...mapState(useStore, ['projects', 'activeStepIndex', 'editMode']),
     processedSteps () {
       return processStepsDurations(this.steps)
     },
@@ -88,7 +102,7 @@ export default defineComponent({
     if (this.active) void sleep(100).then(() => { this.scrollToStep() })
   },
   methods: {
-    ...mapActions(useStore, ['selectProject', 'deleteProject', 'patchCurrentProjectTitle', 'scrollToStep']),
+    ...mapActions(useStore, ['selectProject', 'deleteProject', 'toggleDateDisplay', 'toggleTimeDisplay', 'patchCurrentProjectTitle', 'scrollToStep']),
     colorFrom (shade: number) {
       return `from-${this.color}-${shade}`
     },

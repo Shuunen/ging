@@ -13,12 +13,12 @@
     <v-text-field v-if="edit" v-model="updatedEnd" :tabindex="edit ? 1 : -1" class="app-no-details mx-auto" type="datetime-local" density="compact"
       variant="outlined" @change="updateEnd" />
     <div v-else class="app-date-end whitespace-nowrap text-white opacity-60">
-      <div class="flex flex-row items-center justify-center gap-2">
+      <div v-if="showDate" class="flex flex-row items-center justify-center gap-2">
         <v-icon size="x-small">mdi-calendar-month</v-icon>
         <!-- eslint-disable-next-line vue/no-v-html -->
         <span v-html="endDateDay"></span>
       </div>
-      <div class="flex flex-row items-center justify-center gap-2">
+      <div v-if="showTime" class="flex flex-row items-center justify-center gap-2">
         <v-icon v-if="parseInt(endDateHour) <= 12" class="brightness-125" size="x-small">mdi-white-balance-sunny</v-icon>
         <v-icon v-if="parseInt(endDateHour) > 12" class="brightness-50" size="x-small">mdi-white-balance-sunny</v-icon>
         <!-- eslint-disable-next-line vue/no-v-html -->
@@ -93,6 +93,14 @@ export default defineComponent({
       type: Date,
       default: new Date(),
     },
+    showDate: {
+      type: Boolean,
+      default: true, // eslint-disable-line vue/no-boolean-default
+    },
+    showTime: {
+      type: Boolean,
+      default: true, // eslint-disable-line vue/no-boolean-default
+    },
   },
   data: () => ({
     updatedTitle: '',
@@ -110,10 +118,10 @@ export default defineComponent({
       return `${Math.min(Math.max(Math.max(this.updatedTitle.length, this.updatedDuration.length) + 8, this.edit ? 22 : 14), 40)}ch`
     },
     endDateDay () {
-      return formatDate(this.end, 'dd / MM').replace(/\s/gu,'&ThinSpace;')
+      return formatDate(this.end, 'dd / MM').replace(/\s/gu, '&ThinSpace;')
     },
     endDateHour () {
-      return formatDate(this.end, 'HH h mm').replace('h 00', 'h').replace(/\s/gu,'&ThinSpace;')
+      return formatDate(this.end, 'HH h mm').replace('h 00', 'h').replace(/\s/gu, '&ThinSpace;')
     },
   },
   watch: {
