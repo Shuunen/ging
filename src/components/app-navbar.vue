@@ -10,15 +10,15 @@
         </div>
         <div class="ml-auto"></div>
         <div v-if="projects.length > 0" class="hidden gap-4 sm:flex">
-          <add-project />
-          <toggle-edit />
+          <add-project-button />
+          <toggle-edit-button />
         </div>
         <div class="sm:hidden">
           <app-actions />
         </div>
         <div class="ml-1">
-          <app-login />
-          <app-about />
+          <app-login-button />
+          <app-about-button />
         </div>
       </v-row>
     </v-container>
