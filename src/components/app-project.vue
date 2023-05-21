@@ -65,8 +65,15 @@ export default defineComponent({
       return this.editMode && this.active
     },
     titleWidth () {
-      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-      return `${Math.max(this.updatedTitle.length, 5.5) * (this.edit ? 0.92 : 0.91)}ch`
+      const widths = { large: 23, small: 18, space: 14, none: 0 }
+      let width = widths.none
+      const chars = Array.from(this.updatedTitle)
+      chars.forEach(char => {
+        if (char === ' ') width += widths.space
+        else if (/[A-Z]/u.test(char)) width += widths.large
+        else width += widths.small
+      })
+      return `${width}px`
     },
   },
   watch: {
