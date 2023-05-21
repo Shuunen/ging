@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { Step } from '@/models'
+import { Step } from '@/models/step'
 import { store, useStore } from '@/store'
 import { requiredRules } from '@/utils/form'
 import { stringToStepData } from '@/utils/step'

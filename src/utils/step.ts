@@ -1,5 +1,5 @@
 /* c8 ignore next */
-import { Step } from '@/models'
+import { Step } from '@/models/step'
 
 const msInSecond = 1000
 const secondsInMinute = 60
