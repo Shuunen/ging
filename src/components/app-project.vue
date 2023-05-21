@@ -1,7 +1,7 @@
 <template>
   <v-container class="app-project flex flex-col items-start gap-4 transition duration-300 hover:grayscale-0"
     :class="[active ? 'app-active' : 'brightness-75 grayscale']" @click="selectProject(id)">
-    <div class="flex cursor-pointer flex-row items-center" :class="{ 'gap-4': edit }">
+    <div class="app-project--header flex cursor-pointer flex-row flex-wrap items-center" :class="{ 'gap-4': edit }">
       <v-text-field :id="`project-title-${id}`" v-model="updatedTitle" :tabindex="edit ? 1 : -1" :autofocus="edit" :readonly="!edit" density="compact"
         :variant="edit ? 'outlined' : 'plain'" class="app-no-details app-title app-title-xl" :class="{ active, italic: edit, edit }"
         :style="{ width: titleWidth }" @change="updateTitle" />
