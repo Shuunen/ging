@@ -47,7 +47,7 @@
     "vue-cli-plugin-vuetify": "2.5",
     "vue-tsc": "1.6",
     "webfontloader": "1.6",
-    "webpack": "5.83",
+    "webpack": "5.84",
     "webpack-plugin-vuetify": "2.0"
   },
   "files": [
