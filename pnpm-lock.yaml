@@ -1,4 +1,8 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
 
 dependencies:
   '@auth0/auth0-vue':
@@ -76,8 +80,8 @@ devDependencies:
     specifier: '11.0'
     version: 11.0.3(eslint-plugin-vue@9.13.0)(eslint@8.41.0)(typescript@5.0.4)
   c8:
-    specifier: '7.13'
-    version: 7.13.0
+    specifier: '7.14'
+    version: 7.14.0
   eslint:
     specifier: '8.41'
     version: 8.41.0
@@ -3704,7 +3708,7 @@ packages:
       vitest: '>=0.30.0 <1'
     dependencies:
       '@ampproject/remapping': 2.2.1
-      c8: 7.13.0
+      c8: 7.14.0
       magic-string: 0.30.0
       picocolors: 1.0.0
       std-env: 3.3.3
@@ -4871,8 +4875,8 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
-  /c8@7.13.0:
-    resolution: {integrity: sha512-/NL4hQTv1gBL6J6ei80zu3IiTrmePDKXKXOTLpHvcIWZTVYQlDhVWjjWvkhICylE8EwwnMVzDZugCvdx0/DIIA==}
+  /c8@7.14.0:
+    resolution: {integrity: sha512-i04rtkkcNcCf7zsQcSv/T9EbUn4RXQ6mropeMcjFOsQXQ0iGLAr/xT6TImQg4+U9hmNpN9XdvPkjUL1IzbgxJw==}
     engines: {node: '>=10.12.0'}
     hasBin: true
     dependencies:

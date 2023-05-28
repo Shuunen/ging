@@ -33,7 +33,7 @@
     "@vue/cli-service": "5.0",
     "@vue/compiler-sfc": "3.3",
     "@vue/eslint-config-typescript": "11.0",
-    "c8": "7.13",
+    "c8": "7.14",
     "eslint": "8.41",
     "eslint-config-hardcore": "36.3",
     "eslint-plugin-tailwindcss": "3.12",
