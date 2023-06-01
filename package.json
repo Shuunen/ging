@@ -41,7 +41,7 @@
     "repo-check": "1.31",
     "roboto-fontface": "0.10",
     "tslib": "2.5",
-    "typescript": "5.0",
+    "typescript": "5.1",
     "vitest": "0.31",
     "vue-cli-plugin-tailwind": "3.0",
     "vue-cli-plugin-vuetify": "2.5",
