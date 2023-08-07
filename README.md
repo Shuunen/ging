@@ -37,6 +37,7 @@
 - [ ] remove eslintrc overrides for vue files
 - [ ] add benchmarks for common tasks : build, lint, test, etc
 - [ ] migrate to Nuxt
+- [ ] use Shuutils state instead of Pinia
 
 ## Thanks
 
