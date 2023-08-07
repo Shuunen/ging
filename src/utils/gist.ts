@@ -11,8 +11,8 @@ const jsonSpaceIndent = 2
 type Method = 'GET' | 'PATCH' | 'POST'
 
 export interface GistState {
-  projects: Project[]
   isGistState: boolean
+  projects: Project[]
 }
 
 export const fileName = 'ging.json'
@@ -53,14 +53,14 @@ export async function request<Type> (method: Method, url: string, token: string,
 // eslint-disable-next-line @typescript-eslint/no-shadow
 export async function create (state: GistState, token: string, fetch = window.fetch): Promise<Result> {
   const { success, message, data: gist } = await request<Endpoints['POST /gists']['response']['data']>('POST', apiUrl, token, state, fetch)
-  if (!success || !gist || gist.id === undefined) return { success: false, message }
+  if (!success || gist?.id === undefined) return { success: false, message }
   return { success: true, message: 'gist created', data: gist.id }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-shadow, max-params
 export async function update (state: GistState, token: string, id: string, fetch = window.fetch): Promise<Result> {
   const { success, message, data: gist } = await request<Endpoints['PATCH /gists/{gist_id}']['response']['data']>('PATCH', `${apiUrl}/${id}`, token, state, fetch)
-  if (!success || !gist || gist.id === undefined) return { success: false, message }
+  if (!success || gist?.id === undefined) return { success: false, message }
   return { success: true, message: 'gist updated', data: gist.id }
 }
 
