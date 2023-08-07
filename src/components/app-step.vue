@@ -2,27 +2,27 @@
   <v-icon v-if="edit && index !== 0" class="app-separator app-switch" @click="moveStep('before')">mdi-swap-horizontal</v-icon>
   <div v-else-if="edit && index === 0" class="app-spacer-left w-6"></div>
   <div :id="`step-${id}`" ref="step" class="app-step" :class="{ edit }" :style="{ width: stepWidth }" @click="selectCurrentStep">
-    <v-text-field :id="`step-title-${id}`" v-model="updatedTitle" :tabindex="edit ? 1 : -1" :autofocus="edit" :readonly="!edit" density="compact"
-      :variant="edit ? 'outlined' : 'plain'" class="app-no-details app-title mx-auto w-full" :class="{ active, italic: edit, edit }"
+    <v-text-field :id="`step-title-${id}`" v-model="updatedTitle" :autofocus="edit" class="app-no-details app-title mx-auto w-full" :class="{ active, italic: edit, edit }" density="compact"
+      :readonly="!edit" :tabindex="edit ? 1 : -1" :variant="edit ? 'outlined' : 'plain'"
       @change="updateTitle" />
-    <v-text-field v-model="updatedDuration" :tabindex="edit ? 1 : -1" :readonly="!edit" density="compact" prepend-icon="mdi-clock-outline"
-      :variant="edit ? 'outlined' : 'plain'" class="app-no-details duration mx-auto select-none" :class="{ active, italic: edit, edit }"
-      :style="{ width: `${updatedDuration.length + 5}ch` }" @change="updateDuration" />
+    <v-text-field v-model="updatedDuration" class="app-no-details duration mx-auto select-none" :class="{ active, italic: edit, edit }" density="compact" prepend-icon="mdi-clock-outline"
+      :readonly="!edit" :style="{ width: `${updatedDuration.length + 5}ch` }" :tabindex="edit ? 1 : -1"
+      :variant="edit ? 'outlined' : 'plain'" @change="updateDuration" />
 
-    <v-text-field v-if="edit" v-model="updatedStart" :tabindex="edit ? 1 : -1" class="app-no-details mx-auto" type="datetime-local" density="compact"
+    <v-text-field v-if="edit" v-model="updatedStart" class="app-no-details mx-auto" density="compact" :tabindex="edit ? 1 : -1" type="datetime-local"
       variant="outlined" @change="updateStart" />
-    <v-text-field v-if="edit" v-model="updatedEnd" :tabindex="edit ? 1 : -1" class="app-no-details mx-auto" type="datetime-local" density="compact"
+    <v-text-field v-if="edit" v-model="updatedEnd" class="app-no-details mx-auto" density="compact" :tabindex="edit ? 1 : -1" type="datetime-local"
       variant="outlined" @change="updateEnd" />
     <div v-else class="app-date-end whitespace-nowrap text-white opacity-60">
       <div v-if="showDate" class="flex flex-row items-center justify-center gap-2">
         <v-icon size="x-small">mdi-calendar-month</v-icon>
-        <!-- eslint-disable-next-line vue/no-v-html -->
+        <!-- eslint-disable-next-line vue/no-v-html, sonar/no-vue-bypass-sanitization -->
         <span v-html="endDateDay"></span>
       </div>
       <div v-if="showTime" class="flex flex-row items-center justify-center gap-2">
         <v-icon v-if="parseInt(endDateHour) <= 12" class="brightness-125" size="x-small">mdi-white-balance-sunny</v-icon>
         <v-icon v-if="parseInt(endDateHour) > 12" class="brightness-50" size="x-small">mdi-white-balance-sunny</v-icon>
-        <!-- eslint-disable-next-line vue/no-v-html -->
+        <!-- eslint-disable-next-line vue/no-v-html, sonar/no-vue-bypass-sanitization -->
         <span v-html="endDateHour"></span>
       </div>
     </div>

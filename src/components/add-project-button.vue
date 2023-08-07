@@ -1,5 +1,5 @@
 <template>
-  <v-btn variant="tonal" color="secondary" prepend-icon="mdi-plus" @click="open = true">Add project</v-btn>
+  <v-btn color="secondary" prepend-icon="mdi-plus" variant="tonal" @click="open = true">Add project</v-btn>
   <v-dialog v-model="open">
     <v-card>
       <v-container>
@@ -7,14 +7,14 @@
           <div class="mb-4 text-4xl">New project</div>
           <v-form ref="form">
             <!-- eslint-disable-next-line vuejs-accessibility/no-autofocus -->
-            <v-text-field v-model="title" :rules="requiredRules" :autofocus="open" label="Title" required></v-text-field>
-            <v-select v-model="color" :rules="requiredRules" :items="tailwindColors" label="Color" required></v-select>
+            <v-text-field v-model="title" :autofocus="open" label="Title" required :rules="requiredRules"></v-text-field>
+            <v-select v-model="color" :items="tailwindColors" label="Color" required :rules="requiredRules"></v-select>
           </v-form>
         </v-col>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn variant="plain" @click="open = false">Cancel</v-btn>
-          <v-btn :disabled="title.length === 0 || color.length === 0" variant="elevated" color="primary" @click="submit">Add</v-btn>
+          <v-btn color="primary" :disabled="title.length === 0 || color.length === 0" variant="elevated" @click="submit">Add</v-btn>
         </v-card-actions>
       </v-container>
     </v-card>
@@ -38,8 +38,8 @@ export default defineComponent({
   }),
   computed: {
     tailwindColors () {
-      // eslint-disable-next-line @typescript-eslint/require-array-sort-compare
-      return Object.keys(colors).filter(color => !['transparent', 'inherit', 'current'].includes(color) && !/[A-Z]/u.test(color)).sort()
+       
+      return Object.keys(colors).filter(color => !['current', 'inherit', 'transparent'].includes(color) && !/[A-Z]/u.test(color)).sort()
     },
   },
   mounted () {

@@ -6,7 +6,7 @@
           <h1 class="ml-2 text-4xl font-thin sm:hidden">G</h1>
           <h1 class="ml-2 hidden text-4xl font-thin sm:block">GING</h1>
           <v-icon v-if="!activeProject" class="text-4xl" color="secondary" icon="mdi-chevron-triple-right" />
-          <v-progress-circular v-show="isLoading" class="mt-0.5" indeterminate color="primary"></v-progress-circular>
+          <v-progress-circular v-show="isLoading" class="mt-0.5" color="primary" indeterminate></v-progress-circular>
         </div>
         <div class="ml-auto"></div>
         <div v-if="projects.length > 0" class="hidden gap-4 sm:flex">

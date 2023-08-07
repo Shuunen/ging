@@ -1,7 +1,7 @@
 <template>
   <v-menu>
     <template #activator="{ props }">
-      <v-btn variant="outlined" color="secondary" append-icon="mdi-dots-vertical" v-bind="props">Actions</v-btn>
+      <v-btn append-icon="mdi-dots-vertical" color="secondary" variant="outlined" v-bind="props">Actions</v-btn>
     </template>
     <v-list>
       <v-list-item @click="toggleEditMode">

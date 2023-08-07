@@ -9,18 +9,18 @@
             <!-- eslint-disable vuejs-accessibility/no-autofocus -->
             <v-text-field
               v-model="title"
-              :rules="requiredRules"
-              label="Step title, time"
               :autofocus="isOpen"
-              required
               hint="Like &ldquo;Get some milk, 1 hour&rdquo; or &ldquo;Go to Japan, 3 weeks&rdquo;"
+              label="Step title, time"
+              required
+              :rules="requiredRules"
             />
           </v-form>
         </v-col>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn variant="plain" @click="close">Cancel</v-btn>
-          <v-btn :disabled="title.length === 0" variant="elevated" color="primary" @click="submit">Add</v-btn>
+          <v-btn color="primary" :disabled="title.length === 0" variant="elevated" @click="submit">Add</v-btn>
         </v-card-actions>
       </v-container>
     </v-card>
@@ -51,7 +51,7 @@ export default defineComponent({
   computed: {
     ...mapState(useStore, ['projects']),
     tailwindColors () {
-      return Object.keys(colors).filter(color => !['transparent', 'inherit', 'current'].includes(color))
+      return Object.keys(colors).filter(color => !['current', 'inherit', 'transparent'].includes(color))
     },
   },
   watch: {

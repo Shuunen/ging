@@ -1,7 +1,7 @@
 <template>
-  <v-btn variant="tonal" color="secondary" :prepend-icon="editMode ? '' : 'mdi-circle-edit-outline'" @click="toggleEditMode">{{ editMode ? 'Read' : 'Edit' }}</v-btn>
-  <app-hotkey :keys="['ctrl', 'e']" :excluded-elements="[]" @hotkey="toggleEditMode" />
-  <app-hotkey :keys="['f2']" :excluded-elements="[]" @hotkey="toggleEditMode" />
+  <v-btn color="secondary" :prepend-icon="editMode ? '' : 'mdi-circle-edit-outline'" variant="tonal" @click="toggleEditMode">{{ editMode ? 'Read' : 'Edit' }}</v-btn>
+  <app-hotkey :excluded-elements="[]" :keys="['ctrl', 'e']" @hotkey="toggleEditMode" />
+  <app-hotkey :excluded-elements="[]" :keys="['f2']" @hotkey="toggleEditMode" />
 </template>
 
 <script lang="ts">

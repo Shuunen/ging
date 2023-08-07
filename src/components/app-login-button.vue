@@ -1,8 +1,8 @@
 <template>
-  <v-btn v-if="!isAuthenticated" :loading="isLoading" variant="tonal" class="mx-3" color="secondary" @click="login">Login</v-btn>
+  <v-btn v-if="!isAuthenticated" class="mx-3" color="secondary" :loading="isLoading" variant="tonal" @click="login">Login</v-btn>
   <v-btn v-show="isAuthenticated" id="menu-activator" color="secondary">
     <p v-if="user?.nickname" class="mr-4 hidden sm:block">{{ user.nickname }}</p>
-    <img v-if="user?.picture" class="w-8 rounded-full" :src="user.picture" alt="John" />
+    <img v-if="user?.picture" alt="John" class="w-8 rounded-full" :src="user.picture" />
   </v-btn>
 
   <v-menu activator="#menu-activator">

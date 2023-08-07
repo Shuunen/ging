@@ -2,13 +2,13 @@
   <v-container class="app-project flex flex-col items-start gap-4 transition duration-300 hover:grayscale-0"
     :class="[active ? 'app-active' : 'brightness-75 grayscale']" @click="selectProject(id)">
     <div class="app-project--header flex cursor-pointer flex-row flex-wrap items-center" :class="{ 'gap-4': edit }">
-      <v-text-field :id="`project-title-${id}`" v-model="updatedTitle" :tabindex="edit ? 1 : -1" :autofocus="edit" :readonly="!edit" density="compact"
-        :variant="edit ? 'outlined' : 'plain'" class="app-no-details app-title app-title-xl" :class="{ active, italic: edit, edit }"
-        :style="{ width: titleWidth }" @change="updateTitle" />
-      <v-btn v-if="edit" variant="tonal" color="secondary" prepend-icon="mdi-calendar-month" @click="toggleDateDisplay">
+      <v-text-field :id="`project-title-${id}`" v-model="updatedTitle" :autofocus="edit" class="app-no-details app-title app-title-xl" :class="{ active, italic: edit, edit }" density="compact"
+        :readonly="!edit" :style="{ width: titleWidth }" :tabindex="edit ? 1 : -1"
+        :variant="edit ? 'outlined' : 'plain'" @change="updateTitle" />
+      <v-btn v-if="edit" color="secondary" prepend-icon="mdi-calendar-month" variant="tonal" @click="toggleDateDisplay">
         {{ isDateDisplayed ? 'Hide' : 'Show' }} dates
       </v-btn>
-      <v-btn v-if="edit" variant="tonal" color="secondary" prepend-icon="mdi-white-balance-sunny" @click="toggleTimeDisplay">
+      <v-btn v-if="edit" color="secondary" prepend-icon="mdi-white-balance-sunny" variant="tonal" @click="toggleTimeDisplay">
         {{ isTimeDisplayed ? 'Hide' : 'Show' }} hours
       </v-btn>
       <v-scroll-x-transition>
@@ -18,10 +18,10 @@
     <div v-if="steps.length > 0"
       class="app-steps flex w-full max-w-full cursor-pointer flex-col items-center overflow-hidden overflow-x-auto rounded-lg bg-gradient-to-br py-4 sm:w-auto sm:flex-row sm:rounded-xl"
       :class="[colorFrom(700), colorTo(900), active ? 'shadow-2xl' : 'shadow']">
-      <app-step v-for="(step, index) in processedSteps" :key="`step-${index}`" v-bind="step" :show-date="isDateDisplayed" :show-time="isTimeDisplayed" :index="index"
-        :active="active && (index === activeStepIndex)" :project-active="active" :project-id="id" :is-last="index === steps.length - 1" />
+      <app-step v-for="(step, index) in processedSteps" :key="`step-${index}`" v-bind="step" :active="active && (index === activeStepIndex)" :index="index" :is-last="index === steps.length - 1"
+        :project-active="active" :project-id="id" :show-date="isDateDisplayed" :show-time="isTimeDisplayed" />
     </div>
-    <v-btn v-if="steps.length === 0" variant="outlined" color="secondary" prepend-icon="mdi-plus" @click="addStepHere">
+    <v-btn v-if="steps.length === 0" color="secondary" prepend-icon="mdi-plus" variant="outlined" @click="addStepHere">
       Add step
     </v-btn>
   </v-container>
