@@ -43,7 +43,8 @@
       "node",
       "webpack-env"
     ],
-    "useDefineForClassFields": true
+    "useDefineForClassFields": true,
+    "verbatimModuleSyntax": true
   },
   "exclude": [
     "node_modules"

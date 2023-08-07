@@ -1,5 +1,6 @@
 # GING
 
+[![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/Shuunen/ging?style=flat)](https://codeclimate.com/github/Shuunen/ging)
 [![GitHub license](https://img.shields.io/github/license/shuunen/ging.svg?color=informational)](https://github.com/Shuunen/ging/blob/master/LICENSE)
 [![Website up](https://img.shields.io/website/https/shuunen-ging.netlify.app.svg)](https://shuunen-ging.netlify.app)
 

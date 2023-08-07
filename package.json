@@ -38,7 +38,7 @@
     "eslint-config-hardcore": "36.3",
     "eslint-plugin-tailwindcss": "3.12",
     "module-alias": "2.2",
-    "repo-check": "1.31",
+    "repo-check": "1.33",
     "roboto-fontface": "0.10",
     "tslib": "2.5",
     "typescript": "5.0",
