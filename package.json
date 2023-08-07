@@ -8,10 +8,10 @@
   "dependencies": {
     "@auth0/auth0-vue": "1.0",
     "@mdi/font": "7.2",
-    "@octokit/types": "9.2",
+    "@octokit/types": "11.1",
     "@simolation/vue-hotkey": "2.0",
     "@types/webfontloader": "1.6",
-    "pinia": "2.1",
+    "pinia": "2.1.6",
     "pinia-plugin-persistedstate": "3.1",
     "register-service-worker": "1.7",
     "shuutils": "7.3",
