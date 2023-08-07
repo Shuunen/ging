@@ -198,6 +198,7 @@
     "vue/no-multiple-template-root": "off",
     "vue/padding-lines-in-component-definition": "off",
     "vue/singleline-html-element-content-newline": "off",
+    "vue/static-class-names-order": "off",
     "vuejs-accessibility/no-autofocus": "off"
   },
   "settings": {
