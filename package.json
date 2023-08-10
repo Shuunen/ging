@@ -55,7 +55,7 @@
     "lint:ts": "tsc --noEmit && echo lint:ts success",
     "lint:vue": "vue-tsc --noEmit && eslint --cache --fix --ext .ts,.vue . && echo lint:vue success",
     "mark:html": "unique-mark dist/index.html",
-    "mark:js": "unique-mark dist/js/app.*.js",
+    "mark:js": "unique-mark dist/assets/*.js",
     "postversion": "git push && git push --tags",
     "preversion": "pnpm check",
     "test": "vitest --run --coverage && echo test success",
