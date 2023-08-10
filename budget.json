@@ -17,7 +17,7 @@
         "resourceType": "document"
       },
       {
-        "budget": 100,
+        "budget": 110,
         "resourceType": "stylesheet"
       },
       {
@@ -25,7 +25,7 @@
         "resourceType": "font"
       },
       {
-        "budget": 150,
+        "budget": 170,
         "resourceType": "script"
       },
       {
@@ -33,7 +33,7 @@
         "resourceType": "image"
       },
       {
-        "budget": 700,
+        "budget": 800,
         "resourceType": "total"
       }
     ],

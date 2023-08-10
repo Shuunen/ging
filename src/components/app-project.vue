@@ -1,14 +1,14 @@
 <template>
   <v-container class="app-project flex flex-col items-start gap-4 transition duration-300 hover:grayscale-0"
-    :class="[active ? 'app-active' : 'brightness-75 grayscale']" @click="selectProject(id)">
+    :class="[active ? 'app-active' : 'brightness-75 grayscale']" @click="actions.selectProject(id)">
     <div class="app-project--header flex cursor-pointer flex-row flex-wrap items-center" :class="{ 'gap-4': edit }">
-      <v-text-field :id="`project-title-${id}`" v-model="updatedTitle" :tabindex="edit ? 1 : -1" :autofocus="edit" :readonly="!edit" density="compact"
-        :variant="edit ? 'outlined' : 'plain'" class="app-no-details app-title app-title-xl" :class="{ active, italic: edit, edit }"
-        :style="{ width: titleWidth }" @change="updateTitle" />
-      <v-btn v-if="edit" variant="tonal" color="secondary" prepend-icon="mdi-calendar-month" @click="toggleDateDisplay">
+      <v-text-field :id="`project-title-${id}`" v-model="updatedTitle" :autofocus="edit" class="app-no-details app-title app-title-xl"
+        :class="{ active, italic: edit, edit }" density="compact" :readonly="!edit" :style="{ width: titleWidth }" :tabindex="edit ? 1 : -1"
+        :variant="edit ? 'outlined' : 'plain'" @change="updateTitle" />
+      <v-btn v-if="edit" color="secondary" prepend-icon="mdi-calendar-month" variant="tonal" @click="actions.toggleDateDisplay">
         {{ isDateDisplayed ? 'Hide' : 'Show' }} dates
       </v-btn>
-      <v-btn v-if="edit" variant="tonal" color="secondary" prepend-icon="mdi-white-balance-sunny" @click="toggleTimeDisplay">
+      <v-btn v-if="edit" color="secondary" prepend-icon="mdi-white-balance-sunny" variant="tonal" @click="actions.toggleTimeDisplay">
         {{ isTimeDisplayed ? 'Hide' : 'Show' }} hours
       </v-btn>
       <v-scroll-x-transition>
@@ -18,20 +18,20 @@
     <div v-if="steps.length > 0"
       class="app-steps flex w-full max-w-full cursor-pointer flex-col items-center overflow-hidden overflow-x-auto rounded-lg bg-gradient-to-br py-4 sm:w-auto sm:flex-row sm:rounded-xl"
       :class="[colorFrom(700), colorTo(900), active ? 'shadow-2xl' : 'shadow']">
-      <app-step v-for="(step, index) in processedSteps" :key="`step-${index}`" v-bind="step" :show-date="isDateDisplayed" :show-time="isTimeDisplayed" :index="index"
-        :active="active && (index === activeStepIndex)" :project-active="active" :project-id="id" :is-last="index === steps.length - 1" />
+      <app-step v-for="(step, index) in processedSteps" :key="`step-${index}`" v-bind="step" :active="active && (index === store.activeStepIndex)"
+        :index="index" :is-last="index === steps.length - 1" :project-active="active" :project-id="id" :show-date="isDateDisplayed"
+        :show-time="isTimeDisplayed" />
     </div>
-    <v-btn v-if="steps.length === 0" variant="outlined" color="secondary" prepend-icon="mdi-plus" @click="addStepHere">
+    <v-btn v-if="steps.length === 0" color="secondary" prepend-icon="mdi-plus" variant="outlined" @click="addStepHere">
       Add step
     </v-btn>
   </v-container>
 </template>
 
 <script lang="ts">
-import type { Step } from '@/models/step'
-import { useStore } from '@/store'
-import { processStepsDurations } from '@/utils/step'
-import { mapActions, mapState } from 'pinia'
+import type { Step } from '@/models/step.model'
+import { actions, store } from '@/store'
+import { processStepsDurations } from '@/utils/step.utils'
 import { sleep } from 'shuutils'
 import { defineComponent } from 'vue'
 
@@ -69,19 +69,20 @@ export default defineComponent({
   emits: ['addStep'],
   data: () => ({
     updatedTitle: '',
+    store,
+    actions,
   }),
   computed: {
-    ...mapState(useStore, ['projects', 'activeStepIndex', 'editMode']),
     processedSteps () {
       return processStepsDurations(this.steps)
     },
     edit () {
-      return this.editMode && this.active
+      return store.editMode && this.active
     },
     titleWidth () {
       const widths = { large: 23, small: 18, space: 14, none: 0 }
       let width = widths.none
-      const chars = Array.from(this.updatedTitle)
+      const chars = Array.from(this.updatedTitle) 
       chars.forEach(char => {
         if (char === ' ') width += widths.space
         else if (/[A-Z]/u.test(char)) width += widths.large
@@ -99,10 +100,9 @@ export default defineComponent({
   mounted () {
     this.updatedTitle = this.title
     // eslint-disable-next-line @typescript-eslint/no-magic-numbers, promise/always-return, promise/prefer-await-to-then
-    if (this.active) void sleep(100).then(() => { this.scrollToStep() })
+    if (this.active) void sleep(100).then(() => { actions.scrollToStep() })
   },
   methods: {
-    ...mapActions(useStore, ['selectProject', 'deleteProject', 'toggleDateDisplay', 'toggleTimeDisplay', 'patchCurrentProjectTitle', 'scrollToStep']),
     colorFrom (shade: number) {
       return `from-${this.color}-${shade}`
     },
@@ -111,12 +111,12 @@ export default defineComponent({
     },
     addStepHere () {
       console.log('add step here')
-      this.selectProject(this.id)
+      actions.selectProject(this.id)
       this.$emit('addStep')
     },
     updateTitle () {
       console.log('update title to', this.updatedTitle)
-      this.patchCurrentProjectTitle(this.updatedTitle)
+      actions.patchCurrentProjectTitle(this.updatedTitle)
     },
   },
 })
@@ -139,7 +139,7 @@ export default defineComponent({
 /* eslint-disable-next-line vue-scoped-css/require-selector-used-inside */
 .app-title.app-title-xl,
 .v-input.app-title.app-title-xl .v-field__input {
-  @apply text-4xl text-left mb-1 font-thin;
+  @apply text-4xl text-left mr-1 font-thin;
 }
 
 .app-active .app-title.app-title-xl,

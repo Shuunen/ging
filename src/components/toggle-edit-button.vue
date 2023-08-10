@@ -1,20 +1,12 @@
+<script setup lang="ts">
+import { actions, store } from '@/store'
+</script>
+
 <template>
-  <v-btn variant="tonal" color="secondary" :prepend-icon="editMode ? '' : 'mdi-circle-edit-outline'" @click="toggleEditMode">{{ editMode ? 'Read' : 'Edit' }}</v-btn>
-  <app-hotkey :keys="['ctrl', 'e']" :excluded-elements="[]" @hotkey="toggleEditMode" />
-  <app-hotkey :keys="['f2']" :excluded-elements="[]" @hotkey="toggleEditMode" />
+  <v-btn color="secondary" :prepend-icon="store.editMode ? '' : 'mdi-circle-edit-outline'" variant="tonal" @click="actions.toggleEditMode">
+    {{ store.editMode ? 'Read' : 'Edit' }}
+  </v-btn>
+  <app-hotkey :excluded-elements="[]" :keys="['ctrl', 'e']" @hotkey="actions.toggleEditMode" />
+  <app-hotkey :excluded-elements="[]" :keys="['f2']" @hotkey="actions.toggleEditMode" />
 </template>
 
-<script lang="ts">
-import { useStore } from '@/store'
-import { mapActions, mapState } from 'pinia'
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  computed: {
-    ...mapState(useStore, ['editMode']),
-  },
-  methods: {
-    ...mapActions(useStore, ['toggleEditMode']),
-  },
-})
-</script>

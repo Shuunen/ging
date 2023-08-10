@@ -15,8 +15,7 @@
 </template>
 
 <script lang="ts">
-import { store, useStore } from '@/store'
-import { mapActions, mapState } from 'pinia'
+import { actions, activeProject } from '@/store'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -30,9 +29,8 @@ export default defineComponent({
     isOpen: false,
   }),
   computed: {
-    ...mapState(useStore, ['projects', 'activeProject']),
     title (): string {
-      return this.activeProject?.title ?? ''
+      return activeProject.value?.title ?? ''
     },
   },
   watch: {
@@ -44,13 +42,12 @@ export default defineComponent({
     },
   },
   mounted () {
-    store.$onAction(({ name }) => { if (name === 'openDeleteProjectModal') this.isOpen = true })
+    // add me back store.$onAction(({ name }) => { if (name === 'openDeleteProjectModal') this.isOpen = true })
   },
   methods: {
-    ...mapActions(useStore, ['deleteActiveProject']),
     deleteClose () {
       console.log('delete project and close modal')
-      this.deleteActiveProject()
+      actions.deleteActiveProject()
       this.close()
     },
     close () {

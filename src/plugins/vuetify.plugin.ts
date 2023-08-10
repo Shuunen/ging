@@ -1,18 +1,20 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-/* eslint-disable @typescript-eslint/naming-convention */
 import '@mdi/font/css/materialdesignicons.css'
 import colors from 'tailwindcss/colors'
 import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components' // eslint-disable-line sonar/no-wildcard-import, import/no-namespace
+import * as directives from 'vuetify/directives' // eslint-disable-line sonar/no-wildcard-import, import/no-namespace
 import 'vuetify/styles'
 
-
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-export default createVuetify({
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+export const vuetify = createVuetify({
+  components,
+  directives,
   theme: {
     defaultTheme: 'dark',
     themes: {
       dark: {
-        dark: true,
+        dark: true, // eslint-disable-line @typescript-eslint/naming-convention
         colors: {
           background: colors.gray[800],
           surface: colors.gray[900],
@@ -25,7 +27,7 @@ export default createVuetify({
         },
       },
       light: {
-        dark: false,
+        dark: false, // eslint-disable-line @typescript-eslint/naming-convention
         colors: {
           background: colors.gray[50],
           surface: colors.gray[100],

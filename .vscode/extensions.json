@@ -1,6 +1,6 @@
 {
   "recommendations": [
-    "bradlc.vscode-tailwindcss",
-    "vue.volar"
+    "Vue.volar",
+    "Vue.vscode-typescript-vue-plugin"
   ]
 }
