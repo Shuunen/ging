@@ -2,7 +2,7 @@ import { createAuth0 } from '@auth0/auth0-vue'
 // @ts-expect-error no types for vue-hotkey
 import { Hotkey } from '@simolation/vue-hotkey'
 import { createApp } from 'vue'
-import App from './App.vue'
+import App from './app.vue'
 import './assets/styles.css'
 import { vuetify } from './plugins/vuetify.plugin'
 import './plugins/webfont.plugin'
