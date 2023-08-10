@@ -1,18 +1,19 @@
 <template>
   <v-container class="app-projects flex h-full flex-col justify-center gap-2" fluid>
-    <p v-if="projects.length === 0" class="mx-auto flex flex-col items-center gap-4 text-2xl">
+    <p v-if="store.projects.length === 0" class="mx-auto flex flex-col items-center gap-4 text-2xl">
       There is no projects to display.
       <add-project-button />
     </p>
 
-    <app-project v-for="(project, index) in projects" :key="`project-${  index}`" v-bind="project" :active="index === activeProjectIndex" @add-step="showAddStep = true" />
+    <app-project v-for="(project, index) in store.projects" :key="`project-${index}`" v-bind="project" :active="index === store.activeProjectIndex"
+      @add-step="showAddStep = true" />
 
-    <app-hotkey :enabled="hotkeysActive" :keys="['arrowdown']" @hotkey="selectNextProject" />
-    <app-hotkey :enabled="hotkeysActive" :keys="['arrowup']" @hotkey="selectPrevProject" />
-    <app-hotkey :enabled="hotkeysActive" :keys="['arrowleft']" @hotkey="selectPrevStep" />
-    <app-hotkey :enabled="hotkeysActive" :keys="['arrowright']" @hotkey="selectNextStep" />
-    <app-hotkey :enabled="hotkeysActive" :keys="['ctrl', 'arrowleft']" @hotkey="moveStep('before')" />
-    <app-hotkey :enabled="hotkeysActive" :keys="['ctrl', 'arrowright']" @hotkey="moveStep('after')" />
+    <app-hotkey :enabled="hotkeysActive" :keys="['arrowdown']" @hotkey="actions.selectNextProject" />
+    <app-hotkey :enabled="hotkeysActive" :keys="['arrowup']" @hotkey="actions.selectPrevProject" />
+    <app-hotkey :enabled="hotkeysActive" :keys="['arrowleft']" @hotkey="actions.selectPrevStep" />
+    <app-hotkey :enabled="hotkeysActive" :keys="['arrowright']" @hotkey="actions.selectNextStep" />
+    <app-hotkey :enabled="hotkeysActive" :keys="['ctrl', 'arrowleft']" @hotkey="actions.moveStep('before')" />
+    <app-hotkey :enabled="hotkeysActive" :keys="['ctrl', 'arrowright']" @hotkey="actions.moveStep('after')" />
 
     <delete-project-modal :active="showDeleteProject" @close="showDeleteProject = false" />
     <app-hotkey :enabled="hotkeysActive" :keys="['alt', 'd']" @hotkey="showDeleteProjectModal" />
@@ -26,9 +27,8 @@
 </template>
 
 <script lang="ts">
-import { mapActions, mapState } from 'pinia'
+import { actions, activeProject, activeStep, store } from '@/store'
 import { defineComponent } from 'vue'
-import { useStore } from '../store'
 
 export default defineComponent({
   data: () => ({
@@ -38,20 +38,20 @@ export default defineComponent({
     showDeleteProject: false,
     // eslint-disable-next-line @typescript-eslint/naming-convention
     showDeleteStep: false,
+    actions,
+    store,
   }),
   computed: {
-    ...mapState(useStore, ['projects', 'activeProject', 'activeProjectIndex', 'activeStep']),
     hotkeysActive () {
       return !(this.showAddStep || this.showDeleteProject || this.showDeleteStep)
     },
   },
   methods: {
-    ...mapActions(useStore, ['moveStep', 'selectNextProject', 'selectPrevProject', 'selectNextStep', 'selectPrevStep']),
     showDeleteStepModal () {
-      if (this.activeStep) this.showDeleteStep = true
+      if (activeStep.value) this.showDeleteStep = true
     },
     showDeleteProjectModal () {
-      if (this.activeProject) this.showDeleteProject = true
+      if (activeProject.value) this.showDeleteProject = true
     },
   },
 })

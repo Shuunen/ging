@@ -23,9 +23,9 @@
 </template>
 
 <script lang="ts">
-import { Project } from '@/models/project'
-import { store } from '@/store'
-import { requiredRules } from '@/utils/form'
+import { Project } from '@/models/project.model'
+import { actions, store } from '@/store'
+import { requiredRules } from '@/utils/form.utils'
 import colors from 'tailwindcss/colors'
 import { defineComponent } from 'vue'
 
@@ -38,18 +38,17 @@ export default defineComponent({
   }),
   computed: {
     tailwindColors () {
-       
       return Object.keys(colors).filter(color => !['current', 'inherit', 'transparent'].includes(color) && !/[A-Z]/u.test(color)).sort()
     },
   },
   mounted () {
     store.isLoading = false
-    store.$onAction(({ name }) => { if (name === 'openAddProjectModal') this.open = true })
+    // add me back store.$onAction(({ name }) => { if (name === 'openAddProjectModal') this.open = true })
   },
   methods: {
     submit () {
       console.log('submit project')
-      store.addProject(new Project({
+      actions.addProject(new Project({
         title: this.title,
         color: this.color,
       }))

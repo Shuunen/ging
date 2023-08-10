@@ -1,7 +1,6 @@
 /* c8 ignore next */
 /* eslint-disable @typescript-eslint/naming-convention */
-import type { Project } from '@/models/project'
-import type { State, Store } from '@/store'
+import type { Project } from '@/models/project.model'
 import type { Endpoints } from '@octokit/types'
 import { debounce } from 'shuutils'
 
@@ -64,15 +63,15 @@ export async function update (state: GistState, token: string, id: string, fetch
   return { success: true, message: 'gist updated', data: gist.id }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-shadow
-export async function getId (state: State, fetch = window.fetch): Promise<Result> {
-  if (state.gistId) return { success: true, message: 'gist id already set', data: state.gistId }
+// eslint-disable-next-line @typescript-eslint/no-shadow, max-params
+export async function getId (gistId: string, gistState: GistState, gistToken: string, fetch = window.fetch): Promise<Result> {
+  if (gistId) return { success: true, message: 'gist id already set', data: gistId }
   console.log('listing gists to find a potential existing one')
-  const { success, message, data: gists } = await request<Endpoints['GET /gists']['response']['data']>('GET', apiUrl, state.gistToken, undefined, fetch)
+  const { success, message, data: gists } = await request<Endpoints['GET /gists']['response']['data']>('GET', apiUrl, gistToken, undefined, fetch)
   if (!success || !gists) return { success: false, message }
   const target = gists.find(gist => gist.files[fileName])
   if (target) return { success: true, message: 'gist id found', data: target.id }
-  return await create(state.gistState, state.gistToken, fetch)
+  return await create(gistState, gistToken, fetch)
 }
 
 // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -92,13 +91,14 @@ export async function read (id: string, token: string, fetch = window.fetch): Pr
  * Persist state in a gist
  * @returns true if the state was persisted
  */
-// eslint-disable-next-line @typescript-eslint/no-shadow
-export async function persist (reason: string, store: Store, fetch = window.fetch): Promise<Result> {
+// eslint-disable-next-line @typescript-eslint/no-shadow, max-params
+export async function persist (reason: string, gistId: string, gistState: GistState, gistToken: string, fetch = window.fetch): Promise<Result> {
   console.log(`persisting state because ${reason}`)
-  if (store.gistToken === '') return { success: false, message: 'Cannot save your work without a Gist token' }
-  const { success, message, data: id } = await getId(store, fetch)
+  if (gistToken === '') return { success: false, message: 'Cannot save your work without a Gist token' }
+  const { success, message, data: id } = await getId(gistId, gistState, gistToken, fetch)
+  /* c8 ignore next */
   if (!success || id === undefined) return { success: false, message }
-  return await update(store.gistState, store.gistToken, id, fetch)
+  return await update(gistState, gistToken, id, fetch)
 }
 
 export const debouncedPersist = debounce(persist, debouncePersistDelay)

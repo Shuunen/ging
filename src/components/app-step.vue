@@ -1,13 +1,13 @@
 <template>
-  <v-icon v-if="edit && index !== 0" class="app-separator app-switch" @click="moveStep('before')">mdi-swap-horizontal</v-icon>
+  <v-icon v-if="edit && index !== 0" class="app-separator app-switch" @click="actions.moveStep('before')">mdi-swap-horizontal</v-icon>
   <div v-else-if="edit && index === 0" class="app-spacer-left w-6"></div>
   <div :id="`step-${id}`" ref="step" class="app-step" :class="{ edit }" :style="{ width: stepWidth }" @click="selectCurrentStep">
-    <v-text-field :id="`step-title-${id}`" v-model="updatedTitle" :autofocus="edit" class="app-no-details app-title mx-auto w-full" :class="{ active, italic: edit, edit }" density="compact"
-      :readonly="!edit" :tabindex="edit ? 1 : -1" :variant="edit ? 'outlined' : 'plain'"
+    <v-text-field :id="`step-title-${id}`" v-model="updatedTitle" :autofocus="edit" class="app-no-details app-title mx-auto w-full"
+      :class="{ active, italic: edit, edit }" density="compact" :readonly="!edit" :tabindex="edit ? 1 : -1" :variant="edit ? 'outlined' : 'plain'"
       @change="updateTitle" />
-    <v-text-field v-model="updatedDuration" class="app-no-details duration mx-auto select-none" :class="{ active, italic: edit, edit }" density="compact" prepend-icon="mdi-clock-outline"
-      :readonly="!edit" :style="{ width: `${updatedDuration.length + 5}ch` }" :tabindex="edit ? 1 : -1"
-      :variant="edit ? 'outlined' : 'plain'" @change="updateDuration" />
+    <v-text-field v-model="updatedDuration" class="app-no-details duration mx-auto select-none" :class="{ active, italic: edit, edit }"
+      density="compact" prepend-icon="mdi-clock-outline" :readonly="!edit" :style="{ width: `${updatedDuration.length + 5}ch` }"
+      :tabindex="edit ? 1 : -1" :variant="edit ? 'outlined' : 'plain'" @change="updateDuration" />
 
     <v-text-field v-if="edit" v-model="updatedStart" class="app-no-details mx-auto" density="compact" :tabindex="edit ? 1 : -1" type="datetime-local"
       variant="outlined" @change="updateStart" />
@@ -27,15 +27,14 @@
       </div>
     </div>
   </div>
-  <v-icon v-if="showRightSwap" class="app-separator app-switch" @click="moveStep('after')">mdi-swap-horizontal</v-icon>
+  <v-icon v-if="showRightSwap" class="app-separator app-switch" @click="actions.moveStep('after')">mdi-swap-horizontal</v-icon>
   <v-icon v-else-if="showRightChevron" class="app-separator">mdi-chevron-right</v-icon>
   <div v-else-if="isLast" class="app-spacer-right w-6"></div>
 </template>
 
 <script lang="ts">
-import { useStore } from '@/store'
-import { durationBetweenDates } from '@/utils/step'
-import { mapActions, mapState } from 'pinia'
+import { actions, activeProject, activeStep, store } from '@/store'
+import { durationBetweenDates } from '@/utils/step.utils'
 import { dateToIsoString, formatDate } from 'shuutils'
 import { defineComponent } from 'vue'
 
@@ -112,11 +111,11 @@ export default defineComponent({
     updatedDuration: '',
     updatedStart: '',
     updatedEnd: '',
+    actions,
   }),
   computed: {
-    ...mapState(useStore, ['activeProject', 'activeStep', 'activeStepIndex', 'editMode']),
     edit () {
-      return this.editMode && this.active
+      return store.editMode && this.active
     },
     stepWidth () {
       // eslint-disable-next-line @typescript-eslint/no-magic-numbers
@@ -129,12 +128,12 @@ export default defineComponent({
       return formatDate(this.end, 'HH h mm').replace('h 00', 'h').replace(/\s/gu, '&ThinSpace;')
     },
     showRightSwap () {
-      return this.edit && !this.isLast && (this.index !== this.activeStepIndex - 1)
+      return this.edit && !this.isLast && (this.index !== store.activeStepIndex - 1)
     },
     showRightChevron () {
       // old method : !editMode || !projectActive || index !== activeStepIndex - 1
       if (this.isLast) return false
-      return !this.editMode || !this.projectActive || (this.index !== this.activeStepIndex - 1)
+      return !store.editMode || !this.projectActive || (this.index !== store.activeStepIndex - 1)
     },
   },
   watch: {
@@ -158,7 +157,6 @@ export default defineComponent({
     this.updatedEnd = this.dateIso(this.end)
   },
   methods: {
-    ...mapActions(useStore, ['moveStep', 'selectProject', 'selectStep', 'patchCurrentStepTitle', 'patchCurrentStepDuration', 'patchCurrentStepStart']),
     dateIso (date: Date | string) {
       const updatedDate = date instanceof Date ? date : new Date(date)
       // eslint-disable-next-line @typescript-eslint/no-magic-numbers
@@ -166,28 +164,28 @@ export default defineComponent({
     },
     selectCurrentStep (event?: Event) {
       if (event !== undefined) event.stopPropagation()
-      if (!this.activeProject || (this.activeProject.id !== this.projectId)) this.selectProject(this.projectId)
-      if (!this.activeStep || (this.activeStep.id !== this.id)) this.selectStep(this.id)
+      if (!activeProject.value || (activeProject.value.id !== this.projectId)) actions.selectProject(this.projectId)
+      if (!activeStep.value || (activeStep.value.id !== this.id)) actions.selectStep(this.id)
     },
     updateTitle (event: HtmlInputEvent) {
       const { target } = event
       if (!target) { console.error('no title target'); return }
       console.log('update step title to', target.value)
       this.selectCurrentStep()
-      this.patchCurrentStepTitle(target.value)
+      actions.patchCurrentStepTitle(target.value)
     },
     updateDuration (event: HtmlInputEvent) {
       const { target } = event
       if (!target) { console.error('no duration target'); return }
       console.log('update step duration with', target.value)
       this.selectCurrentStep()
-      this.patchCurrentStepDuration(target.value)
+      actions.patchCurrentStepDuration(target.value)
     },
     updateStart () {
       const start = new Date(this.updatedStart)
       console.log(`update step start from "${this.updatedStart}" to "${start.toLocaleDateString()}"`)
       this.selectCurrentStep()
-      this.patchCurrentStepStart(start)
+      actions.patchCurrentStepStart(start)
     },
     updateEnd () {
       const start = new Date(this.updatedStart)
@@ -195,7 +193,7 @@ export default defineComponent({
       const duration = durationBetweenDates(start, end)
       console.log('update end via new duration :', duration)
       this.selectCurrentStep()
-      this.patchCurrentStepDuration(duration)
+      actions.patchCurrentStepDuration(duration)
     },
   },
 })
@@ -229,6 +227,10 @@ export default defineComponent({
 /* eslint-disable-next-line vue-scoped-css/require-selector-used-inside */
 .app-title,.v-input.app-title .v-field__input {
   @apply text-center text-2xl;
+}
+
+.v-field__input input {
+  @apply text-center;
 }
 
 /* eslint-disable-next-line vue-scoped-css/require-selector-used-inside */

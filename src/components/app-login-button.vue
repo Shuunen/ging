@@ -18,8 +18,7 @@
 </template>
 
 <script lang="ts">
-import { useStore } from '@/store'
-import { mapActions } from 'pinia'
+import { actions } from '@/store'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -34,7 +33,7 @@ export default defineComponent({
     isAuthenticated (isAuthenticated: boolean) {
       console.log('isAuthenticated ?', isAuthenticated)
       if (!isAuthenticated) {
-        void this.setGistToken('')
+        void actions.setGistToken('')
         return
       }
       // eslint-disable-next-line promise/prefer-await-to-then
@@ -43,17 +42,16 @@ export default defineComponent({
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const token = claims.custom_github_token
         // eslint-disable-next-line promise/always-return, @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unsafe-argument
-        if (token) void this.setGistToken(token)
+        if (token) void actions.setGistToken(token)
       })
     },
   },
   methods: {
-    ...mapActions(useStore, ['setGistToken']),
     login () {
       void this.$auth0.loginWithRedirect()
     },
     logout () {
-      void this.setGistToken('')
+      void actions.setGistToken('')
       void this.$auth0.logout({ returnTo: window.location.origin })
     },
   },

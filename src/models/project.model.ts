@@ -1,4 +1,4 @@
-import type { Step } from './step'
+import type { Step } from './step.model'
 
 export class Project {
   public id = Date.now()

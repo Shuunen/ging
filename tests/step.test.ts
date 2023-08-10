@@ -1,5 +1,5 @@
-import { Step } from '@/models/step'
-import { durationBetweenDates, processStepsDurations, stepToHumanDuration, stepToString, stringToStepData, stringToStepDuration } from '@/utils/step'
+import { Step } from '@/models/step.model'
+import { durationBetweenDates, processStepsDurations, stepToHumanDuration, stepToString, stringToStepData, stringToStepDuration } from '@/utils/step.utils'
 import { expect, it } from 'vitest'
 import { check } from './utils'
 
