@@ -233,6 +233,14 @@ export default defineComponent({
   @apply text-center;
 }
 
+.v-field__input input {
+  @apply bg-transparent;
+}
+
+.v-input .v-field__overlay {
+  @apply hidden;
+}
+
 /* eslint-disable-next-line vue-scoped-css/require-selector-used-inside */
 .v-input.duration .v-field__input {
   @apply text-xl;

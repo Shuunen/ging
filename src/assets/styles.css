@@ -18,3 +18,7 @@ html {
 ::-webkit-scrollbar-thumb {
   @apply bg-gray-700;
 }
+
+.v-btn__overlay {
+  @apply hidden;
+}
