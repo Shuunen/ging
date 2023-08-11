@@ -55,8 +55,8 @@ export default defineComponent({
       'Ctrl + D': 'Delete a step',
       'Ctrl + ->': 'Move step after',
       'Ctrl + <-': 'Move step before',
-      'Ctrl + E': 'Toggle Edit mode',
-      'Ctrl + !': 'Toggle Edit mode',
+      'Ctrl + E': 'Toggle edit mode',
+      'Ctrl + !': 'Toggle debug mode',
     },
   }),
 })
