@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { actions } from '@/store'
+import { actions, store } from '@/store'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -40,7 +40,7 @@ export default defineComponent({
       void this.$auth0.getAccessTokenSilently().then(() => {
         const claims = this.$auth0.idTokenClaims.value
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const token = claims.custom_github_token
+        const token = claims?.custom_github_token
         // eslint-disable-next-line promise/always-return, @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unsafe-argument
         if (token) void actions.setGistToken(token)
       })
@@ -50,9 +50,11 @@ export default defineComponent({
     login () {
       void this.$auth0.loginWithRedirect()
     },
-    logout () {
-      void actions.setGistToken('')
-      void this.$auth0.logout({ returnTo: window.location.origin })
+    async logout () {
+      store.isLoading = true
+      actions.clearGistStorage()
+      await this.$auth0.logout({ logoutParams: { returnTo: window.location.origin } })
+      store.isLoading = false
     },
   },
 })

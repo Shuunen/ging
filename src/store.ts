@@ -245,8 +245,16 @@ export const actions = {
   openDeleteProjectModal () {
     store.deleteProjectModalOpened = true
   },
+  clearGistStorage () {
+    console.log('clearing gist storage')
+    storage.clear('gistId')
+    storage.clear('gistToken')
+    storage.clear('gistState')
+    storage.clear('gistStateLastSum')
+  },
   // eslint-disable-next-line max-statements
   async setGistToken (token: string) {
+    storage.set('gistToken', token)
     // eslint-disable-next-line security/detect-possible-timing-attacks
     if (token === '') {
       console.log('clearing gist token')
@@ -256,7 +264,6 @@ export const actions = {
     }
     console.log('setting gist token to', token)
     store.gistToken = token
-    storage.set('gistToken', token)
     store.isLoading = true
     if (store.gistId === '') await actions.getGistId()
     await actions.fetchGist()
@@ -283,10 +290,8 @@ export const actions = {
   setGistId (id: string) {
     if (store.gistId === id) return
     if (id === '') console.log('clearing gist id')
-    else {
-      console.log('setting gist id', id)
-      storage.set('gistId', id)
-    }
+    else console.log('setting gist id', id)
+    storage.set('gistId', id)
     store.gistId = id
   },
   setGistState (state: GistState) {
