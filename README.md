@@ -32,7 +32,7 @@
 - [ ] add arrows to navigate horizontally step by step
 - [ ] WHERE IS THE KONAMI CODE ?!?
 - [ ] suggests notifications to help user keep in mind an incoming
-- [ ] show color preview in color picker
+- [ ] add color edit to existing projects
 - [ ] add step error only appears in console
 - [ ] step selection not clear
 - [ ] step add input has no char limit
@@ -41,6 +41,8 @@
 - [ ] migrate to Nuxt ?
 - [ ] add "store.$onAction" feature back
 - [ ] specify the list of components & directives used in vuetify.plugin.ts
+- [ ] stop using check method in unit tests
+- [ ] use logger from shuutils
 
 ## Thanks
 
