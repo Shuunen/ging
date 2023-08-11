@@ -1,6 +1,6 @@
 <template>
   <v-snackbar v-if="store.projects.length === 0" v-model="isOpen" color="primary">You first need to create a project to add a step to it.</v-snackbar>
-  <v-dialog v-else v-model="isOpen">
+  <v-dialog v-else v-model="isOpen" width="auto">
     <v-card>
       <v-container>
         <v-col class="min-w-[20rem]">
