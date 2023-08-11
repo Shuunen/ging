@@ -229,7 +229,7 @@ export default defineComponent({
   @apply text-center text-2xl;
 }
 
-.v-field__input input {
+.v-input.app-title .v-field__input input {
   @apply text-center;
 }
 
