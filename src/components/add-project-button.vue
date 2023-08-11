@@ -1,6 +1,6 @@
 <template>
   <v-btn color="secondary" prepend-icon="mdi-plus" variant="tonal" @click="open = true">Add project</v-btn>
-  <v-dialog v-model="open">
+  <v-dialog v-model="open" width="auto">
     <v-card>
       <v-container>
         <v-col class="min-w-[20rem]">

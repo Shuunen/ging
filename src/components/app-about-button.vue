@@ -1,7 +1,7 @@
 <template>
   <v-btn class="app-shortcut-trigger" color="info" icon size="small" variant="tonal">
     <v-icon>mdi-help-circle-outline</v-icon>
-    <v-dialog v-model="isOpen" activator="parent">
+    <v-dialog v-model="isOpen" activator="parent" width="auto">
       <v-card>
         <v-container>
           <v-col class="flex flex-col gap-8">

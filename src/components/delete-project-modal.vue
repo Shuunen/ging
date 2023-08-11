@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="isOpen">
+  <v-dialog v-model="isOpen" width="auto">
     <v-card>
       <v-card-text>
         <p class="mb-4">You are about to delete the project "{{ title }}", are you sure ?</p>
