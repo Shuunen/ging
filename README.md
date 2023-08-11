@@ -40,7 +40,6 @@
 - [ ] add benchmarks for common tasks : build, lint, test, etc
 - [ ] migrate to Nuxt ?
 - [ ] add "store.$onAction" feature back
-- [ ] specify the list of components & directives used in vuetify.plugin.ts
 - [ ] stop using check method in unit tests
 - [ ] use logger from shuutils
 

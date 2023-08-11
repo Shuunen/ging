@@ -2,14 +2,9 @@
 import '@mdi/font/css/materialdesignicons.css'
 import colors from 'tailwindcss/colors'
 import { createVuetify } from 'vuetify'
-import * as components from 'vuetify/components' // eslint-disable-line sonar/no-wildcard-import, import/no-namespace
-import * as directives from 'vuetify/directives' // eslint-disable-line sonar/no-wildcard-import, import/no-namespace
-import 'vuetify/styles'
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
 export const vuetify = createVuetify({
-  components,
-  directives,
   theme: {
     defaultTheme: 'dark',
     themes: {
