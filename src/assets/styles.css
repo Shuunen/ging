@@ -22,3 +22,7 @@ html {
 .v-btn__overlay {
   @apply hidden;
 }
+
+.v-btn--disabled {
+  @apply filter grayscale;
+}
