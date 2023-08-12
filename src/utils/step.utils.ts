@@ -41,9 +41,7 @@ export function stringToStepDuration (input: string) {
 export const titleWithDurationRegex = /([^,]*)[\s,]+(\d+\s?[a-z]+)/u
 
 export function stringToStepData (input: string) {
-  const [, title, duration] = titleWithDurationRegex.exec(input) ?? []
-  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-  if (!title || !duration) throw new Error(`Invalid title with duration string ${input}`)
+  const [, title = input, duration = '1 hour'] = titleWithDurationRegex.exec(input) ?? []
   const step: Partial<Step> = { title: title.trim() }
   Object.assign(step, stringToStepDuration(duration))
   return step
