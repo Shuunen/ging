@@ -67,7 +67,6 @@ export default defineComponent({
       default: true, // eslint-disable-line vue/no-boolean-default
     },
   },
-  emits: ['addStep'],
   data: () => ({
     updatedTitle: '',
     store,
@@ -106,16 +105,10 @@ export default defineComponent({
     if (this.active) void sleep(100).then(() => { actions.scrollToStep() })
   },
   methods: {
-    colorFrom (shade: number) {
-      return `from-${this.color}-${shade}`
-    },
-    colorTo (shade: number) {
-      return `to-${this.color}-${shade}`
-    },
     addStepHere () {
       console.log('add step here')
       actions.selectProject(this.id)
-      this.$emit('addStep')
+      actions.openAddStepModal()
     },
     updateTitle () {
       console.log('update title to', this.updatedTitle)

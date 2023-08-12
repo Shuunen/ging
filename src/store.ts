@@ -47,6 +47,8 @@ export const activeProject = computed(() => store.projects[store.activeProjectIn
 
 export const nbSteps = computed(() => store.projects[store.activeProjectIndex]?.steps.length ?? 0)
 
+export const isHotkeysActive = computed(() => !store.editMode && !store.addProjectModalOpened && !store.addStepModalOpened && !store.deleteProjectModalOpened && !store.deleteStepModalOpened)
+
 export const actions = {
   addProject (project: Project) {
     store.projects.push(project)
@@ -60,22 +62,21 @@ export const actions = {
     void actions.updateGistState('deleteActiveStep')
   },
   deleteActiveProject () {
-    store.projects.splice(store.activeProjectIndex, 1)
-    void actions.updateGistState('deleteActiveProject')
+    actions.deleteProject(activeProject.value?.id ?? -1) // eslint-disable-line @typescript-eslint/no-magic-numbers
   },
   deleteProject (projectId: number) {
     const index = store.projects.findIndex(project => project.id === projectId)
     store.projects.splice(index, 1)
     void actions.updateGistState('deleteProject')
+    actions.selectPrevProject()
   },
   addStep (step: Step) {
     const project = store.projects[store.activeProjectIndex]
     if (!project) throw new Error(`Project at index ${store.activeProjectIndex} not found`)
     if (store.activeStepIndex === project.steps.length - 1) project.steps.push(step)
     else project.steps.splice(store.activeStepIndex + 1, 0, step)
-    const timeBeforeSelect = 100
-    // eslint-disable-next-line promise/always-return, promise/prefer-await-to-then
-    void sleep(timeBeforeSelect).then(() => { actions.selectNextStep() })
+    // eslint-disable-next-line promise/always-return, promise/prefer-await-to-then, @typescript-eslint/no-magic-numbers
+    void sleep(100).then(() => { actions.selectNextStep() })
     void actions.updateGistState('addStep')
   },
   preventStepIndexOverflow () {
@@ -240,6 +241,7 @@ export const actions = {
     store.addStepModalOpened = true
   },
   openDeleteStepModal () {
+    console.log('opening delete step modal')
     store.deleteStepModalOpened = true
   },
   openDeleteProjectModal () {
