@@ -1,5 +1,7 @@
 import { createAuth0 } from '@auth0/auth0-vue'
 // @ts-expect-error no types for vue-hotkey
+import VueTransitions from '@morev/vue-transitions'
+import '@morev/vue-transitions/styles'
 import { Hotkey } from '@simolation/vue-hotkey'
 import { createApp } from 'vue'
 import App from './app.vue'
@@ -12,6 +14,9 @@ const app = createApp(App)
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 app.use(vuetify)
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+app.use(VueTransitions)
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 app.component('AppHotkey', Hotkey)

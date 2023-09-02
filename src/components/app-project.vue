@@ -1,7 +1,7 @@
 <template>
   <v-container class="app-project flex flex-col items-start gap-4 transition duration-300 hover:grayscale-0"
     :class="[active ? 'app-active' : 'brightness-75 grayscale']" @click="actions.selectProject(id)">
-    <div class="app-project--header flex max-w-full cursor-pointer flex-row flex-wrap items-center" :class="{ 'gap-4': edit, active, edit }">
+    <div class="app-project--header flex max-w-full cursor-pointer flex-row flex-wrap items-end" :class="{ 'gap-4': edit, active, edit }">
       <v-text-field :id="`project-title-${id}`" v-model="updatedTitle" :autofocus="edit" class="app-no-details app-title app-title-xl max-w-full"
         :class="{ active, italic: edit, edit }" density="compact" :readonly="!edit" :style="{ width: titleWidth }" :tabindex="edit ? 1 : -1"
         :variant="edit ? 'outlined' : 'plain'" @change="updateTitle" />
@@ -11,9 +11,9 @@
       <v-btn v-if="edit" color="secondary" prepend-icon="mdi-white-balance-sunny" variant="tonal" @click="actions.toggleTimeDisplay">
         {{ isTimeDisplayed ? 'Hide' : 'Show' }} hours
       </v-btn>
-      <v-scroll-x-transition v-if="!edit">
-        <v-icon v-if="active" class="text-4xl" color="secondary" icon="mdi-chevron-triple-right" />
-      </v-scroll-x-transition>
+      <transition-slide v-if="!edit" :offset="['-100%', 0]">
+        <v-icon v-if="active" class="pt-2 text-4xl" color="secondary" icon="mdi-chevron-triple-right" />
+      </transition-slide>
     </div>
     <div v-if="steps.length > 0"
       class="app-steps flex w-full max-w-full cursor-pointer flex-col items-center overflow-hidden overflow-x-auto rounded-lg py-4 sm:w-auto sm:flex-row sm:rounded-xl"
@@ -22,9 +22,11 @@
         :index="index" :is-last="index === steps.length - 1" :project-active="active" :project-id="id" :show-date="isDateDisplayed"
         :show-time="isTimeDisplayed" />
     </div>
-    <v-btn v-if="steps.length === 0" color="secondary" prepend-icon="mdi-plus" variant="outlined" @click="addStepHere">
-      Add step
-    </v-btn>
+    <transition-fade>
+      <v-btn v-if="steps.length === 0" color="secondary" prepend-icon="mdi-plus" variant="outlined" @click="addStepHere">
+        Add step
+      </v-btn>
+    </transition-fade>
   </v-container>
 </template>
 
@@ -83,8 +85,8 @@ export default defineComponent({
     },
     titleWidth () {
       if (store.editMode && window.innerWidth < 500) return '100%' // eslint-disable-line @typescript-eslint/no-magic-numbers
-      const widths = { large: 24, small: 18, space: 14, none: 0 }
-      let width = widths.none
+      const widths = { large: 21, small: 17, space: 10, none: 0, base: 8 }
+      let width = widths.base
       const chars = Array.from(this.updatedTitle)
       chars.forEach(char => {
         if (char === ' ') width += widths.space
