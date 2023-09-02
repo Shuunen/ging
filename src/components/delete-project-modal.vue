@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { actions, activeProject, store } from '@/store'
+import { logger } from '@/utils/logger.utils'
 import { computed } from 'vue'
 
 const title = computed(() => activeProject.value?.title ?? '')
@@ -9,7 +10,7 @@ function onClose () {
 }
 
 function deleteClose () {
-  console.log('delete project and close modal')
+  logger.debug('delete project and close modal')
   actions.deleteActiveProject()
   onClose()
 }

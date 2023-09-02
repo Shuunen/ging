@@ -32,6 +32,7 @@
 import type { Step } from '@/models/step.model'
 import { actions, store } from '@/store'
 import { colorToGradient } from '@/utils/colors.utils'
+import { logger } from '@/utils/logger.utils'
 import { processStepsDurations } from '@/utils/step.utils'
 import { sleep } from 'shuutils'
 import { defineComponent } from 'vue'
@@ -95,7 +96,7 @@ export default defineComponent({
   },
   watch: {
     title (value: string) {
-      console.log('title changed', value)
+      logger.debug('title changed', value)
       this.updatedTitle = value
     },
   },
@@ -106,12 +107,12 @@ export default defineComponent({
   },
   methods: {
     addStepHere () {
-      console.log('add step here')
+      logger.debug('add step here')
       actions.selectProject(this.id)
       actions.openAddStepModal()
     },
     updateTitle () {
-      console.log('update title to', this.updatedTitle)
+      logger.debug('update title to', this.updatedTitle)
       actions.patchCurrentProjectTitle(this.updatedTitle)
     },
   },

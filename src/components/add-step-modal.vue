@@ -2,6 +2,7 @@
 import { Step } from '@/models/step.model'
 import { actions, store } from '@/store'
 import { requiredRules } from '@/utils/form.utils'
+import { logger } from '@/utils/logger.utils'
 import { stringToStepData } from '@/utils/step.utils'
 import { ref } from 'vue'
 
@@ -15,7 +16,7 @@ function onSubmit (event: Event) {
   event.preventDefault()
   const str = /\d/u.test(title.value) ? title.value : `${title.value} 1 hour`
   const step = new Step(stringToStepData(str))
-  console.log('submit, adding step', step)
+  logger.debug('submit, adding step', step)
   actions.addStep(step)
   title.value = ''
   onClose()

@@ -3,6 +3,7 @@
 import type { Project } from '@/models/project.model'
 import type { Endpoints } from '@octokit/types'
 import { debounce } from 'shuutils'
+import { logger } from './logger.utils'
 
 const apiUrl = 'https://api.github.com/gists'
 const debouncePersistDelay = 1000
@@ -66,7 +67,7 @@ export async function update (state: GistState, token: string, id: string, fetch
 // eslint-disable-next-line @typescript-eslint/no-shadow, max-params
 export async function getId (gistId: string, gistState: GistState, gistToken: string, fetch = window.fetch): Promise<Result> {
   if (gistId) return { success: true, message: 'gist id already set', data: gistId }
-  console.log('listing gists to find a potential existing one')
+  logger.debug('listing gists to find a potential existing one')
   const { success, message, data: gists } = await request<Endpoints['GET /gists']['response']['data']>('GET', apiUrl, gistToken, undefined, fetch)
   if (!success || !gists) return { success: false, message }
   const target = gists.find(gist => gist.files[fileName])
@@ -93,7 +94,7 @@ export async function read (id: string, token: string, fetch = window.fetch): Pr
  */
 // eslint-disable-next-line @typescript-eslint/no-shadow, max-params
 export async function persist (reason: string, gistId: string, gistState: GistState, gistToken: string, fetch = window.fetch): Promise<Result> {
-  console.log(`persisting state because ${reason}`)
+  logger.debug(`persisting state because ${reason}`)
   if (gistToken === '') return { success: false, message: 'Cannot save your work without a Gist token' }
   const { success, message, data: id } = await getId(gistId, gistState, gistToken, fetch)
   /* c8 ignore next */

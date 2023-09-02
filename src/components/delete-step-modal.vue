@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { actions, activeStep, store } from '@/store'
+import { logger } from '@/utils/logger.utils'
 import { ref } from 'vue'
 
 const title = ref(activeStep.value?.title ?? '')
@@ -9,7 +10,7 @@ function onClose () {
 }
 
 function onDeleteClose () {
-  console.log('delete step and close modal')
+  logger.debug('delete step and close modal')
   actions.deleteActiveStep()
   onClose()
 }

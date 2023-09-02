@@ -19,6 +19,7 @@
 
 <script lang="ts">
 import { actions, store } from '@/store'
+import { logger } from '@/utils/logger.utils'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -31,7 +32,7 @@ export default defineComponent({
   },
   watch: {
     isAuthenticated (isAuthenticated: boolean) {
-      console.log('isAuthenticated ?', isAuthenticated)
+      logger.debug('isAuthenticated ?', isAuthenticated)
       if (!isAuthenticated) {
         void actions.setGistToken('')
         return

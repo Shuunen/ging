@@ -4,8 +4,8 @@ function scrollToElement (element: Element) {
   // below is not working with horizontal scroll hidden items
   // const { top: topPosition, bottom: bottomPosition } = element.getBoundingClientRect()
   // const isVisible = topPosition >= 0 && bottomPosition <= window.innerHeight
-  // if (isVisible) { console.log('element is visible, not scrolling'); return }
-  // console.log('scrolling to element', element)
+  // if (isVisible) { logger.debug('element is visible, not scrolling'); return }
+  // logger.debug('scrolling to element', element)
   element.scrollIntoView({ behavior: 'smooth' })
 }
 

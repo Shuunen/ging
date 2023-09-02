@@ -41,7 +41,6 @@
 - [ ] migrate to Nuxt ?
 - [ ] add "store.$onAction" feature back
 - [ ] stop using check method in unit tests
-- [ ] use logger from shuutils
 - [ ] try to import only used icons (actually all are imported and it cost 300k of css)
 
 ## Thanks

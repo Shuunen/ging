@@ -34,6 +34,7 @@
 
 <script lang="ts">
 import { actions, activeProject, activeStep, store } from '@/store'
+import { logger } from '@/utils/logger.utils'
 import { durationBetweenDates } from '@/utils/step.utils'
 import { dateToIsoString, formatDate } from 'shuutils'
 import { defineComponent } from 'vue'
@@ -169,21 +170,21 @@ export default defineComponent({
     },
     updateTitle (event: HtmlInputEvent) {
       const { target } = event
-      if (!target) { console.error('no title target'); return }
-      console.log('update step title to', target.value)
+      if (!target) { logger.error('no title target'); return }
+      logger.debug('update step title to', target.value)
       this.selectCurrentStep()
       actions.patchCurrentStepTitle(target.value)
     },
     updateDuration (event: HtmlInputEvent) {
       const { target } = event
-      if (!target) { console.error('no duration target'); return }
-      console.log('update step duration with', target.value)
+      if (!target) { logger.error('no duration target'); return }
+      logger.debug('update step duration with', target.value)
       this.selectCurrentStep()
       actions.patchCurrentStepDuration(target.value)
     },
     updateStart () {
       const start = new Date(this.updatedStart)
-      console.log(`update step start from "${this.updatedStart}" to "${start.toLocaleDateString()}"`)
+      logger.debug(`update step start from "${this.updatedStart}" to "${start.toLocaleDateString()}"`)
       this.selectCurrentStep()
       actions.patchCurrentStepStart(start)
     },
@@ -191,7 +192,7 @@ export default defineComponent({
       const start = new Date(this.updatedStart)
       const end = new Date(this.updatedEnd)
       const duration = durationBetweenDates(start, end)
-      console.log('update end via new duration :', duration)
+      logger.debug('update end via new duration :', duration)
       this.selectCurrentStep()
       actions.patchCurrentStepDuration(duration)
     },

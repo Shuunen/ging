@@ -3,6 +3,7 @@ import { Project } from '@/models/project.model'
 import { actions, store } from '@/store'
 import { colorToGradient } from '@/utils/colors.utils'
 import { requiredRules } from '@/utils/form.utils'
+import { logger } from '@/utils/logger.utils'
 import colors from 'tailwindcss/colors'
 import { computed, ref } from 'vue'
 
@@ -17,7 +18,7 @@ function onClose () {
 }
 
 function onSubmit () {
-  console.log('submit project')
+  logger.debug('submit project')
   actions.addProject(new Project({ title: title.value, color: color.value }))
   title.value = ''
   color.value = ''
