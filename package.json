@@ -49,7 +49,7 @@
   "scripts": {
     "build": "pnpm build:vue && pnpm mark:html && pnpm mark:js && echo build success",
     "build:vue": "vite build",
-    "check": "pnpm lint && pnpm build && pnpm test && echo check success",
+    "check": "pnpm i && pnpm lint && pnpm build && pnpm test && echo check success",
     "dev": "vite",
     "lint": "repo-check && pnpm lint:ts && pnpm lint:vue && echo lint success",
     "lint:ts": "tsc --noEmit && echo lint:ts success",
