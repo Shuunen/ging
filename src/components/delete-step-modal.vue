@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import { actions, activeStep, store } from '@/store'
 import { logger } from '@/utils/logger.utils'
-import { ref } from 'vue'
-
-const title = ref(activeStep.value?.title ?? '')
 
 function onClose () {
   store.deleteStepModalOpened = false
@@ -20,7 +17,7 @@ function onDeleteClose () {
   <v-dialog v-model="store.deleteStepModalOpened" width="auto">
     <v-card>
       <v-card-text>
-        <p class="mb-4">You are about to delete the step "{{ title }}", are you sure ?</p>
+        <p class="mb-4">You are about to delete the step "{{ activeStep?.title }}", are you sure ?</p>
         <v-card-actions>
           <v-spacer />
           <v-btn @click="onClose">Cancel</v-btn>
