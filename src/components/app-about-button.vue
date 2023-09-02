@@ -1,3 +1,24 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+import IconGithub from './icon-github.vue'
+
+const isOpen = ref(false)
+const shortcuts = {
+  'Alt + A': 'Add a project',
+  'Alt + D': 'Delete a project',
+  'Ctrl + A': 'Add a step',
+  'Ctrl + D': 'Delete a step',
+  'Ctrl + ->': 'Move step after',
+  'Ctrl + <-': 'Move step before',
+  'Ctrl + E': 'Toggle edit mode',
+  'Ctrl + !': 'Toggle debug mode',
+}
+
+function toggleOpen () {
+  isOpen.value = !isOpen.value
+}
+</script>
+
 <template>
   <v-btn class="app-shortcut-trigger" color="info" icon size="small" variant="tonal">
     <v-icon>mdi-help-circle-outline</v-icon>
@@ -27,40 +48,15 @@
           </v-col>
           <v-card-actions>
             <v-spacer />
-            <v-btn variant="tonal" @click="isOpen = false">Ok</v-btn>
+            <v-btn variant="tonal" @click="toggleOpen">Ok</v-btn>
           </v-card-actions>
         </v-container>
       </v-card>
     </v-dialog>
   </v-btn>
-  <app-hotkey :keys="[',']" @hotkey="isOpen = !isOpen" />
-  <app-hotkey :keys="['h']" @hotkey="isOpen = !isOpen" />
+  <app-hotkey :keys="[',']" @hotkey="toggleOpen" />
+  <app-hotkey :keys="['h']" @hotkey="toggleOpen" />
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-import pkg from '../../package.json'
-import IconGithub from './icon-github.vue'
-
-export default defineComponent({
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  components: { IconGithub },
-  data: () => ({
-    pkg,
-    isOpen: false,
-    shortcuts: {
-      'Alt + A': 'Add a project',
-      'Alt + D': 'Delete a project',
-      'Ctrl + A': 'Add a step',
-      'Ctrl + D': 'Delete a step',
-      'Ctrl + ->': 'Move step after',
-      'Ctrl + <-': 'Move step before',
-      'Ctrl + E': 'Toggle edit mode',
-      'Ctrl + !': 'Toggle debug mode',
-    },
-  }),
-})
-</script>
 
 <style scoped>
 .app-section {
