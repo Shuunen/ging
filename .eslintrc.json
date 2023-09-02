@@ -34,8 +34,16 @@
         "@typescript-eslint/no-var-requires": "off",
         "import/no-commonjs": "off",
         "import/unambiguous": "off",
-        "putout/putout": "off",
         "unicorn/prefer-module": "off"
+      }
+    },
+    {
+      "files": [
+        "*.ts"
+      ],
+      "rules": {
+        "tailwindcss/classnames-order": "off",
+        "tailwindcss/no-custom-classname": "off"
       }
     }
   ],
@@ -110,7 +118,9 @@
     ],
     "eslint-comments/no-use": "off",
     "etc/no-const-enum": "off",
+    "etc/no-deprecated": "off",
     "etc/no-enum": "off",
+    "etc/no-internal": "off",
     "etc/prefer-interface": "off",
     "ext/lines-between-object-properties": "off",
     "func-names": [
@@ -127,7 +137,9 @@
       }
     ],
     "import/extensions": "off",
+    "import/namespace": "off",
     "import/newline-after-import": "off",
+    "import/no-cycle": "off",
     "import/no-unassigned-import": "off",
     "import/order": "off",
     "import/prefer-default-export": "off",
@@ -160,6 +172,7 @@
     ],
     "padding-line-between-statements": "off",
     "prettier/prettier": "off",
+    "putout/putout": "off",
     "quote-props": [
       "error",
       "consistent-as-needed"

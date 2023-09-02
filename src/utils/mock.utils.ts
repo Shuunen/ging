@@ -26,11 +26,11 @@ function getRandomProject () {
     ]),
     id: getRandomNumber() + getRandomNumber(),
     title: getRandomString(),
-    steps: new Array(getRandomNumber(3, 10)).map(() => getRandomStep()), // eslint-disable-line @typescript-eslint/no-magic-numbers, unicorn/no-new-array, putout/putout
+    steps: new Array(getRandomNumber(3, 10)).map(() => getRandomStep()), // eslint-disable-line @typescript-eslint/no-magic-numbers, unicorn/no-new-array
   })
 }
 
-export const projects = new Array(getRandomNumber(2, 4)).map(() => getRandomProject()) // eslint-disable-line @typescript-eslint/no-magic-numbers, unicorn/no-new-array, putout/putout
+export const projects = new Array(getRandomNumber(2, 4)).map(() => getRandomProject()) // eslint-disable-line @typescript-eslint/no-magic-numbers, unicorn/no-new-array
 
 
 
