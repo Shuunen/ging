@@ -26,3 +26,7 @@ html {
 .v-btn--disabled {
   @apply filter grayscale;
 }
+
+.v-field__input {
+  @apply bg-transparent;
+}
