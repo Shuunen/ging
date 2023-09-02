@@ -48,7 +48,7 @@ function onSubmit () {
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn variant="plain" @click="onClose">Cancel</v-btn>
-          <v-btn color="primary" :disabled="!isValid" type="submit" variant="elevated">Add</v-btn>
+          <v-btn color="primary" :disabled="!isValid" type="submit" variant="elevated" @click="onSubmit">Add</v-btn>
         </v-card-actions>
       </v-container>
     </v-card>
