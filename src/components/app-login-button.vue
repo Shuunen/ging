@@ -31,25 +31,30 @@ export default defineComponent({
     }
   },
   watch: {
-    isAuthenticated (isAuthenticated: boolean) {
+    async isAuthenticated (isAuthenticated: boolean) {
       logger.debug('isAuthenticated ?', isAuthenticated)
       if (!isAuthenticated) {
         void actions.setGistToken('')
         return
       }
-      // eslint-disable-next-line promise/prefer-await-to-then
-      void this.$auth0.getAccessTokenSilently().then(() => {
-        const claims = this.$auth0.idTokenClaims.value
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const token = claims?.custom_github_token
-        // eslint-disable-next-line promise/always-return, @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unsafe-argument
-        if (token) void actions.setGistToken(token)
-      })
+      try {
+        await this.getToken()
+      } catch {
+        await this.logout()
+      }
     },
   },
   methods: {
     login () {
       void this.$auth0.loginWithRedirect()
+    },
+    async getToken () {
+      await this.$auth0.getAccessTokenSilently()
+      const claims = this.$auth0.idTokenClaims.value
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const token = claims?.custom_github_token
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unsafe-argument
+      if (token) void actions.setGistToken(token)
     },
     async logout () {
       store.isLoading = true
