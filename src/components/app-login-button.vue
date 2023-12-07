@@ -18,8 +18,8 @@
 </template>
 
 <script lang="ts">
-import { actions, store } from '@/store'
-import { logger } from '@/utils/logger.utils'
+import { actions, store } from '../store'
+import { logger } from '../utils/logger.utils'
 import { defineComponent } from 'vue'
 
 export default defineComponent({

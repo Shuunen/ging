@@ -2,13 +2,13 @@ import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
   test: {
-    alias: {
-      '@': 'src',
-    },
     coverage: {
-      100: true,
+      include: ['src/utils', 'src/models'],
+      exclude: ['src/utils/dom.utils.ts'],
       reporter: ['text', 'lcov', 'html'],
-      exclude: ['tests'],
+      thresholds: {
+        100: true,
+      },
     },
   },
 })

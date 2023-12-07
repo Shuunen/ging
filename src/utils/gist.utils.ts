@@ -1,8 +1,8 @@
 /* c8 ignore next */
 /* eslint-disable @typescript-eslint/naming-convention */
-import type { Project } from '@/models/project.model'
 import type { Endpoints } from '@octokit/types'
 import { debounce } from 'shuutils'
+import type { Project } from '../models/project.model'
 import { logger } from './logger.utils'
 
 const apiUrl = 'https://api.github.com/gists'

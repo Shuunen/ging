@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { actions, isHotkeysActive, store } from '@/store'
+import { actions, isHotkeysActive, store } from '../store'
 </script>
 
 <template>

@@ -1,4 +1,4 @@
-import { Project } from '@/models/project.model'
+import { Project } from '../src/models/project.model'
 import { daysAgo, getTimestampMs } from 'shuutils'
 import { check } from './utils'
 

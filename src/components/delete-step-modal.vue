@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { actions, activeStep, store } from '@/store'
-import { logger } from '@/utils/logger.utils'
+import { actions, activeStep, store } from '../store'
+import { logger } from '../utils/logger.utils'
 
 function onClose () {
   store.deleteStepModalOpened = false

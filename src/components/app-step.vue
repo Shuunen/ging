@@ -33,11 +33,11 @@
 </template>
 
 <script lang="ts">
-import { actions, activeProject, activeStep, store } from '@/store'
-import { logger } from '@/utils/logger.utils'
-import { durationBetweenDates } from '@/utils/step.utils'
 import { dateToIsoString, formatDate } from 'shuutils'
 import { defineComponent } from 'vue'
+import { actions, activeProject, activeStep, store } from '../store'
+import { logger } from '../utils/logger.utils'
+import { durationBetweenDates } from '../utils/step.utils'
 
 export default defineComponent({
   props: {

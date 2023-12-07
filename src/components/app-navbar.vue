@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { activeProject, store } from '@/store'
+import { activeProject, store } from '../store'
 </script>
 
 <template>

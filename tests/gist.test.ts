@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { body, create, file, fileName, getId, headers, persist, read, request, update } from '@/utils/gist.utils'
+import { body, create, file, fileName, getId, headers, persist, read, request, update } from '../src/utils/gist.utils'
 import { check } from './utils'
 
 const token = 'aUnitTest_gist_token'

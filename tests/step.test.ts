@@ -1,6 +1,6 @@
-import { Step } from '@/models/step.model'
-import { durationBetweenDates, processStepsDurations, stepToHumanDuration, stepToString, stringToStepData, stringToStepDuration } from '@/utils/step.utils'
 import { expect, it } from 'vitest'
+import { Step } from '../src/models/step.model'
+import { durationBetweenDates, processStepsDurations, stepToHumanDuration, stepToString, stringToStepData, stringToStepDuration } from '../src/utils/step.utils'
 import { check } from './utils'
 
 check('stepToString A', stepToString(new Step({ title: 'A', days: 1, hours: 0 })), 'A, 1 day')

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { actions, activeProject, store } from '@/store'
-import { logger } from '@/utils/logger.utils'
 import { computed } from 'vue'
+import { actions, activeProject, store } from '../store'
+import { logger } from '../utils/logger.utils'
 
 const title = computed(() => activeProject.value?.title ?? '')
 

@@ -160,7 +160,7 @@
             "importNames": [
               "storage"
             ],
-            "message": "Please import 'storage' from '@/utils/storage.utils' instead.",
+            "message": "Please import 'storage' from 'src/utils/storage.utils' instead.",
             "name": "shuutils"
           }
         ]

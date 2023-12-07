@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { actions, store, type StoreKey } from '@/store'
+import { actions, store, type StoreKey } from '../store'
 
 const list: StoreKey[] = ['activeProjectIndex', 'activeStepIndex', 'gistToken', 'gistId', 'isLoading']
 

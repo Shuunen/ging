@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { requiredRules } from '@/utils/form.utils'
+import { requiredRules } from '../src/utils/form.utils'
 import { check } from './utils'
 
 check('required form rule ok', requiredRules[0]!('im ok'), true)

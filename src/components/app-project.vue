@@ -31,13 +31,13 @@
 </template>
 
 <script lang="ts">
-import type { Step } from '@/models/step.model'
-import { actions, store } from '@/store'
-import { colorToGradient } from '@/utils/colors.utils'
-import { logger } from '@/utils/logger.utils'
-import { processStepsDurations } from '@/utils/step.utils'
 import { sleep } from 'shuutils'
 import { defineComponent } from 'vue'
+import type { Step } from '../models/step.model'
+import { actions, store } from '../store'
+import { colorToGradient } from '../utils/colors.utils'
+import { logger } from '../utils/logger.utils'
+import { processStepsDurations } from '../utils/step.utils'
 
 export default defineComponent({
   props: {

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { Project } from '@/models/project.model'
-import { actions, store } from '@/store'
-import { colorToGradient } from '@/utils/colors.utils'
-import { requiredRules } from '@/utils/form.utils'
-import { logger } from '@/utils/logger.utils'
 import colors from 'tailwindcss/colors'
 import { computed, ref } from 'vue'
+import { Project } from '../models/project.model'
+import { actions, store } from '../store'
+import { colorToGradient } from '../utils/colors.utils'
+import { requiredRules } from '../utils/form.utils'
+import { logger } from '../utils/logger.utils'
 
 // eslint-disable-next-line unicorn/prefer-array-find
 const tailwindColors = Object.keys(colors).filter(color => !['amber', 'black', 'current', 'gray', 'inherit', 'neutral', 'rose', 'slate', 'stone', 'transparent', 'white'].includes(color) && !/[A-Z]/u.test(color))

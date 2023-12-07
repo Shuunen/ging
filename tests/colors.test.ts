@@ -1,5 +1,5 @@
-import { colorToGradient } from '@/utils/colors.utils'
 import { expect, it } from 'vitest'
+import { colorToGradient } from '../src/utils/colors.utils'
 
 it('colorToGradient A', () => {
   expect(colorToGradient('red')).toStrictEqual('bg-gradient-to-br from-red-700 to-red-900')
