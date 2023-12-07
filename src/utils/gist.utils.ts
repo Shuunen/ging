@@ -37,7 +37,7 @@ export function body (state: GistState): string {
   }))
 }
 
-// eslint-disable-next-line max-params, etc/no-misused-generics, @typescript-eslint/no-shadow
+// eslint-disable-next-line etc/no-misused-generics, @typescript-eslint/no-shadow, @typescript-eslint/max-params
 export async function request<Type> (method: Method, url: string, token: string, state?: GistState, fetch = window.fetch): Promise<Result<Type>> {
   const options: RequestInit = { method, headers: headers(token) }
   if (state) options.body = body(state)
@@ -57,14 +57,14 @@ export async function create (state: GistState, token: string, fetch = window.fe
   return { success: true, message: 'gist created', data: gist.id }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-shadow, max-params
+// eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/max-params
 export async function update (state: GistState, token: string, id: string, fetch = window.fetch): Promise<Result> {
   const { success, message, data: gist } = await request<Endpoints['PATCH /gists/{gist_id}']['response']['data']>('PATCH', `${apiUrl}/${id}`, token, state, fetch)
   if (!success || gist?.id === undefined) return { success: false, message }
   return { success: true, message: 'gist updated', data: gist.id }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-shadow, max-params
+// eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/max-params
 export async function getId (gistId: string, gistState: GistState, gistToken: string, fetch = window.fetch): Promise<Result> {
   if (gistId) return { success: true, message: 'gist id already set', data: gistId }
   logger.debug('listing gists to find a potential existing one')
@@ -92,7 +92,7 @@ export async function read (id: string, token: string, fetch = window.fetch): Pr
  * Persist state in a gist
  * @returns true if the state was persisted
  */
-// eslint-disable-next-line @typescript-eslint/no-shadow, max-params
+// eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/max-params
 export async function persist (reason: string, gistId: string, gistState: GistState, gistToken: string, fetch = window.fetch): Promise<Result> {
   logger.debug(`persisting state because ${reason}`)
   if (gistToken === '') return { success: false, message: 'Cannot save your work without a Gist token' }

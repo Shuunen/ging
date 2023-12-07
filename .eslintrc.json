@@ -98,6 +98,7 @@
       "error",
       "always"
     ],
+    "@typescript-eslint/prefer-destructuring": "off",
     "@typescript-eslint/prefer-readonly-parameter-types": "off",
     "@typescript-eslint/quotes": [
       "error",
@@ -112,6 +113,7 @@
       "error",
       "always-multiline"
     ],
+    "compat/compat": "off",
     "curly": [
       "error",
       "multi"

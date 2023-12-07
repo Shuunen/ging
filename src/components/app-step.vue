@@ -123,9 +123,11 @@ export default defineComponent({
       return `${Math.min(Math.max(Math.max(this.updatedTitle.length, this.updatedDuration.length) + 8, this.edit ? 22 : 14), 40)}ch`
     },
     endDateDay () {
+      // eslint-disable-next-line regexp/require-unicode-sets-regexp
       return formatDate(this.end, 'dd / MM').replace(/\s/gu, '&ThinSpace;')
     },
     endDateHour () {
+      // eslint-disable-next-line regexp/require-unicode-sets-regexp
       return formatDate(this.end, 'HH h mm').replace('h 00', 'h').replace(/\s/gu, '&ThinSpace;')
     },
     showRightSwap () {

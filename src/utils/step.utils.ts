@@ -21,7 +21,7 @@ export function stepToString (step: Step) {
   return `${step.title}, ${time}`
 }
 
-// eslint-disable-next-line prefer-named-capture-group, regexp/prefer-named-capture-group, regexp/no-super-linear-move
+// eslint-disable-next-line prefer-named-capture-group, regexp/prefer-named-capture-group, regexp/no-super-linear-move, regexp/require-unicode-sets-regexp
 export const durationRegex = /(\d+)\s?([a-z]+)/u
 
 export function stringToStepDuration (input: string) {
@@ -37,7 +37,7 @@ export function stringToStepDuration (input: string) {
   return { [`${unit}s` as keyof Step]: value }
 }
 
-// eslint-disable-next-line prefer-named-capture-group, regexp/prefer-named-capture-group, regexp/no-super-linear-move, regexp/no-super-linear-backtracking, regexp/no-misleading-capturing-group
+// eslint-disable-next-line prefer-named-capture-group, regexp/prefer-named-capture-group, regexp/no-super-linear-move, regexp/no-super-linear-backtracking, regexp/no-misleading-capturing-group, regexp/require-unicode-sets-regexp
 export const titleWithDurationRegex = /([^,]*)[\s,]+(\d+\s?[a-z]+)/u
 
 export function stringToStepData (input: string) {

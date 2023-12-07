@@ -14,8 +14,8 @@ const scrollDelay = 100
 export const debouncedScrollToElement = debounce(scrollToElement, scrollDelay)
 
 export function unfocusActiveElement () {
-  const active = document.activeElement
-  if (active && active instanceof HTMLInputElement) active.blur()
+  const { activeElement } = document
+  if (activeElement && activeElement instanceof HTMLInputElement) activeElement.blur()
 }
 
 export function focusInput (selector: string) {

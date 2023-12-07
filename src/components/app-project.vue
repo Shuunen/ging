@@ -90,6 +90,7 @@ export default defineComponent({
       const chars = Array.from(this.updatedTitle)
       chars.forEach(char => {
         if (char === ' ') width += widths.space
+        // eslint-disable-next-line regexp/require-unicode-sets-regexp
         else if (/[A-Z]/u.test(char)) width += widths.large
         else width += widths.small
       })
