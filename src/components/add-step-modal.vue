@@ -14,7 +14,6 @@ function onClose () {
 
 function onSubmit (event: Event) {
   event.preventDefault()
-  // eslint-disable-next-line regexp/require-unicode-sets-regexp
   const str = /\d/u.test(title.value) ? title.value : `${title.value} 1 hour`
   const step = new Step(stringToStepData(str))
   logger.debug('submit, adding step', step)

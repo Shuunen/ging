@@ -1,7 +1,8 @@
 <template>
   <v-icon v-if="edit && index !== 0" class="app-separator app-switch" @click="actions.moveStep('before')">mdi-swap-horizontal</v-icon>
   <div v-else-if="edit && index === 0" class="app-spacer-left w-6"></div>
-  <div :id="`step-${id}`" ref="step" class="app-step" :class="{ edit }" :style="{ width: stepWidth }" @click="selectCurrentStep">
+  <div :id="`step-${id}`" ref="step" class="app-step" :class="{ edit }" role="button" :style="{ width: stepWidth }" tabindex="0"
+    @click="selectCurrentStep" @keypress.space="selectCurrentStep">
     <v-text-field :id="`step-title-${id}`" v-model="updatedTitle" :autofocus="edit" class="app-no-details app-title mx-auto w-full"
       :class="{ active, italic: edit, edit }" density="compact" :readonly="!edit" :tabindex="edit ? 1 : -1" :variant="edit ? 'outlined' : 'plain'"
       @change="updateTitle" />
@@ -39,6 +40,7 @@ import { actions, activeProject, activeStep, store } from '../store'
 import { logger } from '../utils/logger.utils'
 import { durationBetweenDates } from '../utils/step.utils'
 
+// eslint-disable-next-line import/no-anonymous-default-export, vue/require-expose, vue/require-name-property
 export default defineComponent({
   props: {
     active: {
@@ -107,6 +109,7 @@ export default defineComponent({
       type: Boolean,
     },
   },
+  // eslint-disable-next-line vue/component-api-style
   data: () => ({
     updatedTitle: '',
     updatedDuration: '',
@@ -114,6 +117,7 @@ export default defineComponent({
     updatedEnd: '',
     actions,
   }),
+  // eslint-disable-next-line vue/component-api-style
   computed: {
     edit () {
       return store.editMode && this.active
@@ -123,11 +127,9 @@ export default defineComponent({
       return `${Math.min(Math.max(Math.max(this.updatedTitle.length, this.updatedDuration.length) + 8, this.edit ? 22 : 14), 40)}ch`
     },
     endDateDay () {
-      // eslint-disable-next-line regexp/require-unicode-sets-regexp
       return formatDate(this.end, 'dd / MM').replace(/\s/gu, '&ThinSpace;')
     },
     endDateHour () {
-      // eslint-disable-next-line regexp/require-unicode-sets-regexp
       return formatDate(this.end, 'HH h mm').replace('h 00', 'h').replace(/\s/gu, '&ThinSpace;')
     },
     showRightSwap () {
@@ -139,6 +141,7 @@ export default defineComponent({
       return !store.editMode || !this.projectActive || (this.index !== store.activeStepIndex - 1)
     },
   },
+  // eslint-disable-next-line vue/component-api-style
   watch: {
     title (value: string) {
       this.updatedTitle = value
@@ -153,12 +156,14 @@ export default defineComponent({
       this.updatedEnd = this.dateIso(value)
     },
   },
+  // eslint-disable-next-line vue/component-api-style
   mounted () {
     this.updatedTitle = this.title
     this.updatedDuration = this.duration
     this.updatedStart = this.dateIso(this.start)
     this.updatedEnd = this.dateIso(this.end)
   },
+  // eslint-disable-next-line vue/component-api-style
   methods: {
     dateIso (date: Date | string) {
       const updatedDate = date instanceof Date ? date : new Date(date)

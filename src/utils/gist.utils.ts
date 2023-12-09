@@ -37,7 +37,7 @@ export function body (state: GistState): string {
   }))
 }
 
-// eslint-disable-next-line etc/no-misused-generics, @typescript-eslint/no-shadow, @typescript-eslint/max-params
+// eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/max-params
 export async function request<Type> (method: Method, url: string, token: string, state?: GistState, fetch = window.fetch): Promise<Result<Type>> {
   const options: RequestInit = { method, headers: headers(token) }
   if (state) options.body = body(state)

@@ -2,29 +2,24 @@
   <v-snackbar v-model="isOpen" color="primary">{{ message }}</v-snackbar>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { off, on, type Listener } from 'shuutils'
-import { defineComponent } from 'vue'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 
-export default defineComponent({
-  data: () => ({
-    isOpen: false,
-    message: '',
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-    listener: false as Listener | boolean,
-  }),
-  mounted () {
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    this.listener = on('toast', this.show)
-  },
-  beforeUnmount () {
-    if (typeof this.listener === 'object') off(this.listener)
-  },
-  methods: {
-    show (message: string) {
-      this.isOpen = true
-      this.message = message
-    },
-  },
+const isOpen = ref(false)
+const message = ref('')
+let listener: Listener | boolean = false
+
+function show (messageToShow: string) {
+  isOpen.value = true
+  message.value = messageToShow
+}
+
+onMounted(() => {
+  listener = on('toast', show)
+})
+
+onBeforeUnmount(() => {
+  if (typeof listener === 'object') off(listener)
 })
 </script>

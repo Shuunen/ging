@@ -7,7 +7,7 @@ import { colorToGradient } from '../utils/colors.utils'
 import { requiredRules } from '../utils/form.utils'
 import { logger } from '../utils/logger.utils'
 
-// eslint-disable-next-line unicorn/prefer-array-find, regexp/require-unicode-sets-regexp
+// eslint-disable-next-line unicorn/prefer-array-find
 const tailwindColors = Object.keys(colors).filter(color => !['amber', 'black', 'current', 'gray', 'inherit', 'neutral', 'rose', 'slate', 'stone', 'transparent', 'white'].includes(color) && !/[A-Z]/u.test(color))
 const title = ref('')
 const color = ref(tailwindColors[0] ?? '')
@@ -24,6 +24,11 @@ function onSubmit () {
   color.value = ''
   onClose()
 }
+
+function setColor (colorToUse: string) {
+  logger.debug('set color', colorToUse)
+  color.value = colorToUse
+}
 </script>
 
 <template>
@@ -39,8 +44,8 @@ function onSubmit () {
             <div class="app-colors mb-2 mt-4 grid grid-cols-4 gap-2 md:grid-cols-8">
               <div v-for="tailwindColor in tailwindColors" :key="tailwindColor"
                 class="app-color h-10 w-16 cursor-pointer rounded-md border-2 transition-all hover:scale-125"
-                :class="[colorToGradient(tailwindColor), tailwindColor === color ? 'border-indigo-400' : 'border-slate-800']"
-                @click="color = tailwindColor">
+                :class="[colorToGradient(tailwindColor), tailwindColor === color ? 'border-indigo-400' : 'border-slate-800']" role="button" tabindex="0"
+                @click="setColor(tailwindColor)" @keypress="setColor(tailwindColor)">
               </div>
             </div>
           </v-form>

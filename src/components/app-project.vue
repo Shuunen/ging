@@ -39,6 +39,7 @@ import { colorToGradient } from '../utils/colors.utils'
 import { logger } from '../utils/logger.utils'
 import { processStepsDurations } from '../utils/step.utils'
 
+// eslint-disable-next-line import/no-anonymous-default-export, vue/require-expose, vue/require-name-property
 export default defineComponent({
   props: {
     active: {
@@ -70,12 +71,14 @@ export default defineComponent({
       default: true, // eslint-disable-line vue/no-boolean-default
     },
   },
+  // eslint-disable-next-line vue/component-api-style
   data: () => ({
     updatedTitle: '',
     store,
     colorToGradient,
     actions,
   }),
+  // eslint-disable-next-line vue/component-api-style
   computed: {
     processedSteps () {
       return processStepsDurations(this.steps)
@@ -90,24 +93,26 @@ export default defineComponent({
       const chars = Array.from(this.updatedTitle)
       chars.forEach(char => {
         if (char === ' ') width += widths.space
-        // eslint-disable-next-line regexp/require-unicode-sets-regexp
         else if (/[A-Z]/u.test(char)) width += widths.large
         else width += widths.small
       })
       return `${width}px`
     },
   },
+  // eslint-disable-next-line vue/component-api-style
   watch: {
     title (value: string) {
       logger.debug('title changed', value)
       this.updatedTitle = value
     },
   },
+  // eslint-disable-next-line vue/component-api-style
   mounted () {
     this.updatedTitle = this.title
     // eslint-disable-next-line @typescript-eslint/no-magic-numbers, promise/always-return, promise/prefer-await-to-then
     if (this.active) void sleep(100).then(() => { actions.scrollToStep() })
   },
+  // eslint-disable-next-line vue/component-api-style
   methods: {
     addStepHere () {
       logger.debug('add step here')

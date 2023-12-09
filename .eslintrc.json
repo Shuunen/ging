@@ -1,51 +1,16 @@
 {
+  "$schema": "https://json.schemastore.org/eslintrc",
   "env": {
+    "browser": true,
+    "es6": true,
     "node": true
   },
   "extends": [
-    "plugin:unicorn/all",
     "plugin:tailwindcss/recommended",
+    "plugin:unicorn/all",
     "hardcore",
     "hardcore/ts",
     "hardcore/vue"
-  ],
-  "overrides": [
-    {
-      "files": [
-        "*.vue"
-      ],
-      "rules": {
-        "import/no-anonymous-default-export": "off",
-        "unicorn/prefer-spread": "off",
-        "vue/component-api-style": "off",
-        "vue/require-emit-validator": "off",
-        "vue/require-expose": "off",
-        "vue/require-name-property": "off",
-        "vue/v-on-handler-style": "off",
-        "vuejs-accessibility/click-events-have-key-events": "off",
-        "vuejs-accessibility/no-static-element-interactions": "off"
-      }
-    },
-    {
-      "files": [
-        "*.js"
-      ],
-      "rules": {
-        "@typescript-eslint/no-var-requires": "off",
-        "import/no-commonjs": "off",
-        "import/unambiguous": "off",
-        "unicorn/prefer-module": "off"
-      }
-    },
-    {
-      "files": [
-        "*.ts"
-      ],
-      "rules": {
-        "tailwindcss/classnames-order": "off",
-        "tailwindcss/no-custom-classname": "off"
-      }
-    }
   ],
   "parserOptions": {
     "project": "tsconfig.json"
@@ -181,6 +146,7 @@
       "consistent-as-needed"
     ],
     "quotes": "off",
+    "regexp/require-unicode-sets-regexp": "off",
     "require-atomic-updates": [
       "error",
       {
@@ -225,10 +191,10 @@
     "vue/html-self-closing": "off",
     "vue/max-attributes-per-line": "off",
     "vue/new-line-between-multi-line-property": "off",
-    "vue/no-multiple-template-root": "off",
     "vue/padding-lines-in-component-definition": "off",
     "vue/singleline-html-element-content-newline": "off",
     "vue/static-class-names-order": "off",
+    "vue/v-on-handler-style": "off",
     "vuejs-accessibility/no-autofocus": "off"
   },
   "settings": {

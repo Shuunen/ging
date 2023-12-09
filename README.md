@@ -42,6 +42,7 @@
 - [ ] add "store.$onAction" feature back
 - [ ] stop using check method in unit tests
 - [ ] try to import only used icons (actually all are imported and it cost 300k of css)
+- [ ] migrate remaining components to script setup
 
 ## Thanks
 
