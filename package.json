@@ -19,7 +19,7 @@
   "devDependencies": {
     "@types/node": "20.10",
     "@types/webfontloader": "1.6",
-    "@vitejs/plugin-vue": "4.5",
+    "@vitejs/plugin-vue": "4.6",
     "@vitest/coverage-v8": "1.1",
     "eslint": "8.56",
     "eslint-config-hardcore": "45.1",
