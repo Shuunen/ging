@@ -9,8 +9,8 @@ dependencies:
     specifier: '2.3'
     version: 2.3.2(typescript@5.3.3)
   '@mdi/font':
-    specifier: '7.3'
-    version: 7.3.67
+    specifier: '7.4'
+    version: 7.4.47
   '@morev/vue-transitions':
     specifier: '2.3'
     version: 2.3.6(vue@3.3.11)
@@ -782,8 +782,8 @@ packages:
       '@jridgewell/resolve-uri': 3.1.1
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  /@mdi/font@7.3.67:
-    resolution: {integrity: sha512-SWxvzRbUQRfewlIV+OF4/YF4DkeTjMWoT8Hh9yeU/5UBVdJZj9Uf4a9+cXjknSIhIaMxZ/4N1O/s7ojApOOGjg==}
+  /@mdi/font@7.4.47:
+    resolution: {integrity: sha512-43MtGpd585SNzHZPcYowu/84Vz2a2g31TvPMTm9uTiCSWzaheQySUcSyUH/46fPnuPQWof2yd0pGBtzee/IQWw==}
     dev: false
 
   /@mdn/browser-compat-data@5.4.5:
