@@ -59,8 +59,8 @@ devDependencies:
     specifier: '45.1'
     version: 45.1.0(@babel/core@7.23.5)(@babel/eslint-parser@7.23.3)(eslint@8.56.0)(prettier@3.1.0)(typescript@5.3.3)(vue-eslint-parser@9.3.2)
   eslint-plugin-tailwindcss:
-    specifier: '3.13'
-    version: 3.13.0(tailwindcss@3.4.0)
+    specifier: '3.14'
+    version: 3.14.0(tailwindcss@3.4.0)
   repo-check:
     specifier: '1.34'
     version: 1.34.0
@@ -4933,11 +4933,11 @@ packages:
       eslint-plugin-jsx-a11y: 6.8.0(eslint@8.56.0)
     dev: true
 
-  /eslint-plugin-tailwindcss@3.13.0(tailwindcss@3.4.0):
-    resolution: {integrity: sha512-Fcep4KDRLWaK3KmkQbdyKHG0P4GdXFmXdDaweTIPcgOP60OOuWFbh1++dufRT28Q4zpKTKaHwTsXPJ4O/EjU2Q==}
+  /eslint-plugin-tailwindcss@3.14.0(tailwindcss@3.4.0):
+    resolution: {integrity: sha512-SGy4JmZoP5m1bXCbcsPfQg1/axOdriJf9L22HghNMyDTM5mybg2XEkaMwgax4aR13zZJRRB1nWmkuYUn+SV6/Q==}
     engines: {node: '>=12.13.0'}
     peerDependencies:
-      tailwindcss: ^3.3.2
+      tailwindcss: ^3.4.0
     dependencies:
       fast-glob: 3.3.2
       postcss: 8.4.32
