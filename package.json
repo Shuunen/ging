@@ -6,7 +6,7 @@
     "@auth0/auth0-vue": "2.3",
     "@mdi/font": "7.4",
     "@morev/vue-transitions": "3.0",
-    "@octokit/types": "12.5",
+    "@octokit/types": "12.6",
     "@simolation/vue-hotkey": "2.0",
     "register-service-worker": "1.7",
     "shuutils": "7.7",
