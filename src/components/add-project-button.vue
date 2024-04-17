@@ -36,7 +36,7 @@ function setColor (colorToUse: string) {
   <v-dialog v-model="store.addProjectModalOpened" width="auto">
     <v-card>
       <v-container class="from-40%" :class="[colorToGradient('slate', 900, color, 900)]">
-        <v-col class="min-w-[20rem]">
+        <v-col class="min-w-80">
           <div class="mb-4 text-4xl">New project</div>
           <v-form @submit.prevent="onSubmit">
             <!-- eslint-disable-next-line vuejs-accessibility/no-autofocus -->

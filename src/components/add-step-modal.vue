@@ -30,7 +30,7 @@ function onSubmit (event: Event) {
   <v-dialog v-else v-model="store.addStepModalOpened" width="auto">
     <v-card>
       <v-container>
-        <v-col class="min-w-[20rem]">
+        <v-col class="min-w-80">
           <div class="mb-4 text-3xl">New step</div>
           <v-form ref="form" @submit="onSubmit">
             <!-- eslint-disable vuejs-accessibility/no-autofocus -->
