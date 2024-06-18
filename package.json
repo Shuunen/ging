@@ -27,7 +27,7 @@
     "repo-check": "1.35",
     "typescript": "5.4",
     "unplugin-vue-components": "0.27",
-    "vite": "5.2",
+    "vite": "5.3",
     "vitest": "1.5",
     "vue-tsc": "2.0"
   },
