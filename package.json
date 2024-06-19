@@ -22,7 +22,7 @@
     "@vitejs/plugin-vue": "5.0",
     "@vitest/coverage-v8": "1.6",
     "eslint": "8.57",
-    "eslint-config-hardcore": "45.1",
+    "eslint-config-hardcore": "45.8",
     "eslint-plugin-tailwindcss": "3.17",
     "repo-check": "1.35",
     "typescript": "5.4",
