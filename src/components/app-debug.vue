@@ -3,6 +3,7 @@ import { actions, store, type StoreKey } from '../store'
 
 const list: StoreKey[] = ['activeProjectIndex', 'activeStepIndex', 'gistToken', 'gistId', 'isLoading']
 
+// eslint-disable-next-line sonar/function-return-type
 function read (key: StoreKey) {
   return store[key]
 }
@@ -13,7 +14,8 @@ function read (key: StoreKey) {
     <div v-for="item in list" :key="`item${item}`" class="app-item">
       <span class="mr-2 opacity-50">{{ item }} ?</span>
       <code v-if="read(item) === ''" class="italic">empty string</code>
-      <code v-else-if="read(item) !== undefined" v-html="read(item)"></code><!-- eslint-disable-line vue/no-v-html, sonar/no-vue-bypass-sanitization -->
+      <code v-else-if="read(item) !== undefined"
+        v-html="read(item)"></code><!-- eslint-disable-line vue/no-v-html, sonar/no-vue-bypass-sanitization -->
       <code v-else class="italic">undefined or null</code>
     </div>
   </div>

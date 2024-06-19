@@ -207,7 +207,7 @@ export default defineComponent({
 })
 </script>
 
-<!-- eslint-disable-next-line vue-scoped-css/enforce-style-type -->
+<!-- eslint-disable-next-line vue-scoped-css/enforce-style-type, vue/enforce-style-attribute -->
 <style>
 .app-step {
   @apply flex flex-col gap-3 px-2 flex-shrink-0 text-center select-none;

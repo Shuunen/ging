@@ -19,7 +19,7 @@
       class="app-steps flex w-full max-w-full cursor-pointer flex-col items-center overflow-hidden overflow-x-auto rounded-lg py-4 sm:w-auto sm:flex-row sm:rounded-xl"
       :class="[colorToGradient(color), active ? 'shadow-2xl' : 'shadow']">
       <app-step v-for="(step, index) in processedSteps" :key="`step-${index}`" v-bind="step" :active="active && (index === store.activeStepIndex)"
-        :index="index" :is-last="index === steps.length - 1" :project-active="active" :project-id="id" :show-date="isDateDisplayed"
+        :index :is-last="index === steps.length - 1" :project-active="active" :project-id="id" :show-date="isDateDisplayed"
         :show-time="isTimeDisplayed" />
     </div>
     <transition-fade>
@@ -127,7 +127,7 @@ export default defineComponent({
 })
 </script>
 
-<!-- eslint-disable-next-line vue-scoped-css/enforce-style-type -->
+<!-- eslint-disable-next-line vue-scoped-css/enforce-style-type, vue/enforce-style-attribute -->
 <style>
 .app-steps>.separator:last-child {
   @apply hidden;
