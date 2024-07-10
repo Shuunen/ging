@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest'
-import { getRandomProject, getRandomStep, projects } from '../src/utils/mock.utils'
+import { getRandomProject, getRandomStep, projects } from './mock.utils'
 
 it('projects A', () => {
   expect(projects.length).toBeGreaterThan(0)

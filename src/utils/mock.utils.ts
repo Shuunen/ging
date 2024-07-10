@@ -1,3 +1,4 @@
+/* eslint-disable jsdoc/require-jsdoc */
 import { getRandomNumber, getRandomString, pickOne } from 'shuutils'
 import { Project } from '../models/project.model'
 import { Step } from '../models/step.model'
@@ -25,8 +26,8 @@ export function getRandomProject () {
       'indigo',
     ]) /* c8 ignore next */ ?? 'gray',
     id: getRandomNumber() + getRandomNumber(),
-    title: getRandomString(),
     steps: new Array(getRandomNumber(3, 10)).map(() => getRandomStep()), // eslint-disable-line @typescript-eslint/no-magic-numbers, unicorn/no-new-array
+    title: getRandomString(),
   })
 }
 

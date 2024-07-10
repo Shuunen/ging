@@ -9,29 +9,29 @@ export const vuetify = createVuetify({
     defaultTheme: 'dark',
     themes: {
       dark: {
-        dark: true, // eslint-disable-line @typescript-eslint/naming-convention
         colors: {
           background: colors.gray[800],
-          surface: colors.gray[900],
-          primary: colors.indigo[600],
-          secondary: colors.orange[400],
           error: colors.red[300],
           info: colors.blue[300],
+          primary: colors.indigo[600],
+          secondary: colors.orange[400],
           success: colors.green[300],
+          surface: colors.gray[900],
           warning: colors.orange[300],
         },
+        dark: true, // eslint-disable-line @typescript-eslint/naming-convention
       },
       light: {
-        dark: false, // eslint-disable-line @typescript-eslint/naming-convention
         colors: {
           background: colors.gray[50],
-          surface: colors.gray[100],
-          primary: colors.indigo[600],
           error: colors.red[600],
           info: colors.blue[600],
+          primary: colors.indigo[600],
           success: colors.green[600],
+          surface: colors.gray[100],
           warning: colors.orange[600],
         },
+        dark: false, // eslint-disable-line @typescript-eslint/naming-convention
       },
     },
   },

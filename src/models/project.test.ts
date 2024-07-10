@@ -1,6 +1,6 @@
-import { Project } from '../src/models/project.model'
 import { daysAgo, getTimestampMs } from 'shuutils'
-import { check } from './utils'
+import { check } from '../utils/utils'
+import { Project } from './project.model'
 
 const defaults = new Project()
 check('project default id', defaults.id >= getTimestampMs(daysAgo(1)), true)

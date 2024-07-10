@@ -14,8 +14,8 @@ function onClose () {
 
 function onSubmit (event: Event) {
   event.preventDefault()
-  const str = /\d/u.test(title.value) ? title.value : `${title.value} 1 hour`
-  const step = new Step(stringToStepData(str))
+  const text = /\d/u.test(title.value) ? title.value : `${title.value} 1 hour`
+  const step = new Step(stringToStepData(text))
   logger.debug('submit, adding step', step)
   actions.addStep(step)
   title.value = ''
@@ -24,7 +24,7 @@ function onSubmit (event: Event) {
 </script>
 
 <template>
-  <v-snackbar v-if="store.projects.length === 0" v-model="store.addStepModalOpened" color="primary">
+  <v-snackbar color="primary" v-if="store.projects.length === 0" v-model="store.addStepModalOpened">
     You first need to create a project to add a step to it.
   </v-snackbar>
   <v-dialog v-else v-model="store.addStepModalOpened" width="auto">
@@ -32,21 +32,19 @@ function onSubmit (event: Event) {
       <v-container>
         <v-col class="min-w-80">
           <div class="mb-4 text-3xl">New step</div>
-          <v-form ref="form" @submit="onSubmit">
+          <v-form @submit="onSubmit" ref="form">
             <!-- eslint-disable vuejs-accessibility/no-autofocus -->
-            <v-text-field v-model="title" :autofocus="store.addStepModalOpened"
+            <v-text-field :autofocus="store.addStepModalOpened" :rules="requiredRules"
               hint="Like &ldquo;Get some milk, 1 hour&rdquo; or &ldquo;Go to Japan, 3 weeks&rdquo;" label="Step title, time" required
-              :rules="requiredRules" />
+              v-model="title" />
           </v-form>
         </v-col>
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn variant="plain" @click="onClose">Cancel</v-btn>
-          <v-btn color="primary" :disabled="title.length === 0" variant="elevated" @click="onSubmit">Add</v-btn>
+          <v-spacer />
+          <v-btn @click="onClose" variant="plain">Cancel</v-btn>
+          <v-btn :disabled="title.length === 0" @click="onSubmit" color="primary" variant="elevated">Add</v-btn>
         </v-card-actions>
       </v-container>
     </v-card>
   </v-dialog>
 </template>
-
-

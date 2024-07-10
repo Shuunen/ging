@@ -1,130 +1,51 @@
 <template>
-  <v-icon v-if="edit && index !== 0" class="app-separator app-switch" @click="actions.moveStep('before')">mdi-swap-horizontal</v-icon>
-  <div v-else-if="edit && index === 0" class="app-spacer-left w-6"></div>
-  <div :id="`step-${id}`" ref="step" class="app-step" :class="{ edit }" role="button" :style="{ width: stepWidth }" tabindex="0"
-    @click="selectCurrentStep" @keypress.space="selectCurrentStep">
-    <v-text-field :id="`step-title-${id}`" v-model="updatedTitle" :autofocus="edit" class="app-no-details app-title mx-auto w-full"
-      :class="{ active, italic: edit, edit }" density="compact" :readonly="!edit" :tabindex="edit ? 1 : -1" :variant="edit ? 'outlined' : 'plain'"
-      @change="updateTitle" />
-    <v-text-field v-model="updatedDuration" class="app-no-details duration mx-auto select-none" :class="{ active, italic: edit, edit }"
-      density="compact" prepend-icon="mdi-clock-outline" :readonly="!edit" :style="{ width: `${updatedDuration.length + 5}ch` }"
-      :tabindex="edit ? 1 : -1" :variant="edit ? 'outlined' : 'plain'" @change="updateDuration" />
+  <v-icon @click="actions.moveStep('before')" class="app-separator app-switch" v-if="edit && index !== 0">mdi-swap-horizontal</v-icon>
+  <div class="app-spacer-left w-6" v-else-if="edit && index === 0" />
+  <div :class="{ edit }" :id="`step-${id}`" :style="{ width: stepWidth }" @click="selectCurrentStep" @keypress.space="selectCurrentStep"
+    class="app-step" ref="step" role="button" tabindex="0">
+    <v-text-field :autofocus="edit" :class="{ active, italic: edit, edit }" :id="`step-title-${id}`" :readonly="!edit" :tabindex="edit ? 1 : -1"
+      :variant="edit ? 'outlined' : 'plain'" @change="updateTitle" class="app-no-details app-title mx-auto w-full" density="compact"
+      v-model="updatedTitle" />
+    <v-text-field :class="{ active, italic: edit, edit }" :readonly="!edit" :style="{ width: `${updatedDuration.length + 5}ch` }"
+      :tabindex="edit ? 1 : -1" :variant="edit ? 'outlined' : 'plain'" @change="updateDuration" class="app-no-details duration mx-auto select-none"
+      density="compact" prepend-icon="mdi-clock-outline" v-model="updatedDuration" />
 
-    <v-text-field v-if="edit" v-model="updatedStart" class="app-no-details mx-auto" density="compact" :tabindex="edit ? 1 : -1" type="datetime-local"
-      variant="outlined" @change="updateStart" />
-    <v-text-field v-if="edit" v-model="updatedEnd" class="app-no-details mx-auto" density="compact" :tabindex="edit ? 1 : -1" type="datetime-local"
-      variant="outlined" @change="updateEnd" />
-    <div v-else class="app-date-end whitespace-nowrap text-white opacity-60">
-      <div v-if="showDate" class="flex flex-row items-center justify-center gap-2">
+    <v-text-field :tabindex="edit ? 1 : -1" @change="updateStart" class="app-no-details mx-auto" density="compact" type="datetime-local" v-if="edit"
+      v-model="updatedStart" variant="outlined" />
+    <v-text-field :tabindex="edit ? 1 : -1" @change="updateEnd" class="app-no-details mx-auto" density="compact" type="datetime-local" v-if="edit"
+      v-model="updatedEnd" variant="outlined" />
+    <div class="app-date-end whitespace-nowrap text-white opacity-60" v-else>
+      <div class="flex flex-row items-center justify-center gap-2" v-if="showDate">
         <v-icon size="x-small">mdi-calendar-month</v-icon>
         <!-- eslint-disable-next-line vue/no-v-html, sonar/no-vue-bypass-sanitization -->
-        <span v-html="endDateDay"></span>
+        <span v-html="endDateDay" />
       </div>
-      <div v-if="showTime" class="flex flex-row items-center justify-center gap-2">
-        <v-icon v-if="parseInt(endDateHour) <= 12" class="brightness-125" size="x-small">mdi-white-balance-sunny</v-icon>
-        <v-icon v-if="parseInt(endDateHour) > 12" class="brightness-50" size="x-small">mdi-white-balance-sunny</v-icon>
+      <div class="flex flex-row items-center justify-center gap-2" v-if="showTime">
+        <v-icon class="brightness-125" size="x-small" v-if="parseInt(endDateHour) <= 12">mdi-white-balance-sunny</v-icon>
+        <v-icon class="brightness-50" size="x-small" v-if="parseInt(endDateHour) > 12">mdi-white-balance-sunny</v-icon>
         <!-- eslint-disable-next-line vue/no-v-html, sonar/no-vue-bypass-sanitization -->
-        <span v-html="endDateHour"></span>
+        <span v-html="endDateHour" />
       </div>
     </div>
   </div>
-  <v-icon v-if="showRightSwap" class="app-separator app-switch" @click="actions.moveStep('after')">mdi-swap-horizontal</v-icon>
-  <v-icon v-else-if="showRightChevron" class="app-separator">mdi-chevron-right</v-icon>
-  <div v-else-if="isLast" class="app-spacer-right w-6"></div>
+  <v-icon @click="actions.moveStep('after')" class="app-separator app-switch" v-if="showRightSwap">mdi-swap-horizontal</v-icon>
+  <v-icon class="app-separator" v-else-if="showRightChevron">mdi-chevron-right</v-icon>
+  <div class="app-spacer-right w-6" v-else-if="isLast" />
 </template>
 
 <script lang="ts">
+/* eslint-disable vue/order-in-components */
 import { dateToIsoString, formatDate } from 'shuutils'
 import { defineComponent } from 'vue'
 import { actions, activeProject, activeStep, store } from '../store'
 import { logger } from '../utils/logger.utils'
 import { durationBetweenDates } from '../utils/step.utils'
 
-// eslint-disable-next-line import/no-anonymous-default-export, vue/require-expose, vue/require-name-property
 export default defineComponent({
-  props: {
-    active: {
-      type: Boolean,
-    },
-    id: {
-      type: Number,
-      default: 0,
-    },
-    index: {
-      type: Number,
-      default: 0,
-    },
-    projectId: {
-      type: Number,
-      default: 0,
-    },
-    projectActive: {
-      type: Boolean,
-    },
-    title: {
-      type: String,
-      default: '',
-    },
-    duration: {
-      type: String,
-      default: '',
-    },
-    months: {
-      type: Number,
-      default: undefined,
-    },
-    weeks: {
-      type: Number,
-      default: undefined,
-    },
-    days: {
-      type: Number,
-      default: undefined,
-    },
-    hours: {
-      type: Number,
-      default: undefined,
-    },
-    minutes: {
-      type: Number,
-      default: undefined,
-    },
-    start: {
-      type: Date,
-      default: new Date(),
-    },
-    end: {
-      type: Date,
-      default: new Date(),
-    },
-    showDate: {
-      type: Boolean,
-      default: true, // eslint-disable-line vue/no-boolean-default
-    },
-    showTime: {
-      type: Boolean,
-      default: true, // eslint-disable-line vue/no-boolean-default
-    },
-    isLast: {
-      type: Boolean,
-    },
-  },
-  // eslint-disable-next-line vue/component-api-style
-  data: () => ({
-    updatedTitle: '',
-    updatedDuration: '',
-    updatedStart: '',
-    updatedEnd: '',
-    actions,
-  }),
-  // eslint-disable-next-line vue/component-api-style
+
   computed: {
     edit () {
       return store.editMode && this.active
-    },
-    stepWidth () {
-      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-      return `${Math.min(Math.max(Math.max(this.updatedTitle.length, this.updatedDuration.length) + 8, this.edit ? 22 : 14), 40)}ch`
     },
     endDateDay () {
       return formatDate(this.end, 'dd / MM').replace(/\s/gu, '&ThinSpace;')
@@ -132,39 +53,30 @@ export default defineComponent({
     endDateHour () {
       return formatDate(this.end, 'HH h mm').replace('h 00', 'h').replace(/\s/gu, '&ThinSpace;')
     },
-    showRightSwap () {
-      return this.edit && !this.isLast && (this.index !== store.activeStepIndex - 1)
-    },
     showRightChevron () {
       // old method : !editMode || !projectActive || index !== activeStepIndex - 1
       if (this.isLast) return false
       return !store.editMode || !this.projectActive || (this.index !== store.activeStepIndex - 1)
     },
-  },
-  // eslint-disable-next-line vue/component-api-style
-  watch: {
-    title (value: string) {
-      this.updatedTitle = value
+    showRightSwap () {
+      return this.edit && !this.isLast && (this.index !== store.activeStepIndex - 1)
     },
-    duration (value: string) {
-      this.updatedDuration = value
-    },
-    start (value: string) {
-      this.updatedStart = this.dateIso(value)
-    },
-    end (value: string) {
-      this.updatedEnd = this.dateIso(value)
+    stepWidth () {
+      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+      return `${Math.min(Math.max(Math.max(this.updatedTitle.length, this.updatedDuration.length) + 8, this.edit ? 22 : 14), 40)}ch`
     },
   },
-  // eslint-disable-next-line vue/component-api-style
-  mounted () {
-    this.updatedTitle = this.title
-    this.updatedDuration = this.duration
-    this.updatedStart = this.dateIso(this.start)
-    this.updatedEnd = this.dateIso(this.end)
-  },
-  // eslint-disable-next-line vue/component-api-style
+
+  data: () => ({
+    actions,
+    updatedDuration: '',
+    updatedEnd: '',
+    updatedStart: '',
+    updatedTitle: '',
+  }),
+
   methods: {
+    // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
     dateIso (date: Date | string) {
       const updatedDate = date instanceof Date ? date : new Date(date)
       // eslint-disable-next-line @typescript-eslint/no-magic-numbers
@@ -175,25 +87,13 @@ export default defineComponent({
       if (!activeProject.value || (activeProject.value.id !== this.projectId)) actions.selectProject(this.projectId)
       if (!activeStep.value || (activeStep.value.id !== this.id)) actions.selectStep(this.id)
     },
-    updateTitle (event: HtmlInputEvent) {
-      const { target } = event
-      if (!target) { logger.error('no title target'); return }
-      logger.debug('update step title to', target.value)
-      this.selectCurrentStep()
-      actions.patchCurrentStepTitle(target.value)
-    },
+    // eslint-disable-next-line no-undef, @typescript-eslint/prefer-readonly-parameter-types
     updateDuration (event: HtmlInputEvent) {
       const { target } = event
       if (!target) { logger.error('no duration target'); return }
       logger.debug('update step duration with', target.value)
       this.selectCurrentStep()
       actions.patchCurrentStepDuration(target.value)
-    },
-    updateStart () {
-      const start = new Date(this.updatedStart)
-      logger.debug(`update step start from "${this.updatedStart}" to "${start.toLocaleDateString()}"`)
-      this.selectCurrentStep()
-      actions.patchCurrentStepStart(start)
     },
     updateEnd () {
       const start = new Date(this.updatedStart)
@@ -202,6 +102,109 @@ export default defineComponent({
       logger.debug('update end via new duration :', duration)
       this.selectCurrentStep()
       actions.patchCurrentStepDuration(duration)
+    },
+    updateStart () {
+      const start = new Date(this.updatedStart)
+      logger.debug(`update step start from "${this.updatedStart}" to "${start.toLocaleDateString()}"`)
+      this.selectCurrentStep()
+      actions.patchCurrentStepStart(start)
+    },
+    // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types, no-undef
+    updateTitle (event: HtmlInputEvent) {
+      const { target } = event
+      if (!target) { logger.error('no title target'); return }
+      logger.debug('update step title to', target.value)
+      this.selectCurrentStep()
+      actions.patchCurrentStepTitle(target.value)
+    },
+  },
+
+  mounted () {
+    this.updatedTitle = this.title
+    this.updatedDuration = this.duration
+    this.updatedStart = this.dateIso(this.start)
+    this.updatedEnd = this.dateIso(this.end)
+  },
+  props: {
+    active: {
+      type: Boolean,
+    },
+    days: {
+      default: undefined,
+      type: Number,
+    },
+    duration: {
+      default: '',
+      type: String,
+    },
+    end: {
+      default: new Date(),
+      type: Date,
+    },
+    hours: {
+      default: undefined,
+      type: Number,
+    },
+    id: {
+      default: 0,
+      type: Number,
+    },
+    index: {
+      default: 0,
+      type: Number,
+    },
+    isLast: {
+      type: Boolean,
+    },
+    minutes: {
+      default: undefined,
+      type: Number,
+    },
+    months: {
+      default: undefined,
+      type: Number,
+    },
+    projectActive: {
+      type: Boolean,
+    },
+    projectId: {
+      default: 0,
+      type: Number,
+    },
+    showDate: {
+      default: true,
+      type: Boolean,
+    },
+    showTime: {
+      default: true,
+      type: Boolean,
+    },
+    start: {
+      default: new Date(),
+      type: Date,
+    },
+    title: {
+      default: '',
+      type: String,
+    },
+    weeks: {
+      default: undefined,
+      type: Number,
+    },
+  },
+
+  watch: {
+    duration (value: string) {
+      this.updatedDuration = value
+    },
+    end (value: string) {
+      this.updatedEnd = this.dateIso(value)
+    },
+    start (value: string) {
+      this.updatedStart = this.dateIso(value)
+    },
+    title (value: string) {
+      this.updatedTitle = value
     },
   },
 })
