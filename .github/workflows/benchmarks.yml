@@ -26,6 +26,9 @@ jobs:
           node-version-file: ".nvmrc"
           cache: "pnpm"
 
+      - name: Install dependencies
+        run: pnpm install
+
       - name: Build benchmark
         uses: CodSpeedHQ/action@v2
         with:
