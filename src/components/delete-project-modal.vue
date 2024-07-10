@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { actions, activeProject, store } from '../store'
 import { logger } from '../utils/logger.utils'
 
+// eslint-disable-next-line no-useless-assignment
 const title = computed(() => activeProject.value?.title ?? '')
 
 function onClose () {
@@ -24,7 +25,7 @@ function deleteClose () {
         <v-card-actions>
           <v-spacer />
           <v-btn @click="onClose">Cancel</v-btn>
-          <v-btn color="primary" variant="elevated" @click="deleteClose">Confirm delete</v-btn>
+          <v-btn @click="deleteClose" color="primary" variant="elevated">Confirm delete</v-btn>
           <app-hotkey :keys="['enter']" @hotkey="deleteClose" />
         </v-card-actions>
       </v-card-text>

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types */
+/* eslint-disable jsdoc/require-jsdoc */
 /* c8 ignore next */
 import { Step } from '../models/step.model'
 
@@ -21,14 +23,14 @@ export function stepToString (step: Step) {
   return `${step.title}, ${time}`
 }
 
-// eslint-disable-next-line prefer-named-capture-group, regexp/prefer-named-capture-group, regexp/no-super-linear-move
+// eslint-disable-next-line prefer-named-capture-group
 export const durationRegex = /(\d+)\s?([a-z]+)/u
 
 export function stringToStepDuration (input: string) {
   const [, duration, unitInput] = durationRegex.exec(input) ?? []
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!duration || !unitInput) throw new Error(`Invalid duration string : ${input}`)
-  // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+
   const unitSingular = unitInput.endsWith('s') ? unitInput.slice(0, -1) : unitInput
   const unit = units.find(item => item.startsWith(unitSingular)) ?? ''
   if (unit === '') throw new Error(`Invalid step unit : ${unitInput}`)
@@ -37,7 +39,7 @@ export function stringToStepDuration (input: string) {
   return { [`${unit}s` as keyof Step]: value }
 }
 
-// eslint-disable-next-line prefer-named-capture-group, regexp/prefer-named-capture-group, regexp/no-super-linear-move, regexp/no-super-linear-backtracking, regexp/no-misleading-capturing-group
+// eslint-disable-next-line prefer-named-capture-group
 export const titleWithDurationRegex = /([^,]*)[\s,]+(\d+\s?[a-z]+)/u
 
 export function stringToStepData (input: string) {
@@ -72,8 +74,8 @@ export function processStepsDurations (steps: Step[]) {
   })
 }
 
-// eslint-disable-next-line max-statements, complexity, sonarjs/cognitive-complexity
-export function durationBetweenDates (start: Date, end: Date): string {
+// eslint-disable-next-line max-statements, complexity
+export function durationBetweenDates (start: Date, end: Date) {
   const ms = end.getTime() - start.getTime()
   const seconds = Math.floor(ms / msInSecond)
   const minutes = Math.floor(seconds / secondsInMinute)

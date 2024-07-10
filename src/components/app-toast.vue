@@ -1,9 +1,9 @@
 <template>
-  <v-snackbar v-model="isOpen" color="primary">{{ message }}</v-snackbar>
+  <v-snackbar color="primary" v-model="isOpen">{{ message }}</v-snackbar>
 </template>
 
 <script setup lang="ts">
-import { off, on, type Listener } from 'shuutils'
+import { type Listener, off, on } from 'shuutils'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 
 const isOpen = ref(false)

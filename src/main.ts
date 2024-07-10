@@ -21,15 +21,14 @@ app.component('AppHotkey', Hotkey)
 
 app.use(
   createAuth0({
-    domain: 'shuunen.eu.auth0.com',
-    clientId: '43a38fLkm9B3sa1tUzhx1vs2Z2uJD1Fy',
     authorizationParams: {
       // eslint-disable-next-line @typescript-eslint/naming-convention, camelcase
       redirect_uri: window.location.origin,
     },
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    useRefreshTokens: true,
     cacheLocation: 'localstorage',
+    clientId: '43a38fLkm9B3sa1tUzhx1vs2Z2uJD1Fy',
+    domain: 'shuunen.eu.auth0.com',
+    useRefreshTokens: true,
   }),
 )
 

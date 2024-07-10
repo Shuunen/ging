@@ -1,3 +1,4 @@
+/* eslint-disable jsdoc/require-jsdoc */
 import { debounce } from 'shuutils'
 
 function scrollToElement (element: Element) {
