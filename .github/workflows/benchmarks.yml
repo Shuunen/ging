@@ -29,8 +29,32 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build benchmark
+      - name: Benchmark build:vue
         uses: CodSpeedHQ/action@v2
         with:
           token: ${{ secrets.CODSPEED_TOKEN }}
-          run: pnpm build
+          run: pnpm build:vue
+
+      - name: Benchmark lint:tsc
+        uses: CodSpeedHQ/action@v2
+        with:
+          token: ${{ secrets.CODSPEED_TOKEN }}
+          run: pnpm lint:tsc
+
+      - name: Benchmark lint:eslint
+        uses: CodSpeedHQ/action@v2
+        with:
+          token: ${{ secrets.CODSPEED_TOKEN }}
+          run: pnpm lint:eslint
+
+      - name: Benchmark lint:vue
+        uses: CodSpeedHQ/action@v2
+        with:
+          token: ${{ secrets.CODSPEED_TOKEN }}
+          run: pnpm lint:vue
+
+      - name: Benchmark test
+        uses: CodSpeedHQ/action@v2
+        with:
+          token: ${{ secrets.CODSPEED_TOKEN }}
+          run: pnpm test
