@@ -33,8 +33,8 @@ dependencies:
     specifier: '3.4'
     version: 3.4.29(typescript@5.4.5)
   vuetify:
-    specifier: '3.6'
-    version: 3.6.9(typescript@5.4.5)(vue@3.4.29)
+    specifier: '3.7'
+    version: 3.7.0(typescript@5.4.5)(vue@3.4.29)
   webfontloader:
     specifier: '1.6'
     version: 1.6.28
@@ -9823,8 +9823,8 @@ packages:
       '@vue/shared': 3.4.29
       typescript: 5.4.5
 
-  /vuetify@3.6.9(typescript@5.4.5)(vue@3.4.29):
-    resolution: {integrity: sha512-LVIZL0OCwzg3Aw2F8nT1rK/renpTPOcDEPe5E002Vj+VjXwsCNqwwxNteGfrcNlp0vgIJ8WusMvaxp69UJ3NJg==}
+  /vuetify@3.7.0(typescript@5.4.5)(vue@3.4.29):
+    resolution: {integrity: sha512-x+UaU4SPYNcJSE/voCTBFrNn0q9Spzx2EMfDdUj0NYgHGKb59OqnZte+AjaJaoOXy1AHYIGEpm5Ryk2BEfgWuw==}
     engines: {node: ^12.20 || >=14.13}
     peerDependencies:
       typescript: '>=4.7'
