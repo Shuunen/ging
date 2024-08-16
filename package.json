@@ -25,7 +25,7 @@
     "eslint-config-hardcore": "47.0",
     "eslint-plugin-tailwindcss": "3.17",
     "repo-check": "1.36",
-    "typescript": "5.4",
+    "typescript": "5.5",
     "unplugin-vue-components": "0.27",
     "vite": "5.4",
     "vitest": "2.0",
