@@ -28,7 +28,6 @@ app.use(
     cacheLocation: 'localstorage',
     clientId: '43a38fLkm9B3sa1tUzhx1vs2Z2uJD1Fy',
     domain: 'shuunen.eu.auth0.com',
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     useRefreshTokens: true,
   }),
 )

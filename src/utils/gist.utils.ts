@@ -37,7 +37,7 @@ export function body (state: GistState) {
   }))
 }
 
-// eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/max-params, no-restricted-syntax
+// eslint-disable-next-line @typescript-eslint/max-params, no-restricted-syntax
 export async function request<Type> (method: Method, url: string, token: string, state?: GistState, fetch = window.fetch): Promise<Result<Type>> {
   const options: RequestInit = { headers: headers(token), method }
   if (state) options.body = body(state)
@@ -50,21 +50,20 @@ export async function request<Type> (method: Method, url: string, token: string,
   return { data: response as Type, message: `${String(method)} request on ${url} succeed`, success: true }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-shadow
 export async function create (state: GistState, token: string, fetch = window.fetch) {
   const { data: gist, message, success } = await request<Endpoints['POST /gists']['response']['data']>('POST', apiUrl, token, state, fetch)
   if (!success || gist?.id === undefined) return { message, success: false }
   return { data: gist.id, message: 'gist created', success: true }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/max-params
+// eslint-disable-next-line @typescript-eslint/max-params
 export async function update (state: GistState, token: string, id: string, fetch = window.fetch) {
   const { data: gist, message, success } = await request<Endpoints['PATCH /gists/{gist_id}']['response']['data']>('PATCH', `${apiUrl}/${id}`, token, state, fetch)
   if (!success || gist?.id === undefined) return { message, success: false }
   return { data: gist.id, message: 'gist updated', success: true }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/max-params
+// eslint-disable-next-line @typescript-eslint/max-params
 export async function getId (gistId: string, gistState: GistState, gistToken: string, fetch = window.fetch) {
   if (gistId) return { data: gistId, message: 'gist id already set', success: true }
   logger.debug('listing gists to find a potential existing one')
@@ -75,7 +74,6 @@ export async function getId (gistId: string, gistState: GistState, gistToken: st
   return create(gistState, gistToken, fetch)
 }
 
-// eslint-disable-next-line @typescript-eslint/no-shadow
 export async function read (id: string, token: string, fetch = window.fetch) {
   const { data, message, success } = await request<Endpoints['GET /gists/{gist_id}']['response']['data']>('GET', `${apiUrl}/${id}`, token, undefined, fetch)
   if (!success || !data) return { message, success: false }
@@ -97,7 +95,7 @@ export async function read (id: string, token: string, fetch = window.fetch) {
  * @param fetch the fetch function to use
  * @returns true if the state was persisted
  */
-// eslint-disable-next-line @typescript-eslint/no-shadow, @typescript-eslint/max-params
+// eslint-disable-next-line @typescript-eslint/max-params
 export async function persist (reason: string, gistId: string, gistState: GistState, gistToken: string, fetch = window.fetch) {
   logger.debug(`persisting state because ${reason}`)
   if (gistToken === '') return { message: 'Cannot save your work without a Gist token', success: false }

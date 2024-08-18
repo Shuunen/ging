@@ -40,7 +40,6 @@ import { logger } from '../utils/logger.utils'
 import { processStepsDurations } from '../utils/step.utils'
 
 export default defineComponent({
-  // eslint-disable-next-line vue/component-api-style
   computed: {
     edit () {
       return store.editMode && this.active
@@ -61,14 +60,12 @@ export default defineComponent({
       return `${width}px`
     },
   },
-  // eslint-disable-next-line vue/component-api-style
   data: () => ({
     actions,
     colorToGradient,
     store,
     updatedTitle: '',
   }),
-  // eslint-disable-next-line vue/component-api-style
   methods: {
     addStepHere () {
       logger.debug('add step here')
@@ -80,7 +77,6 @@ export default defineComponent({
       actions.patchCurrentProjectTitle(this.updatedTitle)
     },
   },
-  // eslint-disable-next-line vue/component-api-style
   mounted () {
     this.updatedTitle = this.title
     if (this.active) void sleep(nbSecondsInMinute).then(() => { actions.scrollToStep() })
@@ -98,11 +94,11 @@ export default defineComponent({
       type: Number,
     },
     isDateDisplayed: {
-      default: true, // eslint-disable-line vue/no-boolean-default
+      default: true,
       type: Boolean,
     },
     isTimeDisplayed: {
-      default: true, // eslint-disable-line vue/no-boolean-default
+      default: true,
       type: Boolean,
     },
     steps: {
@@ -115,7 +111,6 @@ export default defineComponent({
       type: String,
     },
   },
-  // eslint-disable-next-line vue/component-api-style
   watch: {
     title (value: string) {
       logger.debug('title changed', value)

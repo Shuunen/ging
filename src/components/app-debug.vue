@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { type StoreKey, actions, store } from '../store'
 
+// eslint-disable-next-line no-useless-assignment
 const list: StoreKey[] = ['activeProjectIndex', 'activeStepIndex', 'gistToken', 'gistId', 'isLoading']
 
 function read (key: StoreKey) {

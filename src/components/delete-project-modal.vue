@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { actions, activeProject, store } from '../store'
 import { logger } from '../utils/logger.utils'
 
+// eslint-disable-next-line no-useless-assignment
 const title = computed(() => activeProject.value?.title ?? '')
 
 function onClose () {

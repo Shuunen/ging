@@ -11,6 +11,7 @@ import { logger } from '../utils/logger.utils'
 const tailwindColors = Object.keys(colors).filter(color => !['amber', 'black', 'current', 'gray', 'inherit', 'neutral', 'rose', 'slate', 'stone', 'transparent', 'white'].includes(color) && !/[A-Z]/u.test(color))
 const title = ref('')
 const color = ref(tailwindColors[0] ?? '')
+// eslint-disable-next-line no-useless-assignment
 const isValid = computed(() => (title.value.length > 0))
 
 function onClose () {
@@ -43,9 +44,9 @@ function setColor (colorToUse: string) {
             <v-text-field :autofocus="store.addProjectModalOpened" :rules="requiredRules" label="Title" required v-model="title" />
             <div class="app-colors mb-2 mt-4 grid grid-cols-4 gap-2 md:grid-cols-8">
               <div :class="[colorToGradient(tailwindColor), tailwindColor === color ? 'border-indigo-400' : 'border-slate-800']" :key="tailwindColor"
-                @click="setColor(tailwindColor)"
-                @keypress="setColor(tailwindColor)" class="app-color h-10 w-16 cursor-pointer rounded-md border-2 transition-all hover:scale-125" role="button"
-                tabindex="0" v-for="tailwindColor in tailwindColors" />
+                @click="setColor(tailwindColor)" @keypress="setColor(tailwindColor)"
+                class="app-color h-10 w-16 cursor-pointer rounded-md border-2 transition-all hover:scale-125" role="button" tabindex="0"
+                v-for="tailwindColor in tailwindColors" />
             </div>
           </v-form>
         </v-col>

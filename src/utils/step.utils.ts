@@ -38,7 +38,6 @@ export function stringToStepDuration (input: string) {
   const [, duration, unitInput] = durationRegex.exec(input) ?? []
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!duration || !unitInput) throw new Error(`Invalid duration string : ${input}`)
-  // eslint-disable-next-line @typescript-eslint/no-magic-numbers
   const unitSingular = unitInput.endsWith('s') ? unitInput.slice(0, -1) : unitInput
   const unit = units.find(item => item.startsWith(unitSingular)) ?? ''
   if (unit === '') throw new Error(`Invalid step unit : ${unitInput}`)

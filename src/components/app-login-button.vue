@@ -30,7 +30,6 @@ export default defineComponent({
       user: this.$auth0.user, // looks like : { "nickname": "Shuunen", "name": "Romain Racamier", "picture": "https://avatars.githubusercontent.com/u/439158?v=4", "updated_at": "2022-08-30T18:20:28.874Z", "email": "romain.racamier@gmail.com", "sub": "github|123456" }
     }
   },
-  // eslint-disable-next-line vue/component-api-style
   methods: {
     async getToken () {
       await this.$auth0.getAccessTokenSilently()

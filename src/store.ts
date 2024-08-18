@@ -31,7 +31,7 @@ export const store = reactive({
   editMode: false,
   gistId: storage.get('gistId', ''),
   gistState: storage.get<GistState>('gistState', { isGistState: false, projects: [] }),
-  gistStateLastSum: storage.get('gistStateLastSum', -1), // eslint-disable-line @typescript-eslint/no-magic-numbers
+  gistStateLastSum: storage.get('gistStateLastSum', -1),
   gistToken: storage.get('gistToken', ''),
   isLoading: false,
   projects: [] as Project[], // eslint-disable-line @typescript-eslint/consistent-type-assertions
@@ -70,16 +70,14 @@ export const actions = {
     storage.clear('gistStateLastSum')
   },
   clearStepDurations (step: Step) {
-    /* eslint-disable no-param-reassign */
     delete step.months
     delete step.weeks
     delete step.days
     delete step.hours
     delete step.minutes
-    /* eslint-enable no-param-reassign */
   },
   deleteActiveProject () {
-    actions.deleteProject(activeProject.value?.id ?? -1) // eslint-disable-line @typescript-eslint/no-magic-numbers
+    actions.deleteProject(activeProject.value?.id ?? -1)
   },
   deleteActiveStep () {
     if (!store.projects[store.activeProjectIndex]) { logger.error('cannot delete step: no active project'); return }

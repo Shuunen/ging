@@ -48,7 +48,6 @@
   ],
   "include": [
     "*.js",
-    "*.ts",
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.vue",

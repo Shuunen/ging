@@ -1,4 +1,3 @@
-/* eslint-disable jsdoc/require-jsdoc */
 /* eslint-disable @typescript-eslint/require-await */
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -19,7 +18,6 @@ check('gist body is not public', JSON.parse(body(gistStateA)).public, false)
 check('gist body contains files', JSON.parse(body(gistStateA)).files, fileA)
 
 const id = 'aUnitTest_gist_id'
-// eslint-disable-next-line @typescript-eslint/no-shadow
 const fetch = {
   fail: async (): Promise<Response> => ({ json: async () => ({ message: fetch.failMessage }) } as never),
   failMessage: 'a fake server error occurred',

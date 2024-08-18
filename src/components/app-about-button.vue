@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import IconGithub from './icon-github.vue'
 
 const isOpen = ref(false)
+// eslint-disable-next-line no-useless-assignment
 const shortcuts = {
   'Alt + A': 'Add a project',
   'Alt + D': 'Delete a project',

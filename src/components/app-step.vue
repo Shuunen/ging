@@ -43,7 +43,6 @@ import { durationBetweenDates } from '../utils/step.utils'
 type HtmlInputEvent = { target: HTMLInputElement | null }
 
 export default defineComponent({
-  // eslint-disable-next-line vue/component-api-style
   computed: {
     edit () {
       return store.editMode && this.active
@@ -67,7 +66,6 @@ export default defineComponent({
       return `${Math.min(Math.max(Math.max(this.updatedTitle.length, this.updatedDuration.length) + 8, this.edit ? 22 : 14), 40)}ch`
     },
   },
-  // eslint-disable-next-line vue/component-api-style
   data: () => ({
     actions,
     updatedDuration: '',
@@ -75,7 +73,6 @@ export default defineComponent({
     updatedStart: '',
     updatedTitle: '',
   }),
-  // eslint-disable-next-line vue/component-api-style
   methods: {
     dateIso (date: Date | string) {
       const updatedDate = date instanceof Date ? date : new Date(date)
@@ -116,7 +113,6 @@ export default defineComponent({
       actions.patchCurrentStepTitle(target.value)
     },
   },
-  // eslint-disable-next-line vue/component-api-style
   mounted () {
     this.updatedTitle = this.title
     this.updatedDuration = this.duration
@@ -170,11 +166,11 @@ export default defineComponent({
       type: Number,
     },
     showDate: {
-      default: true, // eslint-disable-line vue/no-boolean-default
+      default: true,
       type: Boolean,
     },
     showTime: {
-      default: true, // eslint-disable-line vue/no-boolean-default
+      default: true,
       type: Boolean,
     },
     start: {
@@ -190,7 +186,6 @@ export default defineComponent({
       type: Number,
     },
   },
-  // eslint-disable-next-line vue/component-api-style
   watch: {
     duration (value: string) {
       this.updatedDuration = value
