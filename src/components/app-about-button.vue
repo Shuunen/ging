@@ -6,12 +6,12 @@ const isOpen = ref(false)
 const shortcuts = {
   'Alt + A': 'Add a project',
   'Alt + D': 'Delete a project',
+  'Ctrl + !': 'Toggle debug mode',
+  'Ctrl + <-': 'Move step before',
+  'Ctrl + ->': 'Move step after',
   'Ctrl + A': 'Add a step',
   'Ctrl + D': 'Delete a step',
-  'Ctrl + ->': 'Move step after',
-  'Ctrl + <-': 'Move step before',
   'Ctrl + E': 'Toggle edit mode',
-  'Ctrl + !': 'Toggle debug mode',
 }
 
 function toggleOpen () {
@@ -22,7 +22,7 @@ function toggleOpen () {
 <template>
   <v-btn class="app-shortcut-trigger" color="info" icon size="small" variant="tonal">
     <v-icon>mdi-help-circle-outline</v-icon>
-    <v-dialog v-model="isOpen" activator="parent" width="auto">
+    <v-dialog activator="parent" v-model="isOpen" width="auto">
       <v-card>
         <v-container>
           <v-col class="flex flex-col gap-8">
@@ -39,7 +39,7 @@ function toggleOpen () {
             <div class="app-section hidden md:flex">
               <h2 class="app-title">Keyboard shortcuts</h2>
               <div class="grid grid-cols-2 gap-2">
-                <div v-for="(description, shortcut) in shortcuts" :key="shortcut" class="app-shortcut">
+                <div :key="shortcut" class="app-shortcut" v-for="(description, shortcut) in shortcuts">
                   <code class="mr-2 bg-white px-2 text-lg text-black">{{ shortcut }}</code> {{ description }}
                 </div>
               </div>
@@ -48,7 +48,7 @@ function toggleOpen () {
           </v-col>
           <v-card-actions>
             <v-spacer />
-            <v-btn variant="tonal" @click="toggleOpen">Ok</v-btn>
+            <v-btn @click="toggleOpen" variant="tonal">Ok</v-btn>
           </v-card-actions>
         </v-container>
       </v-card>

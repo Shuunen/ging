@@ -21,7 +21,7 @@ function onDeleteClose () {
         <v-card-actions>
           <v-spacer />
           <v-btn @click="onClose">Cancel</v-btn>
-          <v-btn color="primary" variant="elevated" @click="onDeleteClose">Confirm delete</v-btn>
+          <v-btn @click="onDeleteClose" color="primary" variant="elevated">Confirm delete</v-btn>
           <app-hotkey :keys="['enter']" @hotkey="onDeleteClose" />
         </v-card-actions>
       </v-card-text>

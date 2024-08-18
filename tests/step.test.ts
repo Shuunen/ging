@@ -3,10 +3,10 @@ import { Step } from '../src/models/step.model'
 import { durationBetweenDates, processStepsDurations, stepToHumanDuration, stepToString, stringToStepData, stringToStepDuration } from '../src/utils/step.utils'
 import { check } from './utils'
 
-check('stepToString A', stepToString(new Step({ title: 'A', days: 1, hours: 0 })), 'A, 1 day')
-check('stepToString B', stepToString(new Step({ title: 'B', days: 0, hours: 1 })), 'B, 1 hour')
-check('stepToString C', stepToString(new Step({ title: 'C', days: 3 })), 'C, 3 days')
-check('stepToString D', stepToString(new Step({ title: 'D', months: 2 })), 'D, 2 months')
+check('stepToString A', stepToString(new Step({ days: 1, hours: 0, title: 'A' })), 'A, 1 day')
+check('stepToString B', stepToString(new Step({ days: 0, hours: 1, title: 'B' })), 'B, 1 hour')
+check('stepToString C', stepToString(new Step({ days: 3, title: 'C' })), 'C, 3 days')
+check('stepToString D', stepToString(new Step({ months: 2, title: 'D' })), 'D, 2 months')
 check('stepToString incomplete E', stepToString(new Step({ title: 'E' })), 'E')
 check('stepToString incomplete F', stepToString(new Step({ days: 0 })), '')
 
@@ -30,13 +30,13 @@ it('stringToStepDuration invalid C', () => { expect(() => stringToStepDuration('
 check('stringToStepDuration D', stringToStepDuration('32 minutes'), { minutes: 32 })
 it('stringToStepDuration invalid E', () => { expect(() => stringToStepDuration('monkeys')).toThrow() })
 
-check('stepToHumanDuration A', stepToHumanDuration(new Step({ title: 'A', days: 1, hours: 0 })), '1 day')
-check('stepToHumanDuration B', stepToHumanDuration(new Step({ title: 'B', days: 0, hours: 1 })), '1 hour')
-check('stepToHumanDuration C', stepToHumanDuration(new Step({ title: 'C', days: 3 })), '3 days')
+check('stepToHumanDuration A', stepToHumanDuration(new Step({ days: 1, hours: 0, title: 'A' })), '1 day')
+check('stepToHumanDuration B', stepToHumanDuration(new Step({ days: 0, hours: 1, title: 'B' })), '1 hour')
+check('stepToHumanDuration C', stepToHumanDuration(new Step({ days: 3, title: 'C' })), '3 days')
 check('stepToHumanDuration D without duration', stepToHumanDuration(new Step({ title: 'D' })), '')
 
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-const steps = [new Step({ start: new Date('2020-01-01'), days: 2 }), new Step({ minutes: 3 })]
+const steps = [new Step({ days: 2, start: new Date('2020-01-01') }), new Step({ minutes: 3 })]
 const processedA = processStepsDurations(steps)
 check('processStepsDurations A', processedA[0]!.duration, '2 days')
 check('processStepsDurations B', processedA[1]!.duration, '3 minutes')

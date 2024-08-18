@@ -11,6 +11,11 @@ const monthsInYear = 12
 
 export const units = ['month', 'week', 'day', 'hour', 'minute'] as const
 
+/**
+ * Convert a step to a string
+ * @param step the step to convert
+ * @returns the string representation of the step
+ */
 export function stepToString (step: Step) {
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   const unit = units.find(unitItem => Boolean(step[(`${unitItem}s`) as keyof Step]))
@@ -21,9 +26,14 @@ export function stepToString (step: Step) {
   return `${step.title}, ${time}`
 }
 
-// eslint-disable-next-line prefer-named-capture-group, regexp/prefer-named-capture-group, regexp/no-super-linear-move
+// eslint-disable-next-line prefer-named-capture-group
 export const durationRegex = /(\d+)\s?([a-z]+)/u
 
+/**
+ * Convert a string to a step duration
+ * @param input the string to convert
+ * @returns the step duration
+ */
 export function stringToStepDuration (input: string) {
   const [, duration, unitInput] = durationRegex.exec(input) ?? []
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -37,9 +47,14 @@ export function stringToStepDuration (input: string) {
   return { [`${unit}s` as keyof Step]: value }
 }
 
-// eslint-disable-next-line prefer-named-capture-group, regexp/prefer-named-capture-group, regexp/no-super-linear-move, regexp/no-super-linear-backtracking, regexp/no-misleading-capturing-group
+// eslint-disable-next-line prefer-named-capture-group
 export const titleWithDurationRegex = /([^,]*)[\s,]+(\d+\s?[a-z]+)/u
 
+/**
+ * Convert a string to step data
+ * @param input the string to convert
+ * @returns the step data
+ */
 export function stringToStepData (input: string) {
   const [, title = input, duration = '1 hour'] = titleWithDurationRegex.exec(input) ?? []
   const step: Partial<Step> = { title: title.trim() }
@@ -47,6 +62,11 @@ export function stringToStepData (input: string) {
   return step
 }
 
+/**
+ * Convert a step to a human readable duration
+ * @param step the step to convert
+ * @returns the human readable duration
+ */
 export function stepToHumanDuration (step: Step) {
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   const unit = units.find(key => Boolean(step[(`${key}s`) as keyof Step]))
@@ -56,6 +76,11 @@ export function stepToHumanDuration (step: Step) {
   return `${value} ${unit}${value > 1 ? 's' : ''}`
 }
 
+/**
+ * Process the steps durations
+ * @param steps the steps to process
+ * @returns the processed steps
+ */
 export function processStepsDurations (steps: Step[]) {
   const date = new Date(steps[0]?.start ?? new Date())
   return steps.map((input) => {
@@ -72,8 +97,14 @@ export function processStepsDurations (steps: Step[]) {
   })
 }
 
-// eslint-disable-next-line max-statements, complexity, sonarjs/cognitive-complexity
-export function durationBetweenDates (start: Date, end: Date): string {
+/**
+ * Calculate the duration between two dates
+ * @param start the start date
+ * @param end the end date
+ * @returns the duration between the two dates
+ */
+// eslint-disable-next-line max-statements, complexity
+export function durationBetweenDates (start: Date, end: Date) {
   const ms = end.getTime() - start.getTime()
   const seconds = Math.floor(ms / msInSecond)
   const minutes = Math.floor(seconds / secondsInMinute)

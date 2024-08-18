@@ -4,12 +4,12 @@ import { actions, isHotkeysActive, store } from '../store'
 
 <template>
   <v-container class="app-projects flex h-full flex-col justify-center gap-2" fluid>
-    <p v-if="store.projects.length === 0" class="mx-auto flex flex-col items-center gap-4 text-2xl">
+    <p class="mx-auto flex flex-col items-center gap-4 text-2xl" v-if="store.projects.length === 0">
       There is no projects to display.
       <add-project-button />
     </p>
 
-    <app-project v-for="(project, index) in store.projects" :key="`project-${index}`" v-bind="project" :active="index === store.activeProjectIndex" />
+    <app-project :key="`project-${index}`" v-for="(project, index) in store.projects" v-bind="project" :active="index === store.activeProjectIndex" />
 
     <app-hotkey :enabled="isHotkeysActive" :keys="['arrowdown']" @hotkey="actions.selectNextProject" />
     <app-hotkey :enabled="isHotkeysActive" :keys="['arrowup']" @hotkey="actions.selectPrevProject" />
