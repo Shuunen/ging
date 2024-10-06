@@ -56,8 +56,8 @@ devDependencies:
     specifier: '*'
     version: 9.9.0
   eslint-plugin-shuunen:
-    specifier: '0.2'
-    version: 0.2.0(eslint@9.9.0)(tailwindcss@3.4.10)(typescript@5.6.2)
+    specifier: '0.3'
+    version: 0.3.0(eslint@9.9.0)(tailwindcss@3.4.10)(typescript@5.6.2)
   repo-check:
     specifier: '1.37'
     version: 1.37.1
@@ -1790,8 +1790,8 @@ packages:
       - typescript
     dev: true
 
-  /eslint-plugin-shuunen@0.2.0(eslint@9.9.0)(tailwindcss@3.4.10)(typescript@5.6.2):
-    resolution: {integrity: sha512-oNh5y+TWTS8afy55GtMPicGx3GKJ3eM7Ttzay1HOb0sBFkGpWA8SKXZfQ5I2LV2579FAdxLaRUEzrcOwzQ6UuQ==}
+  /eslint-plugin-shuunen@0.3.0(eslint@9.9.0)(tailwindcss@3.4.10)(typescript@5.6.2):
+    resolution: {integrity: sha512-AA3kBWzhJMHFR30ySE0y80aQLthvavznGNLUph4u7oS4XF1xtPN+OLCOoomSFQ9QYMhAGrP4Q5yuGuTllghajA==}
     engines: {node: '>=20'}
     peerDependencies:
       eslint: '>=8.57.0'
