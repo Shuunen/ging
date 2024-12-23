@@ -37,9 +37,6 @@
     "strict": true,
     "strictNullChecks": true,
     "target": "ESNext",
-    "types": [
-      "node/fs/promises"
-    ],
     "useDefineForClassFields": true,
     "verbatimModuleSyntax": true
   },
