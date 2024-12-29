@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue'
 import { Step } from '../models/step.model'
 import { actions, store } from '../store'
@@ -12,7 +12,10 @@ function onClose () {
   store.addStepModalOpened = false
 }
 
-function onSubmit (event: Event) {
+/**
+ * @param {Event} event the submit event
+ */
+function onSubmit (event) {
   event.preventDefault()
   const stepString = /\d/u.test(title.value) ? title.value : `${title.value} 1 hour`
   const step = new Step(stringToStepData(stepString))

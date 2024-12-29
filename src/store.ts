@@ -124,7 +124,7 @@ export const actions = {
     actions.setGistId(id)
   },
   // eslint-disable-next-line max-statements
-  moveStep (direction: 'UNKNOWN' | 'after' | 'before') {
+  moveStep (direction: 'after' | 'before' | 'UNKNOWN') {
     const project = store.projects[store.activeProjectIndex]
     if (!project) throw new Error(`Project at index ${store.activeProjectIndex} not found`)
     const step = project.steps[store.activeStepIndex]

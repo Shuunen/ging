@@ -11,6 +11,10 @@
     "unplugin",
     "webfontloader"
   ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "editor.formatOnSave": true,
   "workbench.colorCustomizations": {
     "activityBar.background": "#50134E",
     "titleBar.activeBackground": "#6F1A6D",

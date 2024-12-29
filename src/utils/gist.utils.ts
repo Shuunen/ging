@@ -38,7 +38,7 @@ export function body (state: GistState) {
 }
 
 // eslint-disable-next-line @typescript-eslint/max-params, no-restricted-syntax
-export async function request<Type> (method: Method, url: string, token: string, state?: GistState, fetch = window.fetch): Promise<Result<Type>> {
+export async function request<Type> (method: Method, url: string, token: string, state?: GistState, fetch = globalThis.fetch): Promise<Result<Type>> {
   const options: RequestInit = { headers: headers(token), method }
   if (state) options.body = body(state)
   const query = await fetch(url, options)
@@ -46,25 +46,25 @@ export async function request<Type> (method: Method, url: string, token: string,
   const response = await query.json()
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/strict-boolean-expressions
   if (response.message) return { message: response.message, success: false }
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, @typescript-eslint/no-unsafe-type-assertion
   return { data: response as Type, message: `${String(method)} request on ${url} succeed`, success: true }
 }
 
-export async function create (state: GistState, token: string, fetch = window.fetch) {
+export async function create (state: GistState, token: string, fetch = globalThis.fetch) {
   const { data: gist, message, success } = await request<Endpoints['POST /gists']['response']['data']>('POST', apiUrl, token, state, fetch)
   if (!success || gist?.id === undefined) return { message, success: false }
   return { data: gist.id, message: 'gist created', success: true }
 }
 
 // eslint-disable-next-line @typescript-eslint/max-params
-export async function update (state: GistState, token: string, id: string, fetch = window.fetch) {
+export async function update (state: GistState, token: string, id: string, fetch = globalThis.fetch) {
   const { data: gist, message, success } = await request<Endpoints['PATCH /gists/{gist_id}']['response']['data']>('PATCH', `${apiUrl}/${id}`, token, state, fetch)
   if (!success || gist?.id === undefined) return { message, success: false }
   return { data: gist.id, message: 'gist updated', success: true }
 }
 
 // eslint-disable-next-line @typescript-eslint/max-params
-export async function getId (gistId: string, gistState: GistState, gistToken: string, fetch = window.fetch) {
+export async function getId (gistId: string, gistState: GistState, gistToken: string, fetch = globalThis.fetch) {
   if (gistId) return { data: gistId, message: 'gist id already set', success: true }
   logger.debug('listing gists to find a potential existing one')
   const { data: gists, message, success } = await request<Endpoints['GET /gists']['response']['data']>('GET', apiUrl, gistToken, undefined, fetch)
@@ -74,12 +74,12 @@ export async function getId (gistId: string, gistState: GistState, gistToken: st
   return create(gistState, gistToken, fetch)
 }
 
-export async function read (id: string, token: string, fetch = window.fetch) {
+export async function read (id: string, token: string, fetch = globalThis.fetch) {
   const { data, message, success } = await request<Endpoints['GET /gists/{gist_id}']['response']['data']>('GET', `${apiUrl}/${id}`, token, undefined, fetch)
   if (!success || !data) return { message, success: false }
   if (data.files?.[fileName]) {
     const content = String(data.files[fileName].content)
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, @typescript-eslint/no-unsafe-type-assertion
     const state = JSON.parse(content) as GistState
     return { data: state, message: 'gist read', success: true }
   }
@@ -96,7 +96,7 @@ export async function read (id: string, token: string, fetch = window.fetch) {
  * @returns true if the state was persisted
  */
 // eslint-disable-next-line @typescript-eslint/max-params
-export async function persist (reason: string, gistId: string, gistState: GistState, gistToken: string, fetch = window.fetch) {
+export async function persist (reason: string, gistId: string, gistState: GistState, gistToken: string, fetch = globalThis.fetch) {
   logger.debug(`persisting state because ${reason}`)
   if (gistToken === '') return { message: 'Cannot save your work without a Gist token', success: false }
   const { data: id, message, success } = await getId(gistId, gistState, gistToken, fetch)

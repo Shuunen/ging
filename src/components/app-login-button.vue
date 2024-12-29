@@ -17,7 +17,7 @@
   </v-menu>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from 'vue'
 import { actions, store } from '../store'
 import { logger } from '../utils/logger.utils'
@@ -34,9 +34,7 @@ export default defineComponent({
     async getToken () {
       await this.$auth0.getAccessTokenSilently()
       const claims = this.$auth0.idTokenClaims.value
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const token = claims?.custom_github_token
-      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unsafe-argument
       if (token) void actions.setGistToken(token)
     },
     login () {
@@ -45,12 +43,12 @@ export default defineComponent({
     async logout () {
       store.isLoading = true
       actions.clearGistStorage()
-      await this.$auth0.logout({ logoutParams: { returnTo: window.location.origin } })
+      await this.$auth0.logout({ logoutParams: { returnTo: globalThis.location.origin } })
       store.isLoading = false
     },
   },
   watch: {
-    async isAuthenticated (isAuthenticated: boolean) {
+    async isAuthenticated (isAuthenticated) {
       logger.debug('isAuthenticated ?', isAuthenticated)
       if (!isAuthenticated) {
         void actions.setGistToken('')

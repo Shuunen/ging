@@ -20,7 +20,7 @@ export function stepToString (step: Step) {
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   const unit = units.find(unitItem => Boolean(step[(`${unitItem}s`) as keyof Step]))
   if (!unit) return step.title
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, @typescript-eslint/no-unsafe-type-assertion
   const value = step[(`${unit}s`) as keyof Step] as number
   const time = `${value} ${unit}${value > 1 ? 's' : ''}`
   return `${step.title}, ${time}`
@@ -70,7 +70,7 @@ export function stepToHumanDuration (step: Step) {
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   const unit = units.find(key => Boolean(step[(`${key}s`) as keyof Step]))
   if (!unit) return ''
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, @typescript-eslint/no-unsafe-type-assertion
   const value = step[(`${unit}s`) as keyof Step] as number
   return `${value} ${unit}${value > 1 ? 's' : ''}`
 }

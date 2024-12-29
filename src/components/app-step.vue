@@ -33,14 +33,17 @@
   <div class="app-spacer-right w-6" v-else-if="isLast" />
 </template>
 
-<script lang="ts">
+<script>
 import { dateToIsoString, formatDate } from 'shuutils'
 import { defineComponent } from 'vue'
 import { actions, activeProject, activeStep, store } from '../store'
 import { logger } from '../utils/logger.utils'
 import { durationBetweenDates } from '../utils/step.utils'
 
-type HtmlInputEvent = { target: HTMLInputElement | null }
+/**
+ * @typedef {object} HtmlInputEvent
+ * @property {HTMLInputElement|null} target The target element of the event
+ */
 
 export default defineComponent({
   computed: {
@@ -62,7 +65,7 @@ export default defineComponent({
       return this.edit && !this.isLast && (this.index !== store.activeStepIndex - 1)
     },
     stepWidth () {
-      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+      // eslint-disable-next-line no-magic-numbers
       return `${Math.min(Math.max(Math.max(this.updatedTitle.length, this.updatedDuration.length) + 8, this.edit ? 22 : 14), 40)}ch`
     },
   },
@@ -74,17 +77,27 @@ export default defineComponent({
     updatedTitle: '',
   }),
   methods: {
-    dateIso (date: Date | string) {
+    /**
+     * @param {Date | string} date The date to format
+     * @returns {string} The formatted date
+     */
+    dateIso (date) {
       const updatedDate = date instanceof Date ? date : new Date(date)
-      // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+      // eslint-disable-next-line no-magic-numbers
       return dateToIsoString(updatedDate, true).slice(0, 16)
     },
-    selectCurrentStep (event?: Event) {
+    /**
+     * @param {Event} [event] The click event
+     */
+    selectCurrentStep (event) {
       if (event !== undefined) event.stopPropagation()
       if (!activeProject.value || (activeProject.value.id !== this.projectId)) actions.selectProject(this.projectId)
       if (!activeStep.value || (activeStep.value.id !== this.id)) actions.selectStep(this.id)
     },
-    updateDuration (event: HtmlInputEvent) {
+    /**
+     * @param {HtmlInputEvent} event The input event
+     */
+    updateDuration (event) {
       const { target } = event
       if (!target) { logger.error('no duration target'); return }
       logger.debug('update step duration with', target.value)
@@ -105,7 +118,10 @@ export default defineComponent({
       this.selectCurrentStep()
       actions.patchCurrentStepStart(start)
     },
-    updateTitle (event: HtmlInputEvent) {
+    /**
+     * @param {HtmlInputEvent} event The input event
+     */
+    updateTitle (event) {
       const { target } = event
       if (!target) { logger.error('no title target'); return }
       logger.debug('update step title to', target.value)
@@ -187,23 +203,22 @@ export default defineComponent({
     },
   },
   watch: {
-    duration (value: string) {
+    duration (value) {
       this.updatedDuration = value
     },
-    end (value: string) {
+    end (value) {
       this.updatedEnd = this.dateIso(value)
     },
-    start (value: string) {
+    start (value) {
       this.updatedStart = this.dateIso(value)
     },
-    title (value: string) {
+    title (value) {
       this.updatedTitle = value
     },
   },
 })
 </script>
 
-<!-- eslint-disable-next-line vue-scoped-css/enforce-style-type, vue/enforce-style-attribute -->
 <style>
 .app-step {
   @apply flex flex-col gap-3 px-2 flex-shrink-0 text-center select-none;
@@ -213,22 +228,18 @@ export default defineComponent({
   @apply sepia;
 }
 
-/* eslint-disable-next-line vue-scoped-css/require-selector-used-inside */
 .v-input.app-no-details .v-input__prepend {
   @apply m-0 pt-0.5 pr-2;
 }
 
-/* eslint-disable-next-line vue-scoped-css/require-selector-used-inside */
 .v-input.app-no-details .v-field__input, .v-input.app-no-details .v-field__field {
   @apply p-0 min-h-0;
 }
 
-/* eslint-disable-next-line vue-scoped-css/require-selector-used-inside */
 .v-input.app-no-details .v-input__details {
   @apply hidden;
 }
 
-/* eslint-disable-next-line vue-scoped-css/require-selector-used-inside */
 .app-title,.v-input.app-title .v-field__input {
   @apply text-center text-2xl;
 }
@@ -245,17 +256,14 @@ export default defineComponent({
   @apply hidden;
 }
 
-/* eslint-disable-next-line vue-scoped-css/require-selector-used-inside */
 .v-input.duration .v-field__input {
   @apply text-xl;
 }
 
-/* eslint-disable-next-line vue-scoped-css/require-selector-used-inside */
 .v-input.app-title .v-field__input,.v-input.duration .v-field__input {
   @apply p-0;
 }
 
-/* eslint-disable-next-line vue-scoped-css/require-selector-used-inside */
 .app-step .app-title.active:not(.edit),.app-step .v-input.app-title.active:not(.edit) .v-field__input {
   @apply underline underline-offset-2;
 }
@@ -264,7 +272,6 @@ export default defineComponent({
   @apply md:rotate-0 m-4 opacity-50 rotate-90 transition;
 }
 
-/* eslint-disable-next-line vue-scoped-css/require-selector-used-inside */
 .app-separator.v-icon--clickable {
   @apply border rounded-full p-4;
 }

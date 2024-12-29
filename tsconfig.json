@@ -45,14 +45,10 @@
   ],
   "include": [
     "*.js",
+    "*.ts",
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.vue",
     "tests"
-  ],
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    }
   ]
 }

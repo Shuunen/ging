@@ -16,14 +16,13 @@ app.use(vuetify)
 
 app.use(VueTransitions)
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 app.component('AppHotkey', Hotkey)
 
 app.use(
   createAuth0({
     authorizationParams: {
       // eslint-disable-next-line @typescript-eslint/naming-convention, camelcase
-      redirect_uri: window.location.origin,
+      redirect_uri: globalThis.location.origin,
     },
     cacheLocation: 'localstorage',
     clientId: '43a38fLkm9B3sa1tUzhx1vs2Z2uJD1Fy',

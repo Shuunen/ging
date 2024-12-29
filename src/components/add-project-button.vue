@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import colors from 'tailwindcss/colors'
 import { computed, ref } from 'vue'
 import { Project } from '../models/project.model'
@@ -26,7 +26,10 @@ function onSubmit () {
   onClose()
 }
 
-function setColor (colorToUse: string) {
+/**
+ * @param {string} colorToUse the color to use
+ */
+function setColor (colorToUse) {
   logger.debug('set color', colorToUse)
   color.value = colorToUse
 }

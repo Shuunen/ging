@@ -57,3 +57,11 @@
 - [Vite](https://github.com/vitejs/vite) : super fast frontend tooling
 - [Vitest](https://github.com/vitest-dev/vitest) : super fast vite-native testing framework
 - [Vue](https://vuejs.org) : when I need a front framework, this is the one I choose <3
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/Shuunen/ging.svg?variant=adaptive)](https://starchart.cc/Shuunen/ging)
+
+## Page views
+
+[![Free Website Counter](https://www.websitecounterfree.com/c.php?d=9&id=64502&s=12)](https://www.websitecounterfree.com)

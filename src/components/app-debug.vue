@@ -1,10 +1,19 @@
-<script setup lang="ts">
-import { type StoreKey, actions, store } from '../store'
+<script setup>
+import { actions, store } from '../store'
 
+/**
+ * @typedef {import('../store').StoreKey} StoreKey
+ */
+
+/** @type {StoreKey[]} */
 // eslint-disable-next-line no-useless-assignment
-const list: StoreKey[] = ['activeProjectIndex', 'activeStepIndex', 'gistToken', 'gistId', 'isLoading']
+const list = ['activeProjectIndex', 'activeStepIndex', 'gistToken', 'gistId', 'isLoading']
 
-function read (key: StoreKey) {
+/**
+ * @param {StoreKey} key the key to read
+ * @returns {typeof store[StoreKey]} the value stored
+ */
+function read (key) {
   return store[key]
 }
 </script>

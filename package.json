@@ -11,7 +11,7 @@
     "register-service-worker": "1.7",
     "shuutils": "10.1",
     "tailwindcss": "3.4",
-    "vue": "3.4",
+    "vue": "3.5",
     "vuetify": "3.7",
     "webfontloader": "1.6"
   },
@@ -22,13 +22,13 @@
     "@vitejs/plugin-vue": "5.2",
     "@vitest/coverage-v8": "2.1",
     "eslint": "*",
-    "eslint-plugin-shuunen": "0.2",
+    "eslint-plugin-shuunen": "0.4",
     "repo-check": "1.40",
-    "typescript": "5.6",
+    "typescript": "5.7",
     "unplugin-vue-components": "0.28",
     "vite": "6.0",
     "vitest": "2.1",
-    "vue-tsc": "2.1"
+    "vue-tsc": "2.2"
   },
   "files": [
     "src"

@@ -7,20 +7,12 @@ export default [
   ...shuunen.configs.base,
   ...shuunen.configs.browser,
   ...shuunen.configs.typescript,
-  shuunen.configs.vue,
+  ...shuunen.configs.vue,
   {
     name: 'project-overrides',
     rules: {
       '@typescript-eslint/prefer-readonly-parameter-types': 'off',
       'jsdoc/require-jsdoc': 'off',
-      'vue/order-in-components': 'off',
-    },
-  },
-  {
-    files: ['**/*.d.ts'],
-    name: 'project-defs',
-    rules: {
-      'unicorn/no-abusive-eslint-disable': 'off',
     },
   },
 ]

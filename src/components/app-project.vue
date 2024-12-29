@@ -30,14 +30,17 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script>
 import { nbSecondsInMinute, sleep } from 'shuutils'
 import { defineComponent } from 'vue'
-import type { Step } from '../models/step.model'
 import { actions, store } from '../store'
 import { colorToGradient } from '../utils/colors.utils'
 import { logger } from '../utils/logger.utils'
 import { processStepsDurations } from '../utils/step.utils'
+
+/**
+ * @typedef {import('../models/step.model').Step} Step
+ */
 
 export default defineComponent({
   computed: {
@@ -48,7 +51,8 @@ export default defineComponent({
       return processStepsDurations(this.steps)
     },
     titleWidth () {
-      if (store.editMode && window.innerWidth < 500) return '100%' // eslint-disable-line @typescript-eslint/no-magic-numbers
+      // eslint-disable-next-line no-magic-numbers
+      if (store.editMode && window.innerWidth < 500) return '100%'
       const widths = { base: 8, large: 21, none: 0, small: 17, space: 10 }
       let width = widths.base
       const chars = Array.from(this.updatedTitle)
@@ -102,9 +106,10 @@ export default defineComponent({
       type: Boolean,
     },
     steps: {
-      default: (): Step[] => [],
-      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-      type: Array as () => Step[],
+      default: () => [],
+      // eslint-disable-next-line jsdoc/valid-types
+      /** @type import('vue').PropType<Step[]> */
+      type: Array,
     },
     title: {
       default: '',
@@ -112,7 +117,7 @@ export default defineComponent({
     },
   },
   watch: {
-    title (value: string) {
+    title (value) {
       logger.debug('title changed', value)
       this.updatedTitle = value
     },
@@ -120,7 +125,6 @@ export default defineComponent({
 })
 </script>
 
-<!-- eslint-disable-next-line vue-scoped-css/enforce-style-type, vue/enforce-style-attribute -->
 <style>
 .app-steps>.separator:last-child {
   @apply hidden;
@@ -134,7 +138,6 @@ export default defineComponent({
   @apply pr-6;
 }
 
-/* eslint-disable-next-line vue-scoped-css/require-selector-used-inside */
 .app-title.app-title-xl,
 .v-input.app-title.app-title-xl .v-field__input {
   @apply text-4xl text-left mr-1 font-thin;
