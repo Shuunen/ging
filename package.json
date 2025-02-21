@@ -3,7 +3,7 @@
   "author": "Romain Racamier-Lafon <romain.racamier@gmail.com>",
   "bugs": "https://github.com/Shuunen/ging/issues",
   "dependencies": {
-    "@auth0/auth0-vue": "2.3",
+    "@auth0/auth0-vue": "2.4.0",
     "@mdi/font": "7.4",
     "@morev/vue-transitions": "3.0",
     "@octokit/types": "13.7",
