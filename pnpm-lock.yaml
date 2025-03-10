@@ -27,8 +27,8 @@ importers:
         specifier: '1.7'
         version: 1.7.2
       shuutils:
-        specifier: '10.2'
-        version: 10.2.1
+        specifier: '10.6'
+        version: 10.6.0
       tailwindcss:
         specifier: '3.4'
         version: 3.4.17
@@ -1823,8 +1823,8 @@ packages:
     resolution: {integrity: sha512-Q+8PaUIik4W3bEE2xtDMZvYC7y4B8mnh3x7cneXPJmry0esVRir+hSZHh5Kjh6rtV0pYj+eKtAXBxJ8LDqPZhA==}
     hasBin: true
 
-  shuutils@10.2.1:
-    resolution: {integrity: sha512-jYwaBGltqZQaXc39y1xSUcwWW528gnH98vUwqNVqK5M+mFvmtEM8ZMd7FW1S0QqIj8ob7TXIIzg+01RbAe13pg==}
+  shuutils@10.6.0:
+    resolution: {integrity: sha512-y3dveSrmnFKIxxIwKN6sSaX6nfCMK8WF20MJWzqqJ1DIFv7MBK9SXoJT4mU7F+w+yz3404vgnDD8wohWC7w1IA==}
     hasBin: true
 
   siginfo@2.0.0:
@@ -4017,7 +4017,7 @@ snapshots:
     dependencies:
       tiny-glob: 0.2.9
 
-  shuutils@10.2.1:
+  shuutils@10.6.0:
     dependencies:
       tiny-glob: 0.2.9
 
