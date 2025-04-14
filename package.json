@@ -25,7 +25,7 @@
     "eslint-plugin-shuunen": "0.4",
     "repo-check": "1.40",
     "typescript": "5.7",
-    "unplugin-vue-components": "28.0",
+    "unplugin-vue-components": "28.5",
     "vite": "6.0",
     "vitest": "3.0",
     "vue-tsc": "2.2"
