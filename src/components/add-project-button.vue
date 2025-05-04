@@ -1,4 +1,5 @@
 <script setup>
+// @ts-expect-error missing types
 import colors from 'tailwindcss/colors'
 import { computed, ref } from 'vue'
 import { Project } from '../models/project.model'
@@ -14,11 +15,11 @@ const color = ref(tailwindColors[0] ?? '')
 // eslint-disable-next-line no-useless-assignment
 const isValid = computed(() => (title.value.length > 0))
 
-function onClose () {
+function onClose() {
   store.addProjectModalOpened = false
 }
 
-function onSubmit () {
+function onSubmit() {
   logger.debug('submit project')
   actions.addProject(new Project({ color: color.value, title: title.value }))
   title.value = ''
@@ -29,7 +30,7 @@ function onSubmit () {
 /**
  * @param {string} colorToUse the color to use
  */
-function setColor (colorToUse) {
+function setColor(colorToUse) {
   logger.debug('set color', colorToUse)
   color.value = colorToUse
 }

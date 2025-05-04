@@ -60,6 +60,8 @@ function toggleOpen () {
 </template>
 
 <style scoped>
+@reference "tailwindcss";
+
 .app-section {
   @apply flex-col items-start gap-3;
 }

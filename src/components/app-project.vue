@@ -15,7 +15,7 @@
         <v-icon class="pt-2 text-4xl" color="secondary" icon="mdi-chevron-triple-right" v-if="active" />
       </transition-slide>
     </div>
-    <div :class="[colorToGradient(color), active ? 'shadow-2xl' : 'shadow']"
+    <div :class="[colorToGradient(color), active ? 'shadow-2xl' : 'shadow-sm']"
       class="app-steps flex w-full max-w-full cursor-pointer flex-col items-center overflow-hidden overflow-x-auto rounded-lg py-4 sm:w-auto sm:flex-row sm:rounded-xl"
       v-if="steps.length > 0">
       <app-step :key="`step-${index}`" v-for="(step, index) in processedSteps" v-bind="step" :active="active && (index === store.activeStepIndex)"
@@ -44,13 +44,13 @@ import { processStepsDurations } from '../utils/step.utils'
 
 export default defineComponent({
   computed: {
-    edit () {
+    edit() {
       return store.editMode && this.active
     },
-    processedSteps () {
+    processedSteps() {
       return processStepsDurations(this.steps)
     },
-    titleWidth () {
+    titleWidth() {
       // eslint-disable-next-line no-magic-numbers
       if (store.editMode && window.innerWidth < 500) return '100%'
       const widths = { base: 8, large: 21, none: 0, small: 17, space: 10 }
@@ -71,17 +71,17 @@ export default defineComponent({
     updatedTitle: '',
   }),
   methods: {
-    addStepHere () {
+    addStepHere() {
       logger.debug('add step here')
       actions.selectProject(this.id)
       actions.openAddStepModal()
     },
-    updateTitle () {
+    updateTitle() {
       logger.debug('update title to', this.updatedTitle)
       actions.patchCurrentProjectTitle(this.updatedTitle)
     },
   },
-  mounted () {
+  mounted() {
     this.updatedTitle = this.title
     if (this.active) void sleep(nbSecondsInMinute).then(() => { actions.scrollToStep() })
   },
@@ -117,7 +117,7 @@ export default defineComponent({
     },
   },
   watch: {
-    title (value) {
+    title(value) {
       logger.debug('title changed', value)
       this.updatedTitle = value
     },
@@ -126,6 +126,8 @@ export default defineComponent({
 </script>
 
 <style>
+@reference "tailwindcss";
+
 .app-steps>.separator:last-child {
   @apply hidden;
 }

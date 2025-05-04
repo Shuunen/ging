@@ -49,6 +49,8 @@ import { actions, store } from '../store'
 </template>
 
 <style scoped>
+@reference "tailwindcss";
+
 .v-list-item-title {
   @apply flex flex-row gap-3;
 }

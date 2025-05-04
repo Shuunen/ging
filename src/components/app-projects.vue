@@ -30,6 +30,8 @@ import { actions, isHotkeysActive, store } from '../store'
 </template>
 
 <style scoped>
+@reference "tailwindcss";
+
 .app-projects {
   background-image: url('../assets/bg.svg');
   @apply bg-cover;

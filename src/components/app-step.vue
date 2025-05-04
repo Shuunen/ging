@@ -47,24 +47,24 @@ import { durationBetweenDates } from '../utils/step.utils'
 
 export default defineComponent({
   computed: {
-    edit () {
+    edit() {
       return store.editMode && this.active
     },
-    endDateDay () {
+    endDateDay() {
       return formatDate(this.end, 'dd / MM').replace(/\s/gu, '&ThinSpace;')
     },
-    endDateHour () {
+    endDateHour() {
       return formatDate(this.end, 'HH h mm').replace('h 00', 'h').replace(/\s/gu, '&ThinSpace;')
     },
-    showRightChevron () {
+    showRightChevron() {
       // old method : !editMode || !projectActive || index !== activeStepIndex - 1
       if (this.isLast) return false
       return !store.editMode || !this.projectActive || (this.index !== store.activeStepIndex - 1)
     },
-    showRightSwap () {
+    showRightSwap() {
       return this.edit && !this.isLast && (this.index !== store.activeStepIndex - 1)
     },
-    stepWidth () {
+    stepWidth() {
       // eslint-disable-next-line no-magic-numbers
       return `${Math.min(Math.max(Math.max(this.updatedTitle.length, this.updatedDuration.length) + 8, this.edit ? 22 : 14), 40)}ch`
     },
@@ -81,7 +81,7 @@ export default defineComponent({
      * @param {Date | string} date The date to format
      * @returns {string} The formatted date
      */
-    dateIso (date) {
+    dateIso(date) {
       const updatedDate = date instanceof Date ? date : new Date(date)
       // eslint-disable-next-line no-magic-numbers
       return dateToIsoString(updatedDate, true).slice(0, 16)
@@ -89,7 +89,7 @@ export default defineComponent({
     /**
      * @param {Event} [event] The click event
      */
-    selectCurrentStep (event) {
+    selectCurrentStep(event) {
       if (event !== undefined) event.stopPropagation()
       if (!activeProject.value || (activeProject.value.id !== this.projectId)) actions.selectProject(this.projectId)
       if (!activeStep.value || (activeStep.value.id !== this.id)) actions.selectStep(this.id)
@@ -97,14 +97,14 @@ export default defineComponent({
     /**
      * @param {HtmlInputEvent} event The input event
      */
-    updateDuration (event) {
+    updateDuration(event) {
       const { target } = event
       if (!target) { logger.error('no duration target'); return }
       logger.debug('update step duration with', target.value)
       this.selectCurrentStep()
       actions.patchCurrentStepDuration(target.value)
     },
-    updateEnd () {
+    updateEnd() {
       const start = new Date(this.updatedStart)
       const end = new Date(this.updatedEnd)
       const duration = durationBetweenDates(start, end)
@@ -112,7 +112,7 @@ export default defineComponent({
       this.selectCurrentStep()
       actions.patchCurrentStepDuration(duration)
     },
-    updateStart () {
+    updateStart() {
       const start = new Date(this.updatedStart)
       logger.debug(`update step start from "${this.updatedStart}" to "${start.toLocaleDateString()}"`)
       this.selectCurrentStep()
@@ -121,7 +121,7 @@ export default defineComponent({
     /**
      * @param {HtmlInputEvent} event The input event
      */
-    updateTitle (event) {
+    updateTitle(event) {
       const { target } = event
       if (!target) { logger.error('no title target'); return }
       logger.debug('update step title to', target.value)
@@ -129,7 +129,7 @@ export default defineComponent({
       actions.patchCurrentStepTitle(target.value)
     },
   },
-  mounted () {
+  mounted() {
     this.updatedTitle = this.title
     this.updatedDuration = this.duration
     this.updatedStart = this.dateIso(this.start)
@@ -203,16 +203,16 @@ export default defineComponent({
     },
   },
   watch: {
-    duration (value) {
+    duration(value) {
       this.updatedDuration = value
     },
-    end (value) {
+    end(value) {
       this.updatedEnd = this.dateIso(value)
     },
-    start (value) {
+    start(value) {
       this.updatedStart = this.dateIso(value)
     },
-    title (value) {
+    title(value) {
       this.updatedTitle = value
     },
   },
@@ -220,8 +220,10 @@ export default defineComponent({
 </script>
 
 <style>
+@reference "tailwindcss";
+
 .app-step {
-  @apply flex flex-col gap-3 px-2 flex-shrink-0 text-center select-none;
+  @apply flex flex-col gap-3 px-2 shrink-0 text-center select-none;
 }
 
 .app-step.edit {
@@ -233,7 +235,8 @@ export default defineComponent({
 }
 
 .v-input.app-no-details .v-field__input, .v-input.app-no-details .v-field__field {
-  @apply p-0 min-h-0;
+  @apply min-h-0;
+  padding: 0;
 }
 
 .v-input.app-no-details .v-input__details {
@@ -261,7 +264,7 @@ export default defineComponent({
 }
 
 .v-input.app-title .v-field__input,.v-input.duration .v-field__input {
-  @apply p-0;
+  padding: 0;
 }
 
 .app-step .app-title.active:not(.edit),.app-step .v-input.app-title.active:not(.edit) .v-field__input {
