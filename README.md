@@ -18,6 +18,7 @@
 
 ## Todo
 
+- [ ] try vue-query
 - [ ] limit fonts used in src\plugins\webfontloader.ts
 - [ ] data from & to url
 - [ ] export JSON state to file
