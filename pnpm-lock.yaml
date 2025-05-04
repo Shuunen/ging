@@ -27,7 +27,7 @@ importers:
         specifier: '1.7'
         version: 1.7.2
       shuutils:
-        specifier: 10.6.0
+        specifier: '10.6'
         version: 10.6.0
       tailwindcss:
         specifier: '3.4'
@@ -36,14 +36,14 @@ importers:
         specifier: '3.5'
         version: 3.5.13(typescript@5.8.3)
       vuetify:
-        specifier: 3.8.3
+        specifier: '3.8'
         version: 3.8.3(typescript@5.8.3)(vue@3.5.13(typescript@5.8.3))
       webfontloader:
         specifier: '1.6'
         version: 1.6.28
     devDependencies:
       '@types/node':
-        specifier: 22.15.3
+        specifier: '22.15'
         version: 22.15.3
       '@types/webfontloader':
         specifier: '1.6'
@@ -52,7 +52,7 @@ importers:
         specifier: '5.2'
         version: 5.2.3(vite@6.3.4(@types/node@22.15.3)(jiti@2.4.2)(yaml@2.7.1))(vue@3.5.13(typescript@5.8.3))
       '@vitest/coverage-v8':
-        specifier: 3.1.2
+        specifier: '3.1'
         version: 3.1.2(vitest@3.1.2(@types/node@22.15.3)(jiti@2.4.2)(yaml@2.7.1))
       eslint:
         specifier: '*'
@@ -61,19 +61,19 @@ importers:
         specifier: '0.4'
         version: 0.4.0(eslint@9.26.0(jiti@2.4.2))(tailwindcss@3.4.17)(typescript@5.8.3)
       repo-check:
-        specifier: 1.43.0
+        specifier: '1.43'
         version: 1.43.0
       typescript:
-        specifier: 5.8.3
+        specifier: '5.8'
         version: 5.8.3
       unplugin-vue-components:
-        specifier: 28.5.0
+        specifier: '28.5'
         version: 28.5.0(@babel/parser@7.27.1)(@nuxt/kit@3.17.1(magicast@0.3.5))(vue@3.5.13(typescript@5.8.3))
       vite:
-        specifier: 6.3.4
+        specifier: '6.3'
         version: 6.3.4(@types/node@22.15.3)(jiti@2.4.2)(yaml@2.7.1)
       vitest:
-        specifier: 3.1.2
+        specifier: '3.1'
         version: 3.1.2(@types/node@22.15.3)(jiti@2.4.2)(yaml@2.7.1)
       vue-tsc:
         specifier: '2.2'
