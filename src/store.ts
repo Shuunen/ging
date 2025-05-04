@@ -50,63 +50,64 @@ export const nbSteps = computed(() => store.projects[store.activeProjectIndex]?.
 export const isHotkeysActive = computed(() => !store.editMode && !store.addProjectModalOpened && !store.addStepModalOpened && !store.deleteProjectModalOpened && !store.deleteStepModalOpened)
 
 export const actions = {
-  addProject (project: Project) {
+  addProject(project: Project) {
     store.projects.push(project)
     void actions.updateGistState('addProject')
   },
-  addStep (step: Step) {
+  addStep(step: Step) {
     const project = store.projects[store.activeProjectIndex]
+    // eslint-disable-next-line no-restricted-syntax
     if (!project) throw new Error(`Project at index ${store.activeProjectIndex} not found`)
     if (store.activeStepIndex === project.steps.length - 1) project.steps.push(step)
     else project.steps.splice(store.activeStepIndex + 1, 0, step)
     void sleep(nbSecondsInMinute).then(() => { actions.selectNextStep() })
     void actions.updateGistState('addStep')
   },
-  clearGistStorage () {
+  clearGistStorage() {
     logger.debug('clearing gist storage')
     storage.clear('gistId')
     storage.clear('gistToken')
     storage.clear('gistState')
     storage.clear('gistStateLastSum')
   },
-  clearStepDurations (step: Step) {
+  clearStepDurations(step: Step) {
     delete step.months
     delete step.weeks
     delete step.days
     delete step.hours
     delete step.minutes
   },
-  deleteActiveProject () {
+  deleteActiveProject() {
     actions.deleteProject(activeProject.value?.id ?? -1)
   },
-  deleteActiveStep () {
+  deleteActiveStep() {
     if (!store.projects[store.activeProjectIndex]) { logger.error('cannot delete step: no active project'); return }
     store.projects[store.activeProjectIndex]?.steps.splice(store.activeStepIndex, 1)
     actions.preventStepIndexOverflow()
     actions.scrollToStep()
     void actions.updateGistState('deleteActiveStep')
   },
-  deleteProject (projectId: number) {
+  deleteProject(projectId: number) {
     const index = store.projects.findIndex(project => project.id === projectId)
     store.projects.splice(index, 1)
     void actions.updateGistState('deleteProject')
     actions.selectPrevProject()
   },
-  emitToast (message: string) {
+  emitToast(message: string) {
     emit('toast', message)
   },
-  enterEditMode () {
+  enterEditMode() {
     logger.debug('entering edit mode')
     const selector = store.activeStepIndex === 0 ? `input#project-title-${store.projects[store.activeProjectIndex]?.id ?? 'UNKNOWN'}` : `input#step-title-${activeStep.value?.id ?? 'UNKNOWN'}`
     focusInput(selector)
   },
-  exitEditMode () {
+  exitEditMode() {
     logger.debug('exiting edit mode')
     unfocusActiveElement()
     void actions.updateGistState('exitEditMode')
   },
   // eslint-disable-next-line max-statements
-  async fetchGist () {
+  async fetchGist() {
     if (!store.gistId) { logger.debug('Cannot fetch gist without an id'); return }
     if (!store.gistToken) { logger.debug('Cannot fetch gist without a token'); return }
     logger.debug('fetching gist', store.gistId)
@@ -117,17 +118,19 @@ export const actions = {
     if (same) { logger.debug('no changes detected'); return }
     if (data.projects.length > 0) store.projects = data.projects
   },
-  async getGistId () {
+  async getGistId() {
     const { data: id, message, success } = await getId(store.gistId, store.gistState, store.gistToken)
     if (!success || id === undefined) { logger.error(message); return }
     logger.debug('got gist id', id)
     actions.setGistId(id)
   },
   // eslint-disable-next-line max-statements
-  moveStep (direction: 'after' | 'before' | 'UNKNOWN') {
+  moveStep(direction: 'after' | 'before' | 'UNKNOWN') {
     const project = store.projects[store.activeProjectIndex]
+    // eslint-disable-next-line no-restricted-syntax
     if (!project) throw new Error(`Project at index ${store.activeProjectIndex} not found`)
     const step = project.steps[store.activeStepIndex]
+    // eslint-disable-next-line no-restricted-syntax
     if (!step) throw new Error(`Step at index ${store.activeStepIndex} not found`)
     const index = project.steps.indexOf(step)
     if (direction === 'before') {
@@ -140,30 +143,32 @@ export const actions = {
       project.steps.splice(index, 1)
       project.steps.splice(index + 1, 0, step)
       store.activeStepIndex += 1
+      // eslint-disable-next-line no-restricted-syntax
     } else throw new Error(`Invalid direction : ${direction}`)
     void actions.updateGistState('moveStep')
   },
-  openAddProjectModal () {
+  openAddProjectModal() {
     store.addProjectModalOpened = true
   },
-  openAddStepModal () {
+  openAddStepModal() {
     store.addStepModalOpened = true
   },
-  openDeleteProjectModal () {
+  openDeleteProjectModal() {
     store.deleteProjectModalOpened = true
   },
-  openDeleteStepModal () {
+  openDeleteStepModal() {
     logger.debug('opening delete step modal')
     store.deleteStepModalOpened = true
   },
-  patchCurrentProjectTitle (title: string) {
+  patchCurrentProjectTitle(title: string) {
     if (title === '') { logger.warn('Title cannot be empty'); return }
     const project = store.projects[store.activeProjectIndex]
+    // eslint-disable-next-line no-restricted-syntax
     if (!project) throw new Error(`Project at index ${store.activeProjectIndex} not found`)
     project.title = title
     // let the edit toggle trigger => void actions.updateGistState('patchCurrentProjectTitle')
   },
-  patchCurrentStepDuration (duration: string) {
+  patchCurrentStepDuration(duration: string) {
     const step = store.projects[store.activeProjectIndex]?.steps[store.activeStepIndex]
     if (!step) { logger.warn('Cannot patch step duration without an active step'); return }
     try {
@@ -177,14 +182,14 @@ export const actions = {
       if (error instanceof Error) logger.error(error.message)
     }
   },
-  patchCurrentStepStart (date: Date) {
+  patchCurrentStepStart(date: Date) {
     const step = store.projects[store.activeProjectIndex]?.steps[store.activeStepIndex]
     if (!step) { logger.warn('Cannot patch step date without an active step'); return }
     step.start = date
     // let the edit toggle trigger => void actions.updateGistState('patchCurrentStepStart')
   },
   // eslint-disable-next-line max-statements
-  patchCurrentStepTitle (title: string) {
+  patchCurrentStepTitle(title: string) {
     if (title === '') { logger.warn('Title cannot be empty'); return }
     const step = store.projects[store.activeProjectIndex]?.steps[store.activeStepIndex]
     if (!step) { logger.warn('Cannot patch step title without an active step'); return }
@@ -201,69 +206,69 @@ export const actions = {
     }
     // let the edit toggle trigger => void actions.updateGistState('patchCurrentStepTitle')
   },
-  preventStepIndexOverflow () {
+  preventStepIndexOverflow() {
     if (!store.projects[store.activeProjectIndex]) return
     const maxStepIndex = nbSteps.value - 1
     if (store.activeStepIndex > maxStepIndex) store.activeStepIndex = maxStepIndex
     const minStepIndex = 0
     if (store.activeStepIndex < minStepIndex) store.activeStepIndex = minStepIndex
   },
-  scrollToProject () {
+  scrollToProject() {
     if (!activeProject.value) { logger.debug('Cannot scroll to project without an active project'); return }
     const projectElement = document.querySelector('.app-active')
     if (!projectElement) { logger.debug('Cannot scroll to project without an dom element'); return }
     void debouncedScrollToElement(projectElement)
   },
-  scrollToStep () {
+  scrollToStep() {
     if (!activeStep.value) { logger.debug('Cannot scroll to step without an active step'); return }
     const stepElement = document.querySelector(`#step-${activeStep.value.id}`)
     if (!stepElement) { logger.debug('Cannot scroll to step without an dom element'); return }
     void debouncedScrollToElement(stepElement)
   },
-  selectNextProject () {
+  selectNextProject() {
     store.activeProjectIndex = (store.projects.length <= store.activeProjectIndex + 1) ? 0 : store.activeProjectIndex + 1
     actions.preventStepIndexOverflow()
     actions.scrollToProject()
   },
-  selectNextStep () {
+  selectNextStep() {
     if (!store.projects[store.activeProjectIndex]) return
     store.activeStepIndex = (nbSteps.value <= store.activeStepIndex + 1) ? 0 : store.activeStepIndex + 1
     actions.scrollToStep()
   },
-  selectPrevProject () {
+  selectPrevProject() {
     store.activeProjectIndex = (store.activeProjectIndex - 1 < 0) ? (store.projects.length - 1) : store.activeProjectIndex - 1
     actions.preventStepIndexOverflow()
     actions.scrollToStep()
   },
-  selectPrevStep () {
+  selectPrevStep() {
     if (!store.projects[store.activeProjectIndex]) return
     store.activeStepIndex = (store.activeStepIndex - 1 < 0) ? (nbSteps.value - 1) : store.activeStepIndex - 1
     actions.scrollToProject()
   },
-  selectProject (projectId: number) {
+  selectProject(projectId: number) {
     store.activeProjectIndex = store.projects.findIndex(project => project.id === projectId)
   },
-  selectStep (stepId: number) {
+  selectStep(stepId: number) {
     if (!store.projects[store.activeProjectIndex]) { logger.debug('Cannot select step without an active project'); return }
     store.activeStepIndex = store.projects[store.activeProjectIndex]?.steps.findIndex(step => step.id === stepId) ?? 0
   },
-  setGistId (id: string) {
+  setGistId(id: string) {
     if (store.gistId === id) return
     if (id === '') logger.debug('clearing gist id')
     else logger.debug('setting gist id', id)
     storage.set('gistId', id)
     store.gistId = id
   },
-  setGistState (state: GistState) {
+  setGistState(state: GistState) {
     store.gistState = state
     storage.set('gistState', state)
   },
-  setGistStateLastSum (sum: number) {
+  setGistStateLastSum(sum: number) {
     store.gistStateLastSum = sum
     storage.set('gistStateLastSum', sum)
   },
   // eslint-disable-next-line max-statements
-  async setGistToken (token: string) {
+  async setGistToken(token: string) {
     storage.set('gistToken', token)
     if (token === '') {
       logger.debug('clearing gist token')
@@ -279,7 +284,7 @@ export const actions = {
     // eslint-disable-next-line require-atomic-updates
     store.isLoading = false
   },
-  toggleDateDisplay () {
+  toggleDateDisplay() {
     const project = store.projects[store.activeProjectIndex]
     if (!project) { logger.warn('Cannot toggle date display without an active project'); return }
     const before = project.isDateDisplayed ?? true
@@ -287,16 +292,16 @@ export const actions = {
     project.isDateDisplayed = !before
     void actions.updateGistState('toggleDateDisplay')
   },
-  toggleDebugMode () {
+  toggleDebugMode() {
     store.debugMode = !store.debugMode
     logger.debug('debug mode is now', store.debugMode)
   },
-  toggleEditMode () {
+  toggleEditMode() {
     store.editMode = !store.editMode
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     store.editMode ? actions.enterEditMode() : actions.exitEditMode()
   },
-  toggleTimeDisplay () {
+  toggleTimeDisplay() {
     const project = store.projects[store.activeProjectIndex]
     if (!project) { logger.warn('Cannot toggle time display without an active project'); return }
     const before = project.isTimeDisplayed ?? true
@@ -305,7 +310,7 @@ export const actions = {
     void actions.updateGistState('toggleTimeDisplay')
   },
   // eslint-disable-next-line max-statements
-  async updateGistState (reason: string) {
+  async updateGistState(reason: string) {
     logger.debug('updating gist state, cause :', reason, store.projects)
     actions.setGistState({ isGistState: true, projects: store.projects })
     const gistStateSum = objectSum(store.gistState)
