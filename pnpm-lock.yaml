@@ -21,8 +21,8 @@ importers:
         specifier: '14.1'
         version: 14.1.0
       '@simolation/vue-hotkey':
-        specifier: '2.0'
-        version: 2.0.1(vue@3.5.13(typescript@5.8.3))
+        specifier: '2.1'
+        version: 2.1.0(vue@3.5.13(typescript@5.8.3))
       '@tailwindcss/postcss':
         specifier: '4.1'
         version: 4.1.5
@@ -508,8 +508,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@simolation/vue-hotkey@2.0.1':
-    resolution: {integrity: sha512-/z31EWnwSmjkKt6R63Nn7J9/7ndBU4rn64ta0b1qC9WAfi0vswNScSRw/Osx8a64aVp8gmCn4qoerifNVX00ww==}
+  '@simolation/vue-hotkey@2.1.0':
+    resolution: {integrity: sha512-2SigIjay2Vlqx+pISoyXaVj6c8QU0mL5RAknn1TFYD2K3oXSjJkj4QZaqPXeKYPvFPtrdWRxG1/NkH43of4RxQ==}
     peerDependencies:
       '@vue/composition-api': ^1.0.0-rc.1
       vue: ^2.0.0 || >=3.0.0
@@ -2218,8 +2218,8 @@ packages:
   vscode-uri@3.1.0:
     resolution: {integrity: sha512-/BpdSx+yCQGnCvecbyXdxHDkuk55/G3xwnC0GqY4gmQ3j+A+g8kzzgB4Nk/SINjqn6+waqw3EgbVF2QKExkRxQ==}
 
-  vue-demi@0.13.11:
-    resolution: {integrity: sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==}
+  vue-demi@0.14.10:
+    resolution: {integrity: sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==}
     engines: {node: '>=12'}
     hasBin: true
     peerDependencies:
@@ -2651,10 +2651,10 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.40.1':
     optional: true
 
-  '@simolation/vue-hotkey@2.0.1(vue@3.5.13(typescript@5.8.3))':
+  '@simolation/vue-hotkey@2.1.0(vue@3.5.13(typescript@5.8.3))':
     dependencies:
       vue: 3.5.13(typescript@5.8.3)
-      vue-demi: 0.13.11(vue@3.5.13(typescript@5.8.3))
+      vue-demi: 0.14.10(vue@3.5.13(typescript@5.8.3))
 
   '@tailwindcss/node@4.1.5':
     dependencies:
@@ -4466,7 +4466,7 @@ snapshots:
 
   vscode-uri@3.1.0: {}
 
-  vue-demi@0.13.11(vue@3.5.13(typescript@5.8.3)):
+  vue-demi@0.14.10(vue@3.5.13(typescript@5.8.3)):
     dependencies:
       vue: 3.5.13(typescript@5.8.3)
 
