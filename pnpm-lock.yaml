@@ -42,8 +42,8 @@ importers:
         specifier: '3.5'
         version: 3.5.13(typescript@5.8.3)
       vuetify:
-        specifier: '3.8'
-        version: 3.8.3(typescript@5.8.3)(vue@3.5.13(typescript@5.8.3))
+        specifier: '3.9'
+        version: 3.9.0(typescript@5.8.3)(vue@3.5.13(typescript@5.8.3))
       webfontloader:
         specifier: '1.6'
         version: 1.6.28
@@ -2237,8 +2237,8 @@ packages:
       typescript:
         optional: true
 
-  vuetify@3.8.3:
-    resolution: {integrity: sha512-hzlYRGY6O+GB2R2Ujg1HBtHjVAgJc3NkeymZl1IahZ+0vEyV0qLCFvTqYhXziB04O5roidBe6sca9TED7VYA/A==}
+  vuetify@3.9.0:
+    resolution: {integrity: sha512-vjqyHP5gBFH4x0BAjdRAcS3FXY5OfHaKnC6Hhgln8tePZtKc3AUhF7BEJtcrD3l6XwL8gaYx/wMt+UP7X5EZJw==}
     engines: {node: ^12.20 || >=14.13}
     peerDependencies:
       typescript: '>=4.7'
@@ -4478,7 +4478,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.8.3
 
-  vuetify@3.8.3(typescript@5.8.3)(vue@3.5.13(typescript@5.8.3)):
+  vuetify@3.9.0(typescript@5.8.3)(vue@3.5.13(typescript@5.8.3)):
     dependencies:
       vue: 3.5.13(typescript@5.8.3)
     optionalDependencies:
