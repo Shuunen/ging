@@ -19,7 +19,7 @@
   },
   "description": "GING Is Not Gantt, but kind of :)",
   "devDependencies": {
-    "@types/node": "22.16",
+    "@types/node": "22.17",
     "@types/webfontloader": "1.6",
     "@vitejs/plugin-vue": "5.2",
     "@vitest/coverage-v8": "3.2",
