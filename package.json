@@ -30,7 +30,7 @@
     "unplugin-vue-components": "29.1",
     "vite": "7.1",
     "vitest": "3.2",
-    "vue-tsc": "3.0"
+    "vue-tsc": "3.1"
   },
   "files": [
     "src"
