@@ -6,7 +6,7 @@
     "@auth0/auth0-vue": "2.4",
     "@mdi/font": "7.4",
     "@morev/vue-transitions": "3.0",
-    "@octokit/types": "15.0",
+    "@octokit/types": "16.0",
     "@simolation/vue-hotkey": "2.1",
     "@tailwindcss/postcss": "4.1",
     "@tailwindcss/vite": "4.1",
