@@ -14,7 +14,7 @@
     "shuutils": "10.6",
     "tailwindcss": "4.1",
     "vue": "3.5",
-    "vuetify": "3.10",
+    "vuetify": "3.11",
     "webfontloader": "1.6"
   },
   "description": "GING Is Not Gantt, but kind of :)",
