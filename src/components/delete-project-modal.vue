@@ -3,14 +3,13 @@ import { computed } from 'vue'
 import { actions, activeProject, store } from '../store'
 import { logger } from '../utils/logger.utils'
 
-// eslint-disable-next-line no-useless-assignment
 const title = computed(() => activeProject.value?.title ?? '')
 
-function onClose () {
+function onClose() {
   store.deleteProjectModalOpened = false
 }
 
-function deleteClose () {
+function deleteClose() {
   logger.debug('delete project and close modal')
   actions.deleteActiveProject()
   onClose()

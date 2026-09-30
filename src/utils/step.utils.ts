@@ -17,17 +17,14 @@ export const units = ['month', 'week', 'day', 'hour', 'minute'] as const
  * @returns the string representation of the step
  */
 export function stepToString(step: Step) {
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  const unit = units.find(unitItem => Boolean(step[(`${unitItem}s`) as keyof Step]))
+  const unit = units.find(unitItem => Boolean(step[`${unitItem}s` as keyof Step]))
   if (!unit) return step.title
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, @typescript-eslint/no-unsafe-type-assertion
-  const value = step[(`${unit}s`) as keyof Step] as number
+  const value = step[`${unit}s` as keyof Step] as number
   const time = `${value} ${unit}${value > 1 ? 's' : ''}`
   return `${step.title}, ${time}`
 }
 
-// eslint-disable-next-line prefer-named-capture-group
-export const durationRegex = /(\d+)\s?([a-z]+)/u
+export const durationRegex = /(?<duration>\d+)\s?(?<unit>[a-z]+)/u
 
 /**
  * Convert a string to a step duration
@@ -35,31 +32,25 @@ export const durationRegex = /(\d+)\s?([a-z]+)/u
  * @returns the step duration
  */
 export function stringToStepDuration(input: string) {
-  const [, duration, unitInput] = durationRegex.exec(input) ?? []
-  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions, no-restricted-syntax
+  const { duration, unit: unitInput } = durationRegex.exec(input)?.groups ?? {}
   if (!duration || !unitInput) throw new Error(`Invalid duration string : ${input}`)
   const unitSingular = unitInput.endsWith('s') ? unitInput.slice(0, -1) : unitInput
   const unit = units.find(item => item.startsWith(unitSingular)) ?? ''
-  // eslint-disable-next-line no-restricted-syntax
   if (unit === '') throw new Error(`Invalid step unit : ${unitInput}`)
-  const value = Number.parseInt(duration, 10)
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  const value = Math.trunc(Number(duration))
   return { [`${unit}s` as keyof Step]: value }
 }
 
-// eslint-disable-next-line prefer-named-capture-group
-export const titleWithDurationRegex = /([^,]*)[\s,]+(\d+\s?[a-z]+)/u
+export const titleWithDurationRegex = /(?<title>[^,]*)[\s,]+(?<duration>\d+\s?[a-z]+)/u
 
 /**
  * Convert a string to step data
  * @param input the string to convert
  * @returns the step data
  */
-export function stringToStepData(input: string) {
-  const [, title = input, duration = '1 hour'] = titleWithDurationRegex.exec(input) ?? []
-  const step: Partial<Step> = { title: title.trim() }
-  Object.assign(step, stringToStepDuration(duration))
-  return step
+export function stringToStepData(input: string): Partial<Step> {
+  const { title = input, duration = '1 hour' } = titleWithDurationRegex.exec(input)?.groups ?? {}
+  return { title: title.trim(), ...stringToStepDuration(duration) }
 }
 
 /**
@@ -68,11 +59,9 @@ export function stringToStepData(input: string) {
  * @returns the human readable duration
  */
 export function stepToHumanDuration(step: Step) {
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  const unit = units.find(key => Boolean(step[(`${key}s`) as keyof Step]))
+  const unit = units.find(key => Boolean(step[`${key}s` as keyof Step]))
   if (!unit) return ''
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, @typescript-eslint/no-unsafe-type-assertion
-  const value = step[(`${unit}s`) as keyof Step] as number
+  const value = step[`${unit}s` as keyof Step] as number
   return `${value} ${unit}${value > 1 ? 's' : ''}`
 }
 
@@ -83,7 +72,7 @@ export function stepToHumanDuration(step: Step) {
  */
 export function processStepsDurations(steps: Step[]) {
   const date = new Date(steps[0]?.start ?? new Date())
-  return steps.map((input) => {
+  return steps.map(input => {
     const step = new Step(input)
     step.start = new Date(date)
     if (step.months !== undefined) date.setDate(date.getDate() + step.months * daysInMonth)
@@ -103,7 +92,6 @@ export function processStepsDurations(steps: Step[]) {
  * @param end the end date
  * @returns the duration between the two dates
  */
-// eslint-disable-next-line max-statements, complexity
 export function durationBetweenDates(start: Date, end: Date) {
   const ms = end.getTime() - start.getTime()
   const seconds = Math.floor(ms / msInSecond)
@@ -119,4 +107,3 @@ export function durationBetweenDates(start: Date, end: Date) {
   if (minutes) return `${minutes} minute${minutes > 1 ? 's' : ''}`
   return `${seconds} second${seconds > 1 ? 's' : ''}`
 }
-

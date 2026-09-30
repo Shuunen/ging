@@ -1,27 +1,26 @@
-/* eslint-disable no-console */
 import { type Hooks, register } from 'register-service-worker'
 
 if (process.env.NODE_ENV === 'production') {
   const hooks: Hooks = {
-    cached () {
+    cached() {
       console.log('Content has been cached for offline use.')
     },
-    error (error) {
+    error(error) {
       console.error('Error during service worker registration:', error)
     },
-    offline () {
+    offline() {
       console.log('No internet connection found. App is running in offline mode.')
     },
     ready: () => {
       console.log('App is being served from cache by a service worker.\nFor more details, visit https://goo.gl/AFskqB')
     },
-    registered () {
+    registered() {
       console.log('Service worker has been registered.')
     },
-    updated () {
+    updated() {
       console.log('New content is available; please refresh.')
     },
-    updatefound () {
+    updatefound() {
       console.log('New content is downloading.')
     },
   }

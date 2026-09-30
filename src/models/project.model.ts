@@ -1,6 +1,5 @@
 import type { Step } from './step.model'
 
-// eslint-disable-next-line no-restricted-syntax
 export class Project {
   public color?: string
 
@@ -14,7 +13,7 @@ export class Project {
 
   public title = ''
 
-  public constructor (data: Partial<Project> = {}) {
+  public constructor(data: Partial<Project> = {}) {
     Object.assign(this, data)
   }
 }

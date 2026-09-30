@@ -1,5 +1,4 @@
 <script setup>
-// @ts-expect-error missing types
 import colors from 'tailwindcss/colors'
 import { computed, ref } from 'vue'
 import { Project } from '../models/project.model'
@@ -8,12 +7,14 @@ import { colorToGradient } from '../utils/colors.utils'
 import { requiredRules } from '../utils/form.utils'
 import { logger } from '../utils/logger.utils'
 
-// eslint-disable-next-line unicorn/prefer-array-find
-const tailwindColors = Object.keys(colors).filter(color => !['amber', 'black', 'current', 'gray', 'inherit', 'neutral', 'rose', 'slate', 'stone', 'transparent', 'white'].includes(color) && !/[A-Z]/u.test(color))
+// the whole filtered list is rendered as swatches, so find() would not do
+// oxlint-disable-next-line unicorn/prefer-array-find
+const tailwindColors = Object.keys(colors).filter(
+  color => !['mauve', 'taupe', 'olive', 'mist', 'amber', 'black', 'current', 'gray', 'inherit', 'neutral', 'rose', 'slate', 'stone', 'transparent', 'white'].includes(color) && !/[A-Z]/u.test(color),
+)
 const title = ref('')
 const color = ref(tailwindColors[0] ?? '')
-// eslint-disable-next-line no-useless-assignment
-const isValid = computed(() => (title.value.length > 0))
+const isValid = computed(() => title.value.length > 0)
 
 function onClose() {
   store.addProjectModalOpened = false
@@ -40,17 +41,22 @@ function setColor(colorToUse) {
   <v-btn @click="store.addProjectModalOpened = true" color="secondary" prepend-icon="mdi-plus" variant="tonal">Add project</v-btn>
   <v-dialog v-model="store.addProjectModalOpened" width="auto">
     <v-card>
-      <v-container :class="[colorToGradient('slate', 900, color, 900)]" class="from-40%">
+      <v-container :class="[colorToGradient('slate', { colorB: color, from: 900, to: 900 })]" class="from-40%">
         <v-col class="min-w-80">
           <div class="mb-4 text-4xl">New project</div>
           <v-form @submit.prevent="onSubmit">
-            <!-- eslint-disable-next-line vuejs-accessibility/no-autofocus -->
             <v-text-field :autofocus="store.addProjectModalOpened" :rules="requiredRules" label="Title" required v-model="title" />
-            <div class="app-colors mb-2 mt-4 grid grid-cols-4 gap-2 md:grid-cols-8">
-              <div :class="[colorToGradient(tailwindColor), tailwindColor === color ? 'border-indigo-400' : 'border-slate-800']" :key="tailwindColor"
-                @click="setColor(tailwindColor)" @keypress="setColor(tailwindColor)"
-                class="app-color h-10 w-16 cursor-pointer rounded-md border-2 transition-all hover:scale-125" role="button" tabindex="0"
-                v-for="tailwindColor in tailwindColors" />
+            <div class="app-colors mt-4 mb-2 grid grid-cols-4 gap-2 md:grid-cols-8">
+              <div
+                :class="[colorToGradient(tailwindColor), tailwindColor === color ? 'border-indigo-400' : 'border-slate-800']"
+                :key="tailwindColor"
+                @click="setColor(tailwindColor)"
+                @keypress="setColor(tailwindColor)"
+                class="app-color h-10 w-16 cursor-pointer rounded-md border-2 transition-all hover:scale-125"
+                role="button"
+                tabindex="0"
+                v-for="tailwindColor in tailwindColors"
+              />
             </div>
           </v-form>
         </v-col>

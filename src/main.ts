@@ -11,7 +11,6 @@ import './register-service-worker'
 
 const app = createApp(App)
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 app.use(vuetify)
 
 app.use(VueTransitions)
@@ -21,7 +20,6 @@ app.component('AppHotkey', Hotkey)
 app.use(
   createAuth0({
     authorizationParams: {
-      // eslint-disable-next-line @typescript-eslint/naming-convention, camelcase
       redirect_uri: globalThis.location.origin,
     },
     cacheLocation: 'localstorage',

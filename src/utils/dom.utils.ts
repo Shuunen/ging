@@ -1,6 +1,6 @@
 import { debounce } from 'shuutils'
 
-function scrollToElement (element: Element) {
+function scrollToElement(element: Element) {
   // below is not working with horizontal scroll hidden items
   // const { top: topPosition, bottom: bottomPosition } = element.getBoundingClientRect()
   // const isVisible = topPosition >= 0 && bottomPosition <= window.innerHeight
@@ -13,12 +13,12 @@ const scrollDelay = 100
 
 export const debouncedScrollToElement = debounce(scrollToElement, scrollDelay)
 
-export function unfocusActiveElement () {
+export function unfocusActiveElement() {
   const { activeElement } = document
   if (activeElement && activeElement instanceof HTMLInputElement) activeElement.blur()
 }
 
-export function focusInput (selector: string) {
+export function focusInput(selector: string) {
   const input = document.querySelector(selector)
   if (input && input instanceof HTMLInputElement) input.focus()
 }

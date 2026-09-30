@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-restricted-syntax
 export class Step {
   public days?: number
 
@@ -20,7 +19,7 @@ export class Step {
 
   public weeks?: number
 
-  public constructor (data: Partial<Step> = {}) {
+  public constructor(data: Partial<Step> = {}) {
     Object.assign(this, data)
   }
 }
