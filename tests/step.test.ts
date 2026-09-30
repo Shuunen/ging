@@ -1,65 +1,121 @@
-import { expect, it } from 'vitest'
 import { Step } from '../src/models/step.model'
 import { durationBetweenDates, processStepsDurations, stepToHumanDuration, stepToString, stringToStepData, stringToStepDuration } from '../src/utils/step.utils'
-import { check } from './utils'
 
-check('stepToString A', stepToString(new Step({ days: 1, hours: 0, title: 'A' })), 'A, 1 day')
-check('stepToString B', stepToString(new Step({ days: 0, hours: 1, title: 'B' })), 'B, 1 hour')
-check('stepToString C', stepToString(new Step({ days: 3, title: 'C' })), 'C, 3 days')
-check('stepToString D', stepToString(new Step({ months: 2, title: 'D' })), 'D, 2 months')
-check('stepToString incomplete E', stepToString(new Step({ title: 'E' })), 'E')
-check('stepToString incomplete F', stepToString(new Step({ days: 0 })), '')
+describe('stepToString', () => {
+  test.each([
+    ['days', { days: 1, hours: 0, title: 'A' }, 'A, 1 day'],
+    ['hours', { days: 0, hours: 1, title: 'B' }, 'B, 1 hour'],
+    ['plural days', { days: 3, title: 'C' }, 'C, 3 days'],
+    ['months', { months: 2, title: 'D' }, 'D, 2 months'],
+    ['title only', { title: 'E' }, 'E'],
+    ['no title and no duration', { days: 0 }, ''],
+  ])('%s', (_name, data, expected) => {
+    expect(stepToString(new Step(data))).toBe(expected)
+  })
+})
 
-check('stringToStep A title', stringToStepData('A, 2 days').title, 'A')
-check('stringToStep A days', stringToStepData('A, 2 days').days, 2)
-check('stringToStep B minutes', stringToStepData('B, 1 minute').minutes, 1)
-it('stringToStep invalid C', () => { expect(() => stringToStepData('C, 12 monkeys')).toThrow() })
-check('stringToStep D', stringToStepData('D,1 min').minutes, 1)
-it('stringToStep E', () => { expect(stringToStepData('E, 21').title).toBe('E, 21') })
-it('stringToStep F', () => { expect(stringToStepData('F,').title).toBe('F,') })
-check('stringToStep G title', stringToStepData('SUper duper 20 min').title, 'SUper duper')
-check('stringToStep G minutes', stringToStepData('SUper duper 20 min').minutes, 20)
-check('stringToStep H', stringToStepData('H, 1 h').hours, 1)
-check('stringToStep I title', stringToStepData('I am legend (2007) 1 m').title, 'I am legend (2007)')
-check('stringToStep I month', stringToStepData('I am legend (2007) 1 m').months, 1)
-it('stringToStep J title', () => { expect(stringToStepData('new 2').title).toBe('new 2') })
+describe('stringToStepData', () => {
+  test('parses title and days', () => {
+    const step = stringToStepData('A, 2 days')
+    expect(step.title).toBe('A')
+    expect(step.days).toBe(2)
+  })
 
-check('stringToStepDuration A', stringToStepDuration('2 days'), { days: 2 })
-check('stringToStepDuration B', stringToStepDuration('1 minute'), { minutes: 1 })
-it('stringToStepDuration invalid C', () => { expect(() => stringToStepDuration('12 monkeys')).toThrow() })
-check('stringToStepDuration D', stringToStepDuration('32 minutes'), { minutes: 32 })
-it('stringToStepDuration invalid E', () => { expect(() => stringToStepDuration('monkeys')).toThrow() })
+  test('parses minutes', () => {
+    expect(stringToStepData('B, 1 minute').minutes).toBe(1)
+    expect(stringToStepData('D,1 min').minutes).toBe(1)
+  })
 
-check('stepToHumanDuration A', stepToHumanDuration(new Step({ days: 1, hours: 0, title: 'A' })), '1 day')
-check('stepToHumanDuration B', stepToHumanDuration(new Step({ days: 0, hours: 1, title: 'B' })), '1 hour')
-check('stepToHumanDuration C', stepToHumanDuration(new Step({ days: 3, title: 'C' })), '3 days')
-check('stepToHumanDuration D without duration', stepToHumanDuration(new Step({ title: 'D' })), '')
+  test('throws on an unknown unit', () => {
+    expect(() => stringToStepData('C, 12 monkeys')).toThrow('Invalid step unit : monkeys')
+  })
 
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-const steps = [new Step({ days: 2, start: new Date('2020-01-01') }), new Step({ minutes: 3 })]
-const processedA = processStepsDurations(steps)
-check('processStepsDurations A', processedA[0]!.duration, '2 days')
-check('processStepsDurations B', processedA[1]!.duration, '3 minutes')
-check('processStepsDurations C', processedA[0]!.end, new Date('2020-01-03'))
-check('processStepsDurations D', processedA[1]!.end, new Date('2020-01-03T00:03:00.000Z'))
+  test('keeps the whole input as title when no unit is given', () => {
+    expect(stringToStepData('E, 21').title).toBe('E, 21')
+    expect(stringToStepData('F,').title).toBe('F,')
+    expect(stringToStepData('new 2').title).toBe('new 2')
+  })
 
-const stepsWithoutStart = [new Step({ months: 2 }), new Step({ hours: 3 }), new Step({ weeks: 4 })]
-const processedB = processStepsDurations(stepsWithoutStart)
-check('processStepsDurations E', processedB[0]!.duration, '2 months')
-check('processStepsDurations F', processedB[1]!.duration, '3 hours')
-/* eslint-enable @typescript-eslint/no-non-null-assertion */
+  test('parses a duration without comma', () => {
+    const step = stringToStepData('SUper duper 20 min')
+    expect(step.title).toBe('SUper duper')
+    expect(step.minutes).toBe(20)
+  })
 
-check('durationBetweenDates 0 second', durationBetweenDates(new Date('2020-01-01'), new Date('2020-01-01')), '0 second')
-check('durationBetweenDates 1 second', durationBetweenDates(new Date('2020-01-01'), new Date('2020-01-01T00:00:01.000Z')), '1 second')
-check('durationBetweenDates 2 seconds', durationBetweenDates(new Date('2020-01-01'), new Date('2020-01-01T00:00:02.000Z')), '2 seconds')
-check('durationBetweenDates 1 minute', durationBetweenDates(new Date('2020-01-01'), new Date('2020-01-01T00:01:00.000Z')), '1 minute')
-check('durationBetweenDates 2 minutes', durationBetweenDates(new Date('2020-01-01'), new Date('2020-01-01T00:02:00.000Z')), '2 minutes')
-check('durationBetweenDates 1 hour', durationBetweenDates(new Date('2020-01-01'), new Date('2020-01-01T01:00:00.000Z')), '1 hour')
-check('durationBetweenDates 2 hours', durationBetweenDates(new Date('2020-01-01'), new Date('2020-01-01T02:00:00.000Z')), '2 hours')
-check('durationBetweenDates 1 day', durationBetweenDates(new Date('2020-01-01'), new Date('2020-01-02T00:00:00.000Z')), '1 day')
-check('durationBetweenDates 2 days', durationBetweenDates(new Date('2020-01-01'), new Date('2020-01-03T00:00:00.000Z')), '2 days')
-check('durationBetweenDates 1 month', durationBetweenDates(new Date('2020-01-01'), new Date('2020-02-01T00:00:00.000Z')), '1 month')
-check('durationBetweenDates 2 months', durationBetweenDates(new Date('2020-01-01'), new Date('2020-03-01T00:00:00.000Z')), '2 months')
-check('durationBetweenDates 1 year', durationBetweenDates(new Date('2020-01-01'), new Date('2021-01-01T00:00:00.000Z')), '1 year')
-check('durationBetweenDates 2 years', durationBetweenDates(new Date('2020-01-01'), new Date('2022-01-01T00:00:00.000Z')), '2 years')
+  test('parses hours', () => {
+    expect(stringToStepData('H, 1 h').hours).toBe(1)
+  })
 
+  test('parses a title containing parentheses and months', () => {
+    const step = stringToStepData('I am legend (2007) 1 m')
+    expect(step.title).toBe('I am legend (2007)')
+    expect(step.months).toBe(1)
+  })
+})
+
+describe('stringToStepDuration', () => {
+  test.each([
+    ['2 days', { days: 2 }],
+    ['1 minute', { minutes: 1 }],
+    ['32 minutes', { minutes: 32 }],
+  ])('parses %s', (input, expected) => {
+    expect(stringToStepDuration(input)).toStrictEqual(expected)
+  })
+
+  test('throws on an unknown unit', () => {
+    expect(() => stringToStepDuration('12 monkeys')).toThrow('Invalid step unit : monkeys')
+  })
+
+  test('throws on a missing number', () => {
+    expect(() => stringToStepDuration('monkeys')).toThrow('Invalid duration string : monkeys')
+  })
+})
+
+describe('stepToHumanDuration', () => {
+  test.each([
+    ['day', { days: 1, hours: 0, title: 'A' }, '1 day'],
+    ['hour', { days: 0, hours: 1, title: 'B' }, '1 hour'],
+    ['days', { days: 3, title: 'C' }, '3 days'],
+    ['no duration', { title: 'D' }, ''],
+  ])('%s', (_name, data, expected) => {
+    expect(stepToHumanDuration(new Step(data))).toBe(expected)
+  })
+})
+
+describe('processStepsDurations', () => {
+  test('computes durations and end dates from a start date', () => {
+    const [first, second] = processStepsDurations([new Step({ days: 2, start: new Date('2020-01-01') }), new Step({ minutes: 3 })])
+    expect(first?.duration).toBe('2 days')
+    expect(second?.duration).toBe('3 minutes')
+    expect(first?.end).toStrictEqual(new Date('2020-01-03'))
+    expect(second?.end).toStrictEqual(new Date('2020-01-03T00:03:00.000Z'))
+  })
+
+  test('computes durations without a start date', () => {
+    const [first, second] = processStepsDurations([new Step({ months: 2 }), new Step({ hours: 3 }), new Step({ weeks: 4 })])
+    expect(first?.duration).toBe('2 months')
+    expect(second?.duration).toBe('3 hours')
+  })
+})
+
+describe('durationBetweenDates', () => {
+  const start = new Date('2020-01-01')
+
+  test.each([
+    ['2020-01-01T00:00:00.000Z', '0 second'],
+    ['2020-01-01T00:00:01.000Z', '1 second'],
+    ['2020-01-01T00:00:02.000Z', '2 seconds'],
+    ['2020-01-01T00:01:00.000Z', '1 minute'],
+    ['2020-01-01T00:02:00.000Z', '2 minutes'],
+    ['2020-01-01T01:00:00.000Z', '1 hour'],
+    ['2020-01-01T02:00:00.000Z', '2 hours'],
+    ['2020-01-02T00:00:00.000Z', '1 day'],
+    ['2020-01-03T00:00:00.000Z', '2 days'],
+    ['2020-02-01T00:00:00.000Z', '1 month'],
+    ['2020-03-01T00:00:00.000Z', '2 months'],
+    ['2021-01-01T00:00:00.000Z', '1 year'],
+    ['2022-01-01T00:00:00.000Z', '2 years'],
+  ])('until %s is %s', (end, expected) => {
+    expect(durationBetweenDates(start, new Date(end))).toBe(expected)
+  })
+})

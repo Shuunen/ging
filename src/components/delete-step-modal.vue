@@ -2,11 +2,11 @@
 import { actions, activeStep, store } from '../store'
 import { logger } from '../utils/logger.utils'
 
-function onClose () {
+function onClose() {
   store.deleteStepModalOpened = false
 }
 
-function onDeleteClose () {
+function onDeleteClose() {
   logger.debug('delete step and close modal')
   actions.deleteActiveStep()
   onClose()
@@ -28,4 +28,3 @@ function onDeleteClose () {
     </v-card>
   </v-dialog>
 </template>
-

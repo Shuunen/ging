@@ -20,7 +20,7 @@ import { activeProject, store } from '../store'
         <div class="sm:hidden">
           <app-actions />
         </div>
-        <div class="ml-1 mr-6 md:mr-0">
+        <div class="mr-6 ml-1 md:mr-0">
           <app-login-button />
           <app-about-button />
         </div>

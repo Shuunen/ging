@@ -1,9 +1,22 @@
-import { Project } from '../src/models/project.model'
 import { daysAgo, getTimestampMs } from 'shuutils'
-import { check } from './utils'
+import { Project } from '../src/models/project.model'
 
-const defaults = new Project()
-check('project default id', defaults.id >= getTimestampMs(daysAgo(1)), true)
-check('project default title is empty', defaults.title, '')
-check('project default color is undefined', defaults.color)
-check('project default has no steps', defaults.steps, [])
+describe('project model', () => {
+  const defaults = new Project()
+
+  test('default id is recent', () => {
+    expect(defaults.id).toBeGreaterThanOrEqual(getTimestampMs(daysAgo(1)))
+  })
+
+  test('default title is empty', () => {
+    expect(defaults.title).toBe('')
+  })
+
+  test('default color is undefined', () => {
+    expect(defaults.color).toBeUndefined()
+  })
+
+  test('default has no steps', () => {
+    expect(defaults.steps).toStrictEqual([])
+  })
+})

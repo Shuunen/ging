@@ -8,14 +8,14 @@ import { stringToStepData } from '../utils/step.utils'
 
 const title = ref('')
 
-function onClose () {
+function onClose() {
   store.addStepModalOpened = false
 }
 
 /**
  * @param {Event} event the submit event
  */
-function onSubmit (event) {
+function onSubmit(event) {
   event.preventDefault()
   const stepString = /\d/u.test(title.value) ? title.value : `${title.value} 1 hour`
   const step = new Step(stringToStepData(stepString))
@@ -27,19 +27,14 @@ function onSubmit (event) {
 </script>
 
 <template>
-  <v-snackbar color="primary" v-if="store.projects.length === 0" v-model="store.addStepModalOpened">
-    You first need to create a project to add a step to it.
-  </v-snackbar>
+  <v-snackbar color="primary" v-if="store.projects.length === 0" v-model="store.addStepModalOpened"> You first need to create a project to add a step to it. </v-snackbar>
   <v-dialog v-else v-model="store.addStepModalOpened" width="auto">
     <v-card>
       <v-container>
         <v-col class="min-w-80">
           <div class="mb-4 text-3xl">New step</div>
           <v-form @submit="onSubmit" ref="form">
-            <!-- eslint-disable vuejs-accessibility/no-autofocus -->
-            <v-text-field :autofocus="store.addStepModalOpened" :rules="requiredRules"
-              hint="Like &ldquo;Get some milk, 1 hour&rdquo; or &ldquo;Go to Japan, 3 weeks&rdquo;" label="Step title, time" required
-              v-model="title" />
+            <v-text-field :autofocus="store.addStepModalOpened" :rules="requiredRules" hint="Like &ldquo;Get some milk, 1 hour&rdquo; or &ldquo;Go to Japan, 3 weeks&rdquo;" label="Step title, time" required v-model="title" />
           </v-form>
         </v-col>
         <v-card-actions>

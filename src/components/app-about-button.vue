@@ -3,7 +3,6 @@ import { ref } from 'vue'
 import IconGithub from './icon-github.vue'
 
 const isOpen = ref(false)
-// eslint-disable-next-line no-useless-assignment
 const shortcuts = {
   'Alt + A': 'Add a project',
   'Alt + D': 'Delete a project',
@@ -15,7 +14,7 @@ const shortcuts = {
   'Ctrl + E': 'Toggle edit mode',
 }
 
-function toggleOpen () {
+function toggleOpen() {
   isOpen.value = !isOpen.value
 }
 </script>
@@ -66,7 +65,7 @@ function toggleOpen () {
   @apply flex-col items-start gap-3;
 }
 
-.app-section>.app-title {
+.app-section > .app-title {
   @apply text-2xl;
 }
 </style>

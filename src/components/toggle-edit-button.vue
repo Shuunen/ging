@@ -9,4 +9,3 @@ import { actions, store } from '../store'
   <app-hotkey :excluded-elements="[]" :keys="['ctrl', 'e']" @hotkey="actions.toggleEditMode" />
   <app-hotkey :excluded-elements="[]" :keys="['f2']" @hotkey="actions.toggleEditMode" />
 </template>
-

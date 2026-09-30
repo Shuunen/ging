@@ -12,11 +12,11 @@ const message = ref('')
 let listener = false
 
 /**
- * @param {string} messageToShow The message to show
+ * @param {unknown} messageToShow The message to show
  */
-function show (messageToShow) {
+function show(messageToShow) {
   isOpen.value = true
-  message.value = messageToShow
+  message.value = String(messageToShow)
 }
 
 onMounted(() => {
