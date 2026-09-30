@@ -1,23 +1,14 @@
+import tailwindcss from '@tailwindcss/vite'
 import vue from '@vitejs/plugin-vue'
-import { Vuetify3Resolver } from 'unplugin-vue-components/resolvers'
 import components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
-// @ts-expect-error missing types
-import tailwindcss from '@tailwindcss/vite'
+import vuetify from 'vite-plugin-vuetify'
 
 // https://vitejs.dev/config/
+// oxlint-disable-next-line import/no-default-export
 export default defineConfig({
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  plugins: [
-    vue(),
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    tailwindcss(),
-    components({
-      // eslint-disable-next-line new-cap
-      resolvers: [Vuetify3Resolver()],
-    }),
-  ],
+  plugins: [vue(), tailwindcss(), vuetify(), components()],
   server: {
-    port: 8080,
+    port: 8085,
   },
 })
