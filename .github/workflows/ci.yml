@@ -17,8 +17,6 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v6
-        with:
-          version: 10
 
       - name: Run check 👀
         run: pnpm run check
@@ -27,7 +25,7 @@ jobs:
         uses: jakepartusch/wait-for-netlify-action@v1.4
         id: netlify
         with:
-          site_name: "shuunen-ging"
+          site_name: 'shuunen-ging'
         if: ${{ github.event_name == 'pull_request' }}
 
       - name: Audit URLs using Lighthouse

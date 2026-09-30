@@ -1,0 +1,6 @@
+allowBuilds:
+  '@morev/vue-transitions': true
+  esbuild: true
+  vue-demi: true
+  browser-tabs-lock: true
+  '@parcel/watcher': false

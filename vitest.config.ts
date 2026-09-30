@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitest/config'
 
+// oxlint-disable-next-line import/no-default-export
 export default defineConfig({
   test: {
     coverage: {
@@ -10,6 +11,7 @@ export default defineConfig({
         100: true,
       },
     },
+    globals: true,
     pool: 'threads',
   },
 })

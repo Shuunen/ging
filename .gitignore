@@ -1,6 +1,5 @@
 .cache
 .env
-.eslintcache
 *.log
 *.stackdump
 *.tgz

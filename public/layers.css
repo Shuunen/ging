@@ -1,0 +1,2 @@
+/* https://vuetifyjs.com/en/styles/layers/#custom-layer-order, must be linked from index.html, not imported */
+@layer theme, base, vuetify-core, vuetify-components, components, vuetify-overrides, vuetify-utilities, utilities, vuetify-final;
