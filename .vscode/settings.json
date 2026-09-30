@@ -1,20 +1,14 @@
 {
-  "cSpell.words": [
-    "arrowdown",
-    "arrowleft",
-    "arrowright",
-    "arrowup",
-    "gantt",
-    "materialdesignicons",
-    "morev",
-    "simolation",
-    "unplugin",
-    "webfontloader"
-  ],
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+  "[markdown]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
   },
+  "cSpell.words": ["arrowdown", "arrowleft", "arrowright", "arrowup", "gantt", "materialdesignicons", "morev", "simolation", "unplugin", "webfontloader"],
+  "editor.defaultFormatter": "oxc.oxc-vscode",
   "editor.formatOnSave": true,
+  "js/ts.experimental.useTsgo": true,
+  "oxc.fixKind": "all",
+  "oxc.typeAware": true,
+  "oxc.unusedDisableDirectives": "deny",
   "workbench.colorCustomizations": {
     "activityBar.background": "#50134E",
     "titleBar.activeBackground": "#6F1A6D",
