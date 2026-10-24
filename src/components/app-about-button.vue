@@ -33,7 +33,7 @@ function toggleOpen() {
               <p>This project is open source and licensed under GPL-3.0.</p>
               <div class="flex flex-row gap-2">
                 <icon-github class="inline w-6 text-orange-300" />
-                <a class="underline" href="https://github.com/Shuunen/ging">Project & sources on Github</a>
+                <a class="underline" href="https://github.com/Shuunen/ging" rel="noopener noreferrer">Project & sources on Github</a>
               </div>
             </div>
             <div class="app-section hidden md:flex">

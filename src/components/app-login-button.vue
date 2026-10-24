@@ -2,7 +2,7 @@
   <v-btn :loading="isLoading" @click="login" class="mx-3" color="secondary" v-if="!isAuthenticated" variant="tonal">Login</v-btn>
   <v-btn color="secondary" id="menu-activator" v-show="isAuthenticated">
     <p class="mr-4 hidden sm:block" v-if="user?.nickname">{{ user.nickname }}</p>
-    <img :src="user.picture" alt="John" class="w-8 rounded-full" v-if="user?.picture" />
+    <img :src="user.picture" alt="John" class="w-8 rounded-full" height="32" width="32" v-if="user?.picture" />
   </v-btn>
 
   <v-menu activator="#menu-activator">
