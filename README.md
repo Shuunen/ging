@@ -4,9 +4,13 @@
 [![Visitors](https://hits.sh/github.com/Shuunen/ging.svg?label=visitors&color=informational)](https://hits.sh/github.com/Shuunen/ging/)
 [![Website up](https://img.shields.io/website/https/shuunen-ging.netlify.app.svg)](https://shuunen-ging.netlify.app)
 
-![logo](public/images/logo.svg)
+![logo](docs/banner.svg)
 
 > GING Is Not Gantt, but kind of :)
+
+## Demo
+
+![demo](docs/demo.svg)
 
 ## Features
 
@@ -43,6 +47,7 @@
 
 - [Boxy Svg](https://boxy-svg.com) : simple & effective svg editor
 - [Github](https://github.com) : for all their great work year after year, pushing OSS forward
+- [Knip](https://github.com/webpro/knip) : super tool to find & fix problems
 - [Netlify](https://netlify.com) : awesome company that offers free CI & hosting for OSS projects
 - [V8](https://github.com/demurgos/v8-coverage) : simple & effective cli for code coverage
 - [Oxc](https://oxc.rs) : a lovely super-fast collection of JavaScript tools written in Rust
