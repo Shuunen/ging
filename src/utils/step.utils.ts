@@ -9,7 +9,7 @@ const daysInMonth = 30
 const daysInWeek = 7
 const monthsInYear = 12
 
-export const units = ['month', 'week', 'day', 'hour', 'minute'] as const
+const units = ['month', 'week', 'day', 'hour', 'minute'] as const
 
 /**
  * Convert a step to a string
@@ -24,7 +24,7 @@ export function stepToString(step: Step) {
   return `${step.title}, ${time}`
 }
 
-export const durationRegex = /(?<duration>\d+)\s?(?<unit>[a-z]+)/u
+const durationRegex = /(?<duration>\d+)\s?(?<unit>[a-z]+)/u
 
 /**
  * Convert a string to a step duration
@@ -41,7 +41,7 @@ export function stringToStepDuration(input: string) {
   return { [`${unit}s` as keyof Step]: value }
 }
 
-export const titleWithDurationRegex = /(?<title>[^,]*)[\s,]+(?<duration>\d+\s?[a-z]+)/u
+const titleWithDurationRegex = /(?<title>[^,]*)[\s,]+(?<duration>\d+\s?[a-z]+)/u
 
 /**
  * Convert a string to step data

@@ -20,7 +20,7 @@ export const store = reactive({
   projects: [] as Project[],
 })
 
-export type Store = typeof store
+type Store = typeof store
 
 export type StoreKey = keyof Store
 
