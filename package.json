@@ -3,7 +3,7 @@
   "author": "Romain Racamier-Lafon <romain.racamier@gmail.com>",
   "bugs": "https://github.com/Shuunen/ging/issues",
   "dependencies": {
-    "@auth0/auth0-vue": "~2.12.0",
+    "@auth0/auth0-vue": "~2.13.0",
     "@mdi/font": "~7.4.47",
     "@morev/vue-transitions": "~4.0.0",
     "@octokit/types": "~18.0.0",
@@ -22,9 +22,9 @@
     "@types/node": "~26.6.6",
     "@types/webfontloader": "~1.6.38",
     "@vitejs/plugin-vue": "~6.0.10",
-    "@vitest/coverage-v8": "~5.0.5",
-    "knip": "~6.44.0",
-    "oxfmt": "^0.75.0",
+    "@vitest/coverage-v8": "~5.1.0",
+    "knip": "~6.45.0",
+    "oxfmt": "^0.78.0",
     "oxlint": "^1.90.0",
     "oxlint-tsgolint": "^7.0.2005",
     "repo-check": "^2.0.0-rc.1",
@@ -32,7 +32,7 @@
     "unplugin-vue-components": "~32.1.0",
     "vite": "~8.3.5",
     "vite-plugin-vuetify": "~2.1.3",
-    "vitest": "~5.0.5"
+    "vitest": "~5.1.0"
   },
   "files": [
     "src"
@@ -53,9 +53,9 @@
   },
   "scripts": {
     "build": "vite build && echo build success",
-    "check": "pnpm i && echo install success && pnpm lint && pnpm build && pnpm test && echo check success",
+    "check": "repo-check && pnpm i && echo install success && pnpm lint && pnpm build && pnpm test && echo check success",
     "dev": "vite",
-    "lint": "repo-check && pnpm lint:types && pnpm lint:knip && pnpm lint:format && pnpm lint:issues && echo lint success",
+    "lint": "pnpm lint:types && pnpm lint:knip && pnpm lint:format && pnpm lint:issues && echo lint success",
     "lint:format": "oxfmt --check && echo lint:format success || (echo Please run pnpm lint:format:fix && exit 1)",
     "lint:format:fix": "oxfmt --write && echo lint:format:fix success",
     "lint:issues": "oxlint --type-aware --deny-warnings --report-unused-disable-directives && echo lint:issues success || (echo Please run pnpm lint:issues:fix && exit 1)",

@@ -4,3 +4,5 @@ allowBuilds:
   vue-demi: true
   browser-tabs-lock: true
   '@parcel/watcher': false
+minimumReleaseAgeExclude:
+  - knip@6.45.0

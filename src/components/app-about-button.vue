@@ -39,9 +39,7 @@ function toggleOpen() {
             <div class="app-section hidden md:flex">
               <h2 class="app-title">Keyboard shortcuts</h2>
               <div class="grid grid-cols-2 gap-2">
-                <div :key="shortcut" class="app-shortcut" v-for="(description, shortcut) in shortcuts">
-                  <code class="mr-2 bg-white px-2 text-lg text-black">{{ shortcut }}</code> {{ description }}
-                </div>
+                <div :key="shortcut" class="app-shortcut" v-for="(description, shortcut) in shortcuts"><code class="mr-2 bg-white px-2 text-lg text-black">{{ shortcut }}</code> {{ description }}</div>
               </div>
             </div>
             <code class="text-center">__unique-mark__</code>
