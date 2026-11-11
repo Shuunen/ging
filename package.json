@@ -45,7 +45,7 @@
   ],
   "license": "GPL-3.0",
   "name": "@shuunen/ging",
-  "packageManager": "pnpm@12.16.1",
+  "packageManager": "pnpm@12.18.0",
   "private": true,
   "repository": {
     "type": "git",
