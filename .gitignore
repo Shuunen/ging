@@ -1,5 +1,6 @@
 .cache
 .env
+.turbo
 *.log
 *.stackdump
 *.tgz
