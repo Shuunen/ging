@@ -1,0 +1,24 @@
+# TODOS
+
+- [ ] try vue-query
+- [ ] limit fonts used in src/plugins/webfont.plugin.ts
+- [ ] data from & to url
+- [ ] export JSON state to file
+- [ ] allow loading that JSON file
+- [ ] floating plus button that dynamically add project/step
+- [ ] refresh button to clear cache & get latest version
+- [ ] edit step in modal
+- [ ] add Markdown description to a step
+- [ ] add complete status on a step
+- [ ] allow complete step on edit mode
+- [ ] underline project title with completion percent
+- [ ] add arrows to navigate horizontally step by step
+- [ ] WHERE IS THE KONAMI CODE ?!?
+- [ ] suggest notifications to help the user keep in mind incoming steps
+- [ ] add color edit to existing projects
+- [ ] add step error only appears in console, show it in the UI
+- [ ] step selection not clear
+- [ ] step add input has no char limit
+- [ ] add benchmarks for common tasks : build, lint, test, etc
+- [ ] add back the store action hooks (former "store.$onAction") after the split into *.actions.ts modules
+- [ ] try to import only used icons (actually all are imported and it cost 300k of css)
