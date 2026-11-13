@@ -1,6 +1,5 @@
 {
+  "$schema": "./node_modules/repo-check/schema.json",
   "license": "GPL-3.0",
-  "user_mail": "romain.racamier@gmail.com",
-  "user_name": "Romain Racamier-Lafon",
   "webUrl": "https://shuunen-ging.netlify.app"
 }
