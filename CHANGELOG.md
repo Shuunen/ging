@@ -10,3 +10,4 @@ All notable changes to this project are documented here.
 - Move the todo list from the README to a `TODOS.md` file
 - Add a `VERSION` file
 - Cache the pnpm store in the CI
+- Silence the test output with the dot reporter

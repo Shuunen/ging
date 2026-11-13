@@ -13,5 +13,7 @@ export default defineConfig({
     },
     globals: true,
     pool: 'threads',
+    reporters: ['dot'],
+    silent: true,
   },
 })
