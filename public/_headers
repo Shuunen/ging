@@ -2,3 +2,4 @@
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
+  Content-Security-Policy: script-src 'self' 'strict-dynamic' 'nonce-shu2ada80e6b6ad'; object-src 'none'; base-uri 'self';
