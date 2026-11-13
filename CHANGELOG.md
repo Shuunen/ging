@@ -7,6 +7,7 @@ All notable changes to this project are documented here.
 ### Added
 
 - Send a `Content-Security-Policy` header that only runs the scripts of the app, with a nonce stamped on them at build time
+- Show the Netlify deploy status badge in the readme
 
 ## [0.5.1] - 2026-11-13
 

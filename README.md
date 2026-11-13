@@ -3,6 +3,7 @@
 [![GitHub license](https://img.shields.io/github/license/shuunen/ging.svg?color=informational)](https://github.com/Shuunen/ging/blob/master/LICENSE)
 [![Visitors](https://hits.sh/github.com/Shuunen/ging.svg?label=visitors&color=informational)](https://hits.sh/github.com/Shuunen/ging/)
 [![Website up](https://img.shields.io/website/https/shuunen-ging.netlify.app.svg)](https://shuunen-ging.netlify.app)
+[![Netlify Status](https://api.netlify.app/api/v1/badges/ea995eff-de9e-4546-9a90-14a97518620d/deploy-status)](https://app.netlify.app/projects/shuunen-ging/deploys)
 
 ![logo](docs/banner.svg)
 
