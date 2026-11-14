@@ -15,6 +15,7 @@ All notable changes to this project are documented here.
 
 - Stop reporting the compressed size of the files at build time
 - Move the dev port to 5102 to follow the port scheme
+- Align the web manifest colors and the VS Code window colors on the theme color
 
 ## [0.5.1] - 2026-11-13
 
