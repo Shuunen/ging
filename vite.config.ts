@@ -9,6 +9,7 @@ import { cspNonce } from './src/plugins/csp-nonce.ts'
 // https://vitejs.dev/config/
 // oxlint-disable-next-line import/no-default-export
 export default defineConfig({
+  build: { reportCompressedSize: false },
   plugins: [vue(), tailwindcss(), vuetify(), components(), uniqueMark(), cspNonce()],
   // dedicated ports, so apps never collide when running together
   preview: { port: 4102, strictPort: true },
