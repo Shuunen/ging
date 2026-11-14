@@ -14,6 +14,7 @@ All notable changes to this project are documented here.
 ### Changed
 
 - Stop reporting the compressed size of the files at build time
+- Move the dev port to 5102 to follow the port scheme
 
 ## [0.5.1] - 2026-11-13
 

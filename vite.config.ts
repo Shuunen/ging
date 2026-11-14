@@ -13,5 +13,5 @@ export default defineConfig({
   plugins: [vue(), tailwindcss(), vuetify(), components(), uniqueMark(), cspNonce()],
   // dedicated ports, so apps never collide when running together
   preview: { port: 4102, strictPort: true },
-  server: { port: 8085, strictPort: true },
+  server: { port: 5102, strictPort: true },
 })
